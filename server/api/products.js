@@ -1,3 +1,3 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {Product} = require('../db/models')
 module.exports = router
