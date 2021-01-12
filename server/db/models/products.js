@@ -19,12 +19,12 @@ const Product = db.define('product', {
     }
   },
   fit: {
-    type: Sequelize.ENUM('Mermeid', 'Ballgown', 'A-line', 'Sheath', 'Other'),
+    type: Sequelize.ENUM('Mermaid', 'Ballgown', 'A-line', 'Sheath', 'Other'),
     allowNull: false,
     defaultValue: 'Other'
   },
   material: {
-    type: Sequelize.ENUM('Silk', 'Crepe', 'Polyster', 'Other'),
+    type: Sequelize.ENUM('Silk', 'Crepe', 'Polyester', 'Other'),
     allowNull: false,
     defaultValue: 'Other'
   },
