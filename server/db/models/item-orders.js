@@ -1,15 +1,15 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const Order = require('./orders')
+//const Order = require('./orders')
 
-const ItemOrder = db.define('itemOrder', {
+const itemOrder = db.define('itemOrder', {
   item_subtotal: {
     type: Sequelize.INTEGER,
     validete: {
       min: 0
     }
   },
-  Qty: {
+  qty: {
     type: Sequelize.INTEGER,
     validate: {
       min: 1

@@ -1,7 +1,7 @@
 // 'use strict'
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Product, Order} = require('../server/db/models')
 
 const products = [
   {
@@ -161,6 +161,32 @@ const users = [
   }
 ]
 
+const userForOrder = {
+  firstName: 'Gal',
+  lastName: 'Gadot',
+  email: 'ggrocks@email.com',
+  password: 'notyourpassword',
+  billingAddress: '11 super st, New York City, NY, 10101',
+  shippingAddress: '23 super st, New York City, NY, 10111',
+  phone: '917-294-1912',
+  weddingDate: '02/04/2028'
+}
+
+const galOrder = {
+  total_price: 10000,
+  total_qty: 5,
+  shipping_address: '1 Pike St',
+  date: '2020-12-01',
+  status: 'Shipped'
+}
+// {
+//   total_price: 12000,
+//   total_qty: 1,
+//   shipping_address: '224 E 10th',
+//   date: '2021-01-01',
+//   status: 'Pending',
+// },
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -181,6 +207,10 @@ async function seed() {
       return User.create(user)
     })
   )
+
+  const galOrders = await Order.create(galOrder)
+  const galUser = await User.create(userForOrder)
+  await galOrders.setUser(galUser)
 
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${users.length} users`)
