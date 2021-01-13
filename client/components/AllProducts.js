@@ -52,7 +52,7 @@ class AllProducts extends React.Component {
                 </Link>
                 <div className="inforContainer">
                   <p>{product.name}</p>
-                  <p>{product.price}</p>
+                  <p>${product.price}</p>
                 </div>
               </div>
             )

@@ -1,5 +1,7 @@
 body {
   font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 200;
 }
 
 a {
