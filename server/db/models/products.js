@@ -1,5 +1,16 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const {
+  Mermaid,
+  Ballgown,
+  Aline,
+  Sheath,
+  Other,
+  Silk,
+  Crepe,
+  Polyester,
+  White
+} = require('./constant')
 
 const Product = db.define('product', {
   name: {
@@ -19,19 +30,19 @@ const Product = db.define('product', {
     }
   },
   fit: {
-    type: Sequelize.ENUM('Mermaid', 'Ballgown', 'A-line', 'Sheath', 'Other'),
+    type: Sequelize.ENUM(Mermaid, Ballgown, Aline, Sheath, Other),
     allowNull: false,
-    defaultValue: 'Mermaid'
+    defaultValue: Mermaid
   },
   material: {
-    type: Sequelize.ENUM('Silk', 'Crepe', 'Polyester', 'Other'),
+    type: Sequelize.ENUM(Silk, Crepe, Polyester, Other),
     allowNull: false,
-    defaultValue: 'Silk'
+    defaultValue: Silk
   },
   color: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: 'White'
+    defaultValue: White
   },
   size: {
     type: Sequelize.INTEGER,
