@@ -9,7 +9,7 @@ const ItemOrder = db.define('itemOrder', {
       min: 0
     }
   },
-  item_qty: {
+  Qty: {
     type: Sequelize.INTEGER,
     validate: {
       min: 1

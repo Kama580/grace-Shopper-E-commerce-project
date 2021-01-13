@@ -14,10 +14,10 @@ User.hasMany(Order)
 Order.belongsTo(User)
 
 Product.hasMany(ItemOrder)
-ItemOrder.belongsTo(Product)
+// ItemOrder.belongsTo(Product)
 
-Order.hasMany(ItemOrder)
-ItemOrder.belongsTo(Order)
+Order.hasMany(ItemOrder) //many to many thru item order
+// ItemOrder.belongsTo(Order)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
