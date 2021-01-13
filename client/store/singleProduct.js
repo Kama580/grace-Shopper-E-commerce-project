@@ -20,7 +20,7 @@ export const fetchSingleProduct = id => {
   }
 }
 
-const initialState = {}
+let initialState = {}
 
 export default function singleProductReducer(state = initialState, action) {
   switch (action.type) {
