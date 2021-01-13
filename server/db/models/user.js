@@ -69,6 +69,14 @@ const User = db.define('user', {
   },
   weddingDate: {
     type: Sequelize.DATEONLY
+  },
+  fullName: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return (
+        this.getDataValue('firstName') + ' ' + this.getDataValue('lastName')
+      )
+    }
   }
 })
 
