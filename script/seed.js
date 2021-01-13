@@ -6,11 +6,9 @@ const {User, Product} = require('../server/db/models')
 const products = [
   {
     name: 'The Mandalay Gown',
-    price: 1400.0,
+    price: 140000,
     fit: 'Mermaid',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
     imageUrl:
       'https://s7d1.scene7.com/is/image/BHLDN/59278606_011_b5?$pdpmain$',
     description:
@@ -18,33 +16,27 @@ const products = [
   },
   {
     name: 'The Orion Gown',
-    price: 1200.0,
+    price: 120000,
     fit: 'Ballgown',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
     imageUrl: 'https://s7d1.scene7.com/is/image/BHLDN/329465085C_b2?$zoom$',
     description:
       'This romantic ballgown is the epitome of bridal elegance, with ornate lace overlay bringing contrasting the tulle skirt. (Plus, it has pockets!)'
   },
   {
     name: 'The Sakura Dress',
-    price: 900.0,
+    price: 90000,
     fit: 'Mermaid',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
     imageUrl: 'https://s7d1.scene7.com/is/image/BHLDN/59279794_011_c1?$zoom$',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train. '
   },
   {
     name: 'The Stella Gown',
-    price: 1200.0,
+    price: 120000,
     fit: 'A-line',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
     imageUrl:
       'https://s7d1.scene7.com/is/image/BHLDN/57640435_011_b1?$pdpmain$',
     description:
@@ -52,65 +44,52 @@ const products = [
   },
   {
     name: 'The Amari Dress',
-    price: 800.0,
+    price: 80000,
     fit: 'Sheath',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
     imageUrl: 'https://s7d1.scene7.com/is/image/BHLDN/44899144_013_a?$pdpmain$',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train. '
   },
   {
     name: 'The Vela Gown',
-    price: 1100.0,
+    price: 110000,
     fit: 'Mermaid',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    imageUrl: '',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train. '
   },
   {
     name: 'The Willow Dress',
-    price: 600.0,
+    price: 60000,
     fit: 'Mermaid',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
     imageUrl: 'https://s7d1.scene7.com/is/image/BHLDN/46542577_011_b?$zoom$',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train. '
   },
   {
     name: 'The Aria Dress',
-    price: 900.0,
+    price: 90000,
     fit: 'Sheath',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    imageUrl: '',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train. '
   },
   {
     name: 'The Monaco Dress',
-    price: 600.0,
+    price: 60000,
     fit: 'Ballgown',
     material: 'Polyester',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
     imageUrl: 'https://s7d1.scene7.com/is/image/BHLDN/59205070_011_c1?$zoom$',
     description:
       'Tip-of-the-shoulder straps complete the V-neck bodice of this romantically layered gown. A blush lining and Swiss dot underlay provide striking dimension when paired with delicate lace appliques, while soft netting placement at the waist creates a flattering silhouette.'
   },
   {
     name: 'The Aloha Dress',
-    price: 600.0,
+    price: 60000,
     fit: 'Mermaid',
     material: 'Crepe',
-    color: ['White', 'Ivory'],
-    size: ['0', '2', '4', '6', '8', '9', '10', '12', '14', '16', '18'],
-    imageUrl: '',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train.'
   }

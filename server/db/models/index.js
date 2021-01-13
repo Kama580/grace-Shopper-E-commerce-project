@@ -13,11 +13,8 @@ const ItemOrder = require('./item-orders')
 User.hasMany(Order)
 Order.belongsTo(User)
 
-Product.hasMany(ItemOrder)
-// ItemOrder.belongsTo(Product)
-
-Order.hasMany(ItemOrder) //many to many thru item order
-// ItemOrder.belongsTo(Order)
+Product.belongsToMany(Order, {through: ItemOrder})
+Order.belongsToMany(Product, {through: ItemOrder})
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
