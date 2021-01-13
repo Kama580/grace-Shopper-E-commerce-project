@@ -43,16 +43,17 @@ class AllProducts extends React.Component {
         </div>
         <div className="cardContainer">
           {this.props.products.map(product => {
+            console.log(product)
             return (
               <div className="card" key={product.id}>
                 <Link to={`/products/${product.id}`}>
                   <div className="imageContainer">
-                    <img src={product.image[0]} />
+                    <img src={product.imageUrl} />
                   </div>
                 </Link>
                 <div className="inforContainer">
                   <p>{product.name}</p>
-                  <p>${product.price}</p>
+                  <p>${product.price / 100}</p>
                 </div>
               </div>
             )

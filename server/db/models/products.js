@@ -38,7 +38,7 @@ const Product = db.define('product', {
     allowNull: false,
     defaultValue: 8
   },
-  image: {
+  imageUrl: {
     type: Sequelize.STRING,
     defaultValue:
       'https://s7d1.scene7.com/is/image/BHLDN/56617194_012_b2?$zoom$'
