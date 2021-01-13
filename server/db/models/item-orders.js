@@ -4,12 +4,12 @@ const Order = require('./orders')
 
 const ItemOrder = db.define('itemOrder', {
   item_subtotal: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     validete: {
       min: 0
     }
   },
-  item_qty: {
+  Qty: {
     type: Sequelize.INTEGER,
     validate: {
       min: 1

@@ -11,17 +11,18 @@ const Order = db.define('order', {
   shipping_address: {
     type: Sequelize.STRING
   },
-  order_address: {
-    type: Sequelize.STRING
-  },
-  order_email: {
-    type: Sequelize.STRING
-  },
-  order_date: {
+  // order_address: {
+  //   type: Sequelize.STRING
+  // },
+  // order_email: {
+  //   type: Sequelize.STRING
+  // },
+  Date: {
     type: Sequelize.DATE
   },
-  order_status: {
+  Status: {
     type: Sequelize.ENUM(
+      //CONSTANT
       'Shipped',
       'Delivered',
       'Comfirmed',
