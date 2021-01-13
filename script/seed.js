@@ -1,4 +1,4 @@
-'use strict'
+// 'use strict'
 
 const db = require('../server/db')
 const {User, Product} = require('../server/db/models')
@@ -116,73 +116,71 @@ const products = [
   }
 ]
 
-// const users = [
-//   {
-//     firstName: 'Halle',
-//     lastName: 'Berry',
-//     email: 'hberry@email.com',
-//     password: 'password',
-//     isAdmin: 'false',
-//     billingAddress: '123 Berry Rd, New York, NY, 10001',
-//     default_shipping_address: '123 Berry Rd, New York, NY, 10001',
-//     country: 'United States',
-//     phone: '123-456-7891',
-//     size: '6',
-//     wedding_date: '02/22/2022',
-//   },
-//   {
-//     firstName: 'Rebel',
-//     lastName: 'Wilson',
-//     email: 'rwilson@email.com',
-//     password: 'password',
-//     isAdmin: 'false',
-//     billingAddress: '456 Wilson Rd, Brooklyn, NY, 12345',
-//     default_shipping_address: '789 Another Rd, Queens, NY, 1234',
-//     country: 'United States',
-//     phone: '123-321-1234',
-//     size: '18',
-//     wedding_date: '08/06/2021',
-//   },
-//   {
-//     firstName: 'Lucy',
-//     lastName: 'Liu',
-//     email: 'lliu@email.com',
-//     password: 'password',
-//     isAdmin: 'false',
-//     billingAddress: '789 Liu Rd, Los Angeles, CA, 90210',
-//     default_shipping_address: '789 Liu Rd, Los Angeles, CA, 90210',
-//     country: 'United States',
-//     phone: '100-100-1000',
-//     size: '4',
-//     wedding_date: '12/20/2022',
-//   },
-//   {
-//     firstName: 'Rachel',
-//     lastName: 'Stack',
-//     email: 'rstack@email.com',
-//     password: 'password',
-//     isAdmin: 'true',
-//     billingAddress: '',
-//     default_shipping_address: '',
-//     country: '',
-//     phone: '',
-//     size: '',
-//     wedding_date: '',
-//   },
-//   {
-//     firstName: 'Cody',
-//     lastName: 'Pug',
-//     email: 'cpug@email.com',
-//     password: 'password',
-//     isAdmin: 'true',
-//     billingAddress: '',
-//     default_shipping_address: '',
-//     country: '',
-//     phone: '',
-//     size: '',
-//     wedding_date: '',
-//   },
-// ]
+const users = [
+  {
+    firstName: 'Halle',
+    lastName: 'Berry',
+    email: 'hberry@email.com',
+    password: 'hbpassword',
+    isAdmin: 'false',
+    billingAddress: '123 Berry Rd, New York, NY, 10001',
+    shippingAddress: '123 Berry Rd, New York, NY, 10001',
+    country: 'United States',
+    phone: '123-456-7891',
+    size: '6',
+    weddingDate: '02/22/2022'
+  },
+  {
+    firstName: 'Rebel',
+    lastName: 'Wilson',
+    email: 'rwilson@email.com',
+    password: 'rwpassword',
+    isAdmin: 'false',
+    billingAddress: '456 Wilson Rd, Brooklyn, NY, 12345',
+    shippingAddress: '789 Another Rd, Queens, NY, 1234',
+    country: 'United States',
+    phone: '123-321-1234',
+    size: '18',
+    weddingDate: '08/06/2021'
+  },
+  {
+    firstName: 'Lucy',
+    lastName: 'Liu',
+    email: 'lliu@email.com',
+    password: 'llpassword',
+    isAdmin: 'false',
+    billingAddress: '789 Liu Rd, Los Angeles, CA, 90210',
+    shippingAddress: '789 Liu Rd, Los Angeles, CA, 90210',
+    country: 'United States',
+    phone: '100-100-1000',
+    size: '4',
+    weddingDate: '12/20/2022'
+  },
+  {
+    firstName: 'Rachel',
+    lastName: 'Stack',
+    email: 'rstack@email.com',
+    password: 'rspassword',
+    isAdmin: 'true',
+    billingAddress: '132 Boston road, Boston, MA, 1456',
+    shippingAddress: '',
+    country: 'United States',
+    phone: '345-555-7890',
+    size: '2',
+    weddingDate: '11/20/2026'
+  },
+  {
+    firstName: 'Cody',
+    lastName: 'Pug',
+    email: 'cpug@email.com',
+    password: 'cppassword',
+    billingAddress: '2020 dog road, New York City, NY, 10101',
+    shippingAddress: '2020  No catsallowed street, New York City, NY, 10111',
+    phone: '123-456-7890',
+    size: '18',
+    weddingDate: '02/04/2028'
+  }
+]
 
 async function seed() {
   await db.sync({force: true})
@@ -199,13 +197,14 @@ async function seed() {
     })
   )
 
-  // await Promise.all(
-  //   users.map((user) => {
-  //     return User.create(user)
-  //   })
-  // )
+  await Promise.all(
+    users.map(user => {
+      return User.create(user)
+    })
+  )
 
   console.log(`seeded ${products.length} products`)
+  console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
 
