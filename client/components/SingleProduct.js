@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-
 import {fetchSingleProduct} from '../store/singleProduct'
 
 class SingleProduct extends React.Component {
@@ -10,6 +9,7 @@ class SingleProduct extends React.Component {
 
   async componentDidMount() {
     try {
+      console.log('PROPS:', this.props)
       await this.props.loadSingleProject(this.props.match.params.id)
     } catch (err) {
       console.log(err)
@@ -43,6 +43,7 @@ class SingleProduct extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log('State:', state)
   return {
     singleProduct: state.singleProduct
   }
