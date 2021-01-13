@@ -172,20 +172,22 @@ const userForOrder = {
   weddingDate: '02/04/2028'
 }
 
-const galOrder = {
-  total_price: 10000,
-  total_qty: 5,
-  shipping_address: '1 Pike St',
-  date: '2020-12-01',
-  status: 'Shipped'
-}
-// {
-//   total_price: 12000,
-//   total_qty: 1,
-//   shipping_address: '224 E 10th',
-//   date: '2021-01-01',
-//   status: 'Pending',
-// },
+const userOrders = [
+  {
+    total_price: 10000,
+    total_qty: 5,
+    shipping_address: '1 Pike St',
+    date: '2020-12-01',
+    status: 'Shipped'
+  },
+  {
+    total_price: 12000,
+    total_qty: 1,
+    shipping_address: '224 E 10th',
+    date: '2021-01-01',
+    status: 'Pending'
+  }
+]
 
 async function seed() {
   await db.sync({force: true})
@@ -208,9 +210,23 @@ async function seed() {
     })
   )
 
-  const galOrders = await Order.create(galOrder)
-  const galUser = await User.create(userForOrder)
-  await galOrders.setUser(galUser)
+  await Promise.all(
+    userOrders.map(order => {
+      return Order.create(order)
+    })
+  )
+
+  const allOrders = await Order.findAll()
+  const gal = await User.create(userForOrder)
+  await Promise.all(
+    allOrders.map(order => {
+      return order.setUser(gal)
+    })
+  )
+
+  // const galOrders = await Order.create(galOrder)
+  // const galUser = await User.create(userForOrder)
+  // await galOrders.setUser(galUser)
 
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${users.length} users`)
