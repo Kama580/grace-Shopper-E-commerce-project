@@ -11,7 +11,7 @@ const Product = db.define('product', {
     }
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       min: 0,
@@ -21,28 +21,27 @@ const Product = db.define('product', {
   fit: {
     type: Sequelize.ENUM('Mermaid', 'Ballgown', 'A-line', 'Sheath', 'Other'),
     allowNull: false,
-    defaultValue: 'Other'
+    defaultValue: 'Mermaid'
   },
   material: {
     type: Sequelize.ENUM('Silk', 'Crepe', 'Polyester', 'Other'),
     allowNull: false,
-    defaultValue: 'Other'
+    defaultValue: 'Silk'
   },
   color: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: ['White', 'Ivory', 'Green', 'Pink', 'Yellow']
+    defaultValue: 'White'
   },
   size: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18']
+    defaultValue: 8
   },
-  image: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    defaultValue: [
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue:
       'https://s7d1.scene7.com/is/image/BHLDN/56617194_012_b2?$zoom$'
-    ]
   },
   description: {
     type: Sequelize.TEXT,
