@@ -56,7 +56,6 @@ const products = [
     price: 110000,
     fit: 'Mermaid',
     material: 'Crepe',
-    imageUrl: '',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train. '
   },
@@ -74,7 +73,6 @@ const products = [
     price: 90000,
     fit: 'Sheath',
     material: 'Crepe',
-    imageUrl: '',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train. '
   },
@@ -92,7 +90,6 @@ const products = [
     price: 60000,
     fit: 'Mermaid',
     material: 'Crepe',
-    imageUrl: '',
     description:
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train.'
   }
