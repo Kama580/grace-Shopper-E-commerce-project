@@ -1,17 +1,55 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Order} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'email']
+      attributes: ['id', 'email', 'firstName', 'lastName']
     })
     res.json(users)
   } catch (err) {
     next(err)
+  }
+})
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const id = req.params.userId
+    if (isNaN(id)) res.status(400).send()
+    const myUser = await User.findByPk(id, {
+      include: [{model: Order}]
+    })
+    if (!myUser) res.status(400).send()
+    res.status(200).send(myUser)
+  } catch (error) {
+    next(error)
+  }
+})
+router.post('/', async (req, res, next) => {
+  try {
+    const newUser = await User.create(req.body)
+    res.status(201).send(newUser)
+  } catch (error) {
+    next(error)
+  }
+})
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    const id = req.params.userId
+    const user = await User.findByPk(id)
+    await user.destroy()
+    res.status(204).send()
+  } catch (error) {
+    next(error)
+  }
+})
+router.put('/:userId', async (req, res, next) => {
+  try {
+    const id = req.params.userId
+    const userUpdate = await User.findByPk(id)
+    await userUpdate.update(req.body)
+    res.status(201).send(userUpdate)
+  } catch (error) {
+    next(error)
   }
 })

@@ -12,8 +12,50 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const singleProduct = await Product.findByPk(req.body.id)
+    const singleProduct = await Product.findByPk(req.params.id)
     res.send(singleProduct)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body)
+    res.json(newProduct)
+  } catch (error) {
+    //catch validation error later
+    next(error)
+  }
+})
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id)
+    if (product) {
+      const updatedProduct = await product.update(req.body)
+      res.json(updatedProduct)
+    } else {
+      const error = new Error('Product not found')
+      error.status = '404'
+      throw error
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id)
+    if (product) {
+      await product.destroy()
+      res.json(product)
+    } else {
+      const error = new Error('Product not found')
+      error.status = '404'
+      throw error
+    }
   } catch (error) {
     next(error)
   }
