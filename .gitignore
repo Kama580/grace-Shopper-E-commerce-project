@@ -6,5 +6,3 @@ secrets.js
 npm-debug.log
 yarn-error.log
 .history
-client/components/SingleProduct.js
-client/store/singleProduct.js
