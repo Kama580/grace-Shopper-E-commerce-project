@@ -92,6 +92,7 @@ const AuthForm = props => {
 const mapLogin = state => {
   return {
     name: 'login',
+
     displayName: 'Login',
     error: state.user.error
   }
@@ -100,6 +101,16 @@ const mapLogin = state => {
 const mapSignup = state => {
   return {
     name: 'signup',
+    email: '',
+    firstName: '',
+    lastName: '',
+    billingAddress: '',
+    shippingAddress: '',
+    country: '',
+    phone: '',
+    size: '',
+    weddingDate: '',
+    password: '',
     displayName: 'Sign Up',
     error: state.user.error
   }
@@ -109,10 +120,33 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
+      console.log(evt.target.name)
       const formName = evt.target.name
       const email = evt.target.email.value
+      const firstName = evt.target.firstName.value
+      const lastName = evt.target.lastName.value
+      const billingAddress = evt.target.billingAddress.value
+      const shippingAddress = evt.target.shippingAddress.value
+      const country = evt.target.country.value
+      const phone = evt.target.phone.value
+      const size = evt.target.size.value
+      const weddingDate = evt.target.weddingDate.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      dispatch(
+        auth(
+          email,
+          password,
+          firstName,
+          lastName,
+          billingAddress,
+          shippingAddress,
+          country,
+          phone,
+          size,
+          weddingDate,
+          formName
+        )
+      )
     }
   }
 }
