@@ -1,15 +1,19 @@
 import React from 'react'
-
-import {Navbar, AllProducts} from './components'
-import Routes from './routes'
+import {Route, BrowserRouter as Router} from 'react-router-dom'
+import {Navbar, AllProducts, SingleProduct, AdminHome} from './components'
 
 const App = () => {
   return (
-    <div>
-      <Navbar />
-      <AllProducts />
-      <Routes />
-    </div>
+    <Router>
+      <div>
+        <Navbar />
+        <main>
+          <Route exact path="/products" component={AllProducts} />
+          <Route exact path="/products/:productId" component={SingleProduct} />
+          <Route exact path="/admin" component={AdminHome} />
+        </main>
+      </div>
+    </Router>
   )
 }
 

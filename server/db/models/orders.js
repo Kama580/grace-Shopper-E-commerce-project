@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const {Shipped, Delivered, Comfirmed, Canceled, Pending} = require('./constant')
 
 const Order = db.define('order', {
   total_price: {
@@ -23,11 +24,11 @@ const Order = db.define('order', {
   status: {
     type: Sequelize.ENUM(
       //CONSTANT
-      'Shipped',
-      'Delivered',
-      'Comfirmed',
-      'Canceled',
-      'Pending'
+      Shipped,
+      Delivered,
+      Comfirmed,
+      Canceled,
+      Pending
     )
   }
 })

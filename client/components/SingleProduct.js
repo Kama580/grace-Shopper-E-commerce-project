@@ -10,7 +10,7 @@ class SingleProduct extends React.Component {
   async componentDidMount() {
     try {
       console.log('PROPS:', this.props)
-      await this.props.loadSingleProject(this.props.match.params.id)
+      await this.props.loadSingleProduct(this.props.match.params.productId)
     } catch (err) {
       console.log(err)
     }
@@ -21,9 +21,9 @@ class SingleProduct extends React.Component {
 
     return (
       <div>
-        <h1>Hello </h1>
         <div>
           <h1>{product.name}</h1>
+          <img src={product.imageUrl} />
           <p>{product.price}</p>
           <p>Color: {product.color}</p>
           <p>Size: {product.size}</p>
@@ -42,17 +42,17 @@ class SingleProduct extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapState = state => {
   console.log('State:', state)
   return {
     singleProduct: state.singleProduct
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatch = dispatch => {
   return {
     loadSingleProduct: id => dispatch(fetchSingleProduct(id))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
+export default connect(mapState, mapDispatch)(SingleProduct)
