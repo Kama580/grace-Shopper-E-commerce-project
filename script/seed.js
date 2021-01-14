@@ -1,7 +1,8 @@
 // 'use strict'
 
+const {create} = require('react-test-renderer')
 const db = require('../server/db')
-const {User, Product, Order} = require('../server/db/models')
+const {User, Product, Order, ItemOrder} = require('../server/db/models')
 
 const products = [
   {
@@ -169,6 +170,7 @@ const userForOrder = {
   billingAddress: '11 super st, New York City, NY, 10101',
   shippingAddress: '23 super st, New York City, NY, 10111',
   phone: '917-294-1912',
+  size: '0',
   weddingDate: '02/04/2028'
 }
 
@@ -188,6 +190,11 @@ const userOrders = [
     status: 'Pending'
   }
 ]
+
+const itemsForOrder1 = {item_subtotal: 100000, qty: 1}
+const itemsForOrder2 = {item_subtotal: 320000, qty: 2}
+const itemsForOrder3 = {item_subtotal: 100, qty: 1}
+const itemsForOrder4 = {item_subtotal: 10005400, qty: 1}
 
 async function seed() {
   await db.sync({force: true})
@@ -224,9 +231,17 @@ async function seed() {
     })
   )
 
-  // const galOrders = await Order.create(galOrder)
-  // const galUser = await User.create(userForOrder)
-  // await galOrders.setUser(galUser)
+  const anOrder = await Order.findOne({where: {id: 1}})
+
+  const dressesForItemOrder1 = await Product.findOne({where: {id: 1}})
+  const dressesForItemOrder2 = await Product.findOne({where: {id: 2}})
+  const dressesForItemOrder3 = await Product.findOne({where: {id: 3}})
+
+  await anOrder.setProducts([
+    dressesForItemOrder1,
+    dressesForItemOrder2,
+    dressesForItemOrder3
+  ])
 
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${users.length} users`)
