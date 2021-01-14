@@ -1,7 +1,8 @@
 // 'use strict'
 
+const {create} = require('react-test-renderer')
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Product, Order, ItemOrder} = require('../server/db/models')
 
 const products = [
   {
@@ -161,6 +162,40 @@ const users = [
   }
 ]
 
+const userForOrder = {
+  firstName: 'Gal',
+  lastName: 'Gadot',
+  email: 'ggrocks@email.com',
+  password: 'notyourpassword',
+  billingAddress: '11 super st, New York City, NY, 10101',
+  shippingAddress: '23 super st, New York City, NY, 10111',
+  phone: '917-294-1912',
+  size: '0',
+  weddingDate: '02/04/2028'
+}
+
+const userOrders = [
+  {
+    total_price: 10000,
+    total_qty: 5,
+    shipping_address: '1 Pike St',
+    date: '2020-12-01',
+    status: 'Shipped'
+  },
+  {
+    total_price: 12000,
+    total_qty: 1,
+    shipping_address: '224 E 10th',
+    date: '2021-01-01',
+    status: 'Pending'
+  }
+]
+
+const itemsForOrder1 = {item_subtotal: 100000, qty: 1}
+const itemsForOrder2 = {item_subtotal: 320000, qty: 2}
+const itemsForOrder3 = {item_subtotal: 100, qty: 1}
+const itemsForOrder4 = {item_subtotal: 10005400, qty: 1}
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -181,6 +216,32 @@ async function seed() {
       return User.create(user)
     })
   )
+
+  await Promise.all(
+    userOrders.map(order => {
+      return Order.create(order)
+    })
+  )
+
+  const allOrders = await Order.findAll()
+  const gal = await User.create(userForOrder)
+  await Promise.all(
+    allOrders.map(order => {
+      return order.setUser(gal)
+    })
+  )
+
+  const anOrder = await Order.findOne({where: {id: 1}})
+
+  const dressesForItemOrder1 = await Product.findOne({where: {id: 1}})
+  const dressesForItemOrder2 = await Product.findOne({where: {id: 2}})
+  const dressesForItemOrder3 = await Product.findOne({where: {id: 3}})
+
+  await anOrder.setProducts([
+    dressesForItemOrder1,
+    dressesForItemOrder2,
+    dressesForItemOrder3
+  ])
 
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${users.length} users`)
