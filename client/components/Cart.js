@@ -1,19 +1,43 @@
 import React from 'react'
 import {connect} from 'react-redux'
-//import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {fetchOrder} from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
 
+const guestSample = {1: 2, 6: 7, 5: 1}
+
 class Cart extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {isUser: false, items: [], totalPrice: 0}
+  constructor() {
+    super()
+    this.state = {isUser: false, items: [], totalPrice: 0, totalItems: 0}
   }
 
   async componentDidMount() {
     try {
-      await this.props.getOrder()
-      this.setState({cart: cart})
+      await this.props.getProducts()
+      //if logged-in user:
+      //   await this.props.getOrder(6)
+      //   let items = this.props.order.products.map((item) => {
+      //     return item
+      //   })
+      //   this.setState({
+      //     items: items,
+      //     totalPrice: this.props.order.total_price / 100,
+      //     totalItems: this.props.order.total_qty,
+      //   })
+      //   //if guest
+      const itemsIds = Object.keys(guestSample)
+      const items = this.props.products.filter(item => {
+        return itemsIds.includes(String(item.id))
+      })
+      items.forEach(item => {
+        item.qty = guestSample[item.id]
+        item.subtotal = item.qty * item.price
+      })
+      //   const totalPrice = items.reduce((acc, curr) => {
+      //     acc + curr.subtotal
+      //   }, 0)
+      this.setState({items: items})
     } catch (error) {
       console.log(error)
     }
@@ -22,14 +46,41 @@ class Cart extends React.Component {
   render() {
     return (
       <div>
-        {this.state.cart[0] ? (
+        {this.state.items[0] ? (
           <div>
-            {this.state.itemsInCart.map(item => {
-              return <div key={item.id} />
+            {this.state.items.map(item => {
+              return (
+                <div key={item.id}>
+                  <div>
+                    <img src={item.imageUrl} />
+                  </div>
+                  <Link to={`/products/${item.id}`}>{item.name}</Link>
+                  <p>{`Color: ${item.color}`}</p>
+                  <p>{`Size: ${item.size}`}</p>
+                  <p>{`Price: ${item.price}`}</p>
+                  <p>{`Quantity: ${item.qty || item.itemOrder.qty}`}</p>
+                  <p>{`Subtotal: ${item.subtotal ||
+                    item.itemOrder.item_subtotal}`}</p>
+                  <label htmlFor="qty">Change Amount:</label>
+                  <select name="qty">
+                    {[1, 2, 3, 4, 5, 6, 7].map(num => {
+                      return (
+                        <option key={num} value="$num">
+                          {num}
+                        </option>
+                      )
+                    })}
+                  </select>
+                </div>
+              )
             })}
+            <div>
+              Order Summary<p>{`Total Price: $${this.state.totalPrice}`}</p>
+            </div>
+            <button>Checkout</button>
           </div>
         ) : (
-          <div>Your cart is empty. Start shopping now!</div>
+          <div>Your cart is empty!</div>
         )}
       </div>
     )
@@ -38,13 +89,14 @@ class Cart extends React.Component {
 
 const mapState = state => {
   return {
-    cart: state.order
+    order: state.order,
+    products: state.products
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getOrder: () => dispatch(fetchOrder()),
+    getOrder: userId => dispatch(fetchOrder(userId)),
     getProducts: () => dispatch(fetchProducts())
   }
 }
