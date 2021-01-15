@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -82,7 +83,7 @@ class Cart extends React.Component {
             <div>
               Order Summary<p>{`Total Price: $${this.state.totalPrice}`}</p>
             </div>
-            <button>Checkout</button>
+            <button type="button">Checkout</button>
           </div>
         ) : (
           <div>Your cart is empty!</div>

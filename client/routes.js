@@ -3,15 +3,16 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
-  Login,
-  Signup,
-  UserHome,
   AllProducts,
+  SingleProduct,
+  SingleUser,
   CreateUserProfile,
-  UpdateUserProfile
+  UpdateUserProfile,
+  AdminHome,
+  Cart
 } from './components'
+import {Login, Signup} from './components/auth-form'
 import {me} from './store'
-
 /**
  * COMPONENT
  */
@@ -25,21 +26,15 @@ class Routes extends Component {
 
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/" component={AllProducts} />
-        {/* moved for only  signup or login  login in later */}
-        <Route path="/users" component={CreateUserProfile} />
-        <Route path="/users/:userId" component={UpdateUserProfile} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route exact path="/products" component={AllProducts} />
+        <Route exact path="/signup'" component={Signup} />
+        <Route exact path="/login'" component={Login} />
+        <Route exact path="/products/:productId" component={SingleProduct} />
+        <Route exact path="/users/:userId" component={SingleUser} />
+        <Route exact path="/users/:userId" component={UpdateUserProfile} />
+        <Route exact path="/users" component={CreateUserProfile} />
+        <Route exact path="/admin" component={AdminHome} />
+        <Route exact path="/cart/:user" component={Cart} />
       </Switch>
     )
   }

@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 
 class AdminHome extends React.Component {
+  // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props)
   }
