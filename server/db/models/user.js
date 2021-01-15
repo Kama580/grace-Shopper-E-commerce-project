@@ -46,13 +46,6 @@ const User = db.define('user', {
   shippingAddress: {
     type: Sequelize.STRING
   },
-  country: {
-    type: Sequelize.STRING,
-    defaultValue: 'United States',
-    validate: {
-      notEmpty: true
-    }
-  },
   salt: {
     type: Sequelize.STRING,
     get() {

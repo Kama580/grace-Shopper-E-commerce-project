@@ -8,9 +8,10 @@ import {auth} from '../store'
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
-
+  console.log('is this working')
   return (
     <div>
+      {/* <p>hello world</p> */}
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email">
@@ -23,54 +24,6 @@ const AuthForm = props => {
             <small>Password</small>
           </label>
           <input name="password" type="password" />
-        </div>
-        <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input name="firstName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input name="lastName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="billingAddress">
-            <small>Billing Address</small>
-          </label>
-          <input name="billingAddress" type="text" />
-        </div>
-        <div>
-          <label htmlFor="shippingAddress">
-            <small>Shipping Address</small>
-          </label>
-          <input name="shippingAddress" type="text" />
-        </div>
-        <div>
-          <label htmlFor="country">
-            <small>Country</small>
-          </label>
-          <input name="country" type="text" />
-        </div>
-        <div>
-          <label htmlFor="phone">
-            <small>Phone Number</small>
-          </label>
-          <input name="phone" type="text" />
-        </div>
-        <div>
-          <label htmlFor="size">
-            <small>Dress Size</small>
-          </label>
-          <input name="size" type="text" />
-        </div>
-        <div>
-          <label htmlFor="wddingDate">
-            <small>Wedding Date</small>
-          </label>
-          <input name="weddingDate" type="text" />
         </div>
         <div>
           <button type="submit">{displayName}</button>
@@ -92,7 +45,6 @@ const AuthForm = props => {
 const mapLogin = state => {
   return {
     name: 'login',
-
     displayName: 'Login',
     error: state.user.error
   }
@@ -101,16 +53,6 @@ const mapLogin = state => {
 const mapSignup = state => {
   return {
     name: 'signup',
-    email: '',
-    firstName: '',
-    lastName: '',
-    billingAddress: '',
-    shippingAddress: '',
-    country: '',
-    phone: '',
-    size: '',
-    weddingDate: '',
-    password: '',
     displayName: 'Sign Up',
     error: state.user.error
   }
@@ -120,33 +62,10 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      console.log(evt.target.name)
       const formName = evt.target.name
       const email = evt.target.email.value
-      const firstName = evt.target.firstName.value
-      const lastName = evt.target.lastName.value
-      const billingAddress = evt.target.billingAddress.value
-      const shippingAddress = evt.target.shippingAddress.value
-      const country = evt.target.country.value
-      const phone = evt.target.phone.value
-      const size = evt.target.size.value
-      const weddingDate = evt.target.weddingDate.value
       const password = evt.target.password.value
-      dispatch(
-        auth(
-          email,
-          password,
-          firstName,
-          lastName,
-          billingAddress,
-          shippingAddress,
-          country,
-          phone,
-          size,
-          weddingDate,
-          formName
-        )
-      )
+      dispatch(auth(email, password, formName))
     }
   }
 }
