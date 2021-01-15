@@ -231,7 +231,7 @@ async function seed() {
     })
   )
 
-  const anOrder = await Order.findOne({where: {id: 1}})
+  const anOrder = await Order.findOne({where: {id: 2}})
 
   const dressesForItemOrder1 = await Product.findOne({where: {id: 1}})
   const dressesForItemOrder2 = await Product.findOne({where: {id: 2}})
