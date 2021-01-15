@@ -28,7 +28,7 @@ export const addGuestItem = data => {
 export const fetchOrder = id => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/cart/' + id)
+      const {data} = await axios.get(`/api/cart/${id}`)
       dispatch(setItems(data))
     } catch (error) {
       console.log('Error in fetchItems thunk', error)
