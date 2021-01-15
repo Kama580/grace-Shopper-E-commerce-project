@@ -38,6 +38,16 @@ img {
   justify-content: space-between;
 }
 
+.adminContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.adminListContainer {
+  width: 55%;
+  margin-top: 30px;
+}
+
 .allProductsContainer {
   display: flex;
   justify-content: flex-end;

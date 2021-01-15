@@ -7,9 +7,10 @@ import {
   SingleUser,
   Signup,
   CreateUserProfile,
-  UpdateUserProfile
+  UpdateUserProfile,
+  AdminHome,
+  Cart
 } from './components'
-// import {} from './components/auth-form'
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
           <Route exact path="/users/:userId" component={SingleUser} />
           <Route exact path="/users/:userId" component={UpdateUserProfile} />
           <Route exact path="/users" component={CreateUserProfile} />
+          <Route exact path="/admin" component={AdminHome} />
+          <Route exact path="/cart/:user" component={Cart} />
         </main>
       </div>
     </Router>
