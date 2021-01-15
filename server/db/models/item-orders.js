@@ -13,7 +13,8 @@ const ItemOrder = db.define('itemOrder', {
     type: Sequelize.INTEGER,
     validate: {
       min: 1
-    }
+    },
+    defaultValue: 1
   }
 })
 
