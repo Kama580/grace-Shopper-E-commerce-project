@@ -9,35 +9,40 @@ const guestSample = {1: 2, 6: 7, 5: 1}
 class Cart extends React.Component {
   constructor() {
     super()
-    this.state = {isUser: false, items: [], totalPrice: 0, totalItems: 0}
+    this.state = {items: [], totalPrice: 0, totalItems: 0}
   }
 
   async componentDidMount() {
     try {
       await this.props.getProducts()
       //if logged-in user:
-      //   await this.props.getOrder(6)
-      //   let items = this.props.order.products.map((item) => {
-      //     return item
-      //   })
-      //   this.setState({
-      //     items: items,
-      //     totalPrice: this.props.order.total_price / 100,
-      //     totalItems: this.props.order.total_qty,
-      //   })
-      //   //if guest
-      const itemsIds = Object.keys(guestSample)
-      const items = this.props.products.filter(item => {
-        return itemsIds.includes(String(item.id))
-      })
-      items.forEach(item => {
-        item.qty = guestSample[item.id]
-        item.subtotal = item.qty * item.price
-      })
-      //   const totalPrice = items.reduce((acc, curr) => {
-      //     acc + curr.subtotal
-      //   }, 0)
-      this.setState({items: items})
+
+      if (this.props.user.id) {
+        await this.props.getOrder(this.props.user.id)
+        let items = this.props.order.products.map(item => {
+          return item
+        })
+        this.setState({
+          items: items,
+          totalPrice: this.props.order.total_price / 100,
+          totalItems: this.props.order.total_qty
+        })
+      } else {
+        //if guest
+        const itemsIds = Object.keys(guestSample)
+        const items = this.props.products.filter(item => {
+          return itemsIds.includes(String(item.id))
+        })
+        items.forEach(item => {
+          item.qty = guestSample[item.id]
+          item.subtotal = item.qty * item.price
+        })
+        //   const totalPrice = items.reduce((acc, curr) => {
+        //     acc + curr.subtotal
+        //   })}
+
+        this.setState({items: items})
+      }
     } catch (error) {
       console.log(error)
     }
@@ -90,7 +95,8 @@ class Cart extends React.Component {
 const mapState = state => {
   return {
     order: state.order,
-    products: state.products
+    products: state.products,
+    user: state.user
   }
 }
 
@@ -98,6 +104,7 @@ const mapDispatch = dispatch => {
   return {
     getOrder: userId => dispatch(fetchOrder(userId)),
     getProducts: () => dispatch(fetchProducts())
+    //call guest thunk
   }
 }
 
