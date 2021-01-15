@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import axios from 'axios'
 // import {Link} from 'react-router-dom'
-import {fetchSingleUser} from '../store/singleUser'
+import {fetchSingleUser, fetchDeleteUser} from '../store/singleUser'
 
 class SingleUser extends React.Component {
   async componentDidMount() {
@@ -11,6 +12,12 @@ class SingleUser extends React.Component {
     } catch (error) {
       console.log(error)
     }
+    this.deleteProfile = this.deleteProfile.bind(this)
+  }
+  async deleteProfile(userId) {
+    this.props.removeUser(userId)
+    await axios.delete(`/api/users/${userId}`)
+    this.props.history.push('/products/')
   }
   render() {
     console.log('this is props', this.props.singleUser)
@@ -29,6 +36,9 @@ class SingleUser extends React.Component {
           <h4>shippingAddress: {user.shippingAddress}</h4>
         </div>
         <div>
+          <button type="button" onClick={() => this.deleteProfile(user.id)}>
+            Delete Profile
+          </button>
           {/* <Link to={`/users/${user.id}`}>Click Here to Update Profile</Link> */}
         </div>
       </div>
@@ -42,7 +52,10 @@ const mapState = state => {
 }
 const mapDispatch = dispatch => {
   return {
-    loadSingleUser: id => dispatch(fetchSingleUser(id))
+    loadSingleUser: id => dispatch(fetchSingleUser(id)),
+    removeUser: userId => {
+      dispatch(fetchDeleteUser(userId))
+    }
   }
 }
 export default connect(mapState, mapDispatch)(SingleUser)
