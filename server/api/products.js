@@ -33,8 +33,7 @@ router.put('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)
     if (product) {
-      const updatedProduct = await product.update(req.body)
-      res.json(updatedProduct)
+      await product.update(req.body)
     } else {
       const error = new Error('Product not found')
       error.status = '404'
