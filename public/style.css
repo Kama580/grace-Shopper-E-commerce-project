@@ -1,6 +1,7 @@
 body {
   font-family: 'Roboto Mono', monospace;
-  font-size: 0.9rem;
+  color: rgb(89, 67, 67);
+  font-size: 0.7rem;
   font-weight: 200;
 }
 
@@ -28,15 +29,18 @@ img {
 }
 
 .nav h1 {
-  margin-left: 25px;
   font-family: 'Sacramento', cursive;
+  color: rgb(89, 67, 67);
+  font-size: 2.5rem;
+  margin: 0.5rem;
+  font-weight: 900;
 }
 
-.nav {
+/* .nav {
   background-color: rgb(240, 216, 216);
   display: flex;
   justify-content: space-between;
-}
+} */
 
 .adminContainer {
   display: flex;
@@ -91,4 +95,50 @@ img {
 
 .sidebar img {
   margin: 10px 0;
+}
+
+.cartContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.itemContainer {
+  width: 60%;
+  margin: 10px;
+}
+
+.itemCardContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardImage {
+  margin-right: 10px;
+  width: 133px;
+  height: 180px;
+}
+
+.cartCard {
+  margin: 5px 5px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.cardItemInfo {
+  width: 95%;
+  background-color: rgb(255, 250, 245);
+}
+
+.cardItemInfo p {
+  margin: 3px;
+}
+
+.summaryContainer {
+  margin: 10px;
+  width: 30%;
+}
+
+.summaryInfo {
+  background-color: rgb(255, 250, 245);
 }
