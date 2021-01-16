@@ -86,7 +86,9 @@ export const addLocalStorage = id => {
 export const removeItemThunk = (userId, productId) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/cart/${userId}/${productId}`)
+      const {data} = await axios.put(
+        `/api/cart/${userId}/${productId}?action=remove`
+      )
       dispatch(removeItems(data))
     } catch (error) {
       console.log('Error in fetchItems thunk', error)
