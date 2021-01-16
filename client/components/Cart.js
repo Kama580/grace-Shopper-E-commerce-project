@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchOrder} from '../store/cart'
+import {fetchOrder, removeItemThunk} from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
+import user from '../store/user'
 
 const guestSample = {1: 2, 6: 7, 5: 1}
 
@@ -10,6 +11,7 @@ class Cart extends React.Component {
   constructor() {
     super()
     this.state = {items: [], totalPrice: 0, totalItems: 0}
+    this.handleDeleteItem = this.handleDeleteItem.bind(this)
   }
 
   async componentDidMount() {
@@ -17,37 +19,43 @@ class Cart extends React.Component {
       await this.props.getProducts()
       //if logged-in user:
 
-      if (this.props.user.id) {
-        await this.props.getOrder(this.props.user.id)
-        let items = this.props.order.products.map(item => {
-          return item
-        })
-        this.setState({
-          items: items,
-          totalPrice: this.props.order.total_price / 100,
-          totalItems: this.props.order.total_qty
-        })
-      } else {
-        //if guest
-        const itemsIds = Object.keys(guestSample)
-        const items = this.props.products.filter(item => {
-          return itemsIds.includes(String(item.id))
-        })
-        items.forEach(item => {
-          item.qty = guestSample[item.id]
-          item.subtotal = item.qty * item.price
-        })
-        //   const totalPrice = items.reduce((acc, curr) => {
-        //     acc + curr.subtotal
-        //   })}
+      //   if (this.props.user.id) {
+      await this.props.getOrder(6)
+      console.log(this.props.order)
 
-        this.setState({items: items})
-      }
+      let items = this.props.order.products.map(item => {
+        return item
+      })
+      this.setState({
+        items: items,
+        totalPrice: this.props.order.total_price,
+        totalItems: this.props.order.total_qty
+      })
+      //   } else {
+      //     //if guest
+      //     const itemsIds = Object.keys(guestSample)
+      //     const items = this.props.products.filter((item) => {
+      //       return itemsIds.includes(String(item.id))
+      //     })
+      //     items.forEach((item) => {
+      //       item.qty = guestSample[item.id]
+      //       item.subtotal = item.qty * item.price
+      //     })
+      //     console.log(items)
+      //     const totalPrice = items.reduce((acc, curr) => {
+      //       return acc + curr.subtotal
+      //     }, 0)
+      //     this.setState({items: items, totalPrice: totalPrice})
+      //     console.log(this.state)
+      //   }
     } catch (error) {
       console.log(error)
     }
   }
 
+  handleDeleteItem(userId, productId) {
+    this.props.removeAnItemThunk(userId, productId)
+  }
   render() {
     return (
       <div>
@@ -62,10 +70,10 @@ class Cart extends React.Component {
                   <Link to={`/products/${item.id}`}>{item.name}</Link>
                   <p>{`Color: ${item.color}`}</p>
                   <p>{`Size: ${item.size}`}</p>
-                  <p>{`Price: ${item.price}`}</p>
-                  <p>{`Quantity: ${item.qty || item.itemOrder.qty}`}</p>
-                  <p>{`Subtotal: ${item.subtotal ||
-                    item.itemOrder.item_subtotal}`}</p>
+                  <p>{`Price: $${item.price / 100}`}</p>
+                  <p>{`Quantity: ${item.qty || item.itemOrder.qty || 1}`}</p>
+                  <p>{`Subtotal: $${item.subtotal / 100 ||
+                    item.itemOrder.item_subtotal / 100}`}</p>
                   <label htmlFor="qty">Change Amount:</label>
                   <select name="qty">
                     {[1, 2, 3, 4, 5, 6, 7].map(num => {
@@ -76,11 +84,19 @@ class Cart extends React.Component {
                       )
                     })}
                   </select>
+                  <button
+                    onClick={() => {
+                      this.handleDeleteItem(6, item.id)
+                    }}
+                  >
+                    Remove from cart
+                  </button>
                 </div>
               )
             })}
             <div>
-              Order Summary<p>{`Total Price: $${this.state.totalPrice}`}</p>
+              Order Summary
+              <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
             </div>
             <button>Checkout</button>
           </div>
@@ -103,7 +119,9 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getOrder: userId => dispatch(fetchOrder(userId)),
-    getProducts: () => dispatch(fetchProducts())
+    getProducts: () => dispatch(fetchProducts()),
+    removeAnItemThunk: (userId, productId) =>
+      dispatch(removeItemThunk(userId, productId))
     //call guest thunk
   }
 }
