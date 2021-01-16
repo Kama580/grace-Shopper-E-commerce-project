@@ -16,13 +16,12 @@ const ItemOrder = db.define('itemOrder', {
       min: 1
     },
     defaultValue: 1
-  },
-  subtotal: {
-    type: Sequelize.VIRTUAL,
-    set() {
-      return Product.productId.price * this.qty
-    }
   }
+  // subtotal: {
+  //   type: Sequelize.VIRTUAL,
+  //   set() {
+  //     return Product.productId.price * this.qty
+  //   }
 })
 
 module.exports = ItemOrder
