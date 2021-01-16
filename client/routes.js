@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
@@ -28,14 +29,14 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/products" component={AllProducts} />
-        <Route exact path="/signup'" component={Signup} />
-        <Route exact path="/login'" component={Login} />
-        <Route exact path="/products/:productId" component={SingleProduct} />
-        <Route exact path="/users/:userId" component={SingleUser} />
-        <Route exact path="/users/:userId" component={UpdateUserProfile} />
-        <Route exact path="/users" component={CreateUserProfile} />
-        <Route exact path="/admin" component={AdminHome} />
-        <Route exact path="/cart/:user" component={Cart} />
+        <Route exact path="/signup'" component={Signup} />;
+        <Route exact path="/login'" component={Login} />;
+        <Route exact path="/products/:productId" component={SingleProduct} />;
+        <Route exact path="/users/:userId" component={SingleUser} />;
+        <Route exact path="/users/:userId" component={UpdateUserProfile} />;
+        <Route exact path="/users" component={CreateUserProfile} />;
+        <Route exact path="/admin" component={AdminHome} />;
+        <Route exact path="/cart/:user" component={Cart} />;
       </Switch>
     )
   }
