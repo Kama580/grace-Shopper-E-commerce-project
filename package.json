@@ -49,7 +49,7 @@
     "connect-session-sequelize": "^6.0.0",
     "express": "^4.16.4",
     "express-session": "^1.15.1",
-    "history": "^4.9.0",
+    "history": "^4.10.1",
     "material-ui-icons": "^1.0.0-beta.36",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
