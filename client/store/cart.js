@@ -38,8 +38,10 @@ export const fetchOrder = id => {
 
 export const fetchLocalStorageData = () => {
   return async dispatch => {
+    console.log('Thunk called')
     try {
       const data = JSON.parse(window.localStorage.getItem('cart'))
+      console.log(data)
       if (data) {
         dispatch(setItems(data))
       }
@@ -52,7 +54,9 @@ export const fetchLocalStorageData = () => {
 export const addToCart = (userId, productId) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/cart/${userId}/${productId}`)
+      const {data} = await axios.put(
+        `/api/cart/${userId}/${productId}?action=add`
+      )
       dispatch(addItem(data))
     } catch (error) {
       console.log('Error in addToCart thunk', error)
@@ -87,6 +91,16 @@ export const removeItemThunk = (userId, productId) => {
     } catch (error) {
       console.log('Error in fetchItems thunk', error)
     }
+  }
+}
+
+export const removeFromLocalStrage = productId => {
+  return dispatch => {
+    let data = JSON.parse(window.localStorage.getItem('cart'))
+    delete data[productId]
+    window.localStorage.clear()
+    window.localStorage.setItem('cart', JSON.stringify(data))
+    dispatch(addGuestItem(data))
   }
 }
 

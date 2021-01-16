@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const {ListItemAvatar} = require('@material-ui/core')
 const {User, Product, Order, ItemOrder} = require('../db/models')
 const {Pending} = require('../db/models/constant.js')
 
@@ -16,35 +17,47 @@ router.get('/:user', async (req, res, next) => {
   }
 })
 
-router.put('/:user/:product', async (req, res, next) => {
+router.put('/:userId/:productId', async (req, res, next) => {
   try {
-    const cart = await Order.findOne({
-      where: {userId: req.params.user, status: Pending},
-      include: {model: Product}
-    })
-    cart.removeProducts(req.params.product)
-    const removedItem = await Product.findByPk(req.params.product)
-    console.log(removedItem)
-    res.json(removedItem)
+    console.log(req.query)
+    const action = req.query.action
+    const userId = req.params.userId
+    const productId = Number(req.params.productId)
+
+    // for add cart
+    if (action === 'add') {
+      const order = await Order.findOne({
+        where: {userId: userId, status: Pending},
+        include: {model: Product}
+      })
+      const item = await ItemOrder.findAll({
+        where: {productId: productId, orderId: order.id}
+      })
+      if (item.length) {
+        const updatedQty = item[0].qty + 1
+        const res = await item.update({qty: updatedQty})
+        console.log(res)
+      } else {
+        order.addProduct(productId)
+      }
+      res.send('update done')
+      //for delete item from cart
+    } else if (acton === 'remove') {
+      const cart = await Order.findOne({
+        where: {userId: req.params.user, status: Pending},
+        include: {model: Product}
+      })
+      cart.removeProducts(req.params.product)
+      const removedItem = await Product.findByPk(req.params.product)
+      console.log(removedItem)
+      res.json(removedItem)
+      //for edit cart
+    } else {
+      //edit qty code here
+    }
   } catch (error) {
     next(error)
   }
 })
-
-// router.put('/:user', async (req, res, next) => {
-//   try {
-//     const cart = await Order.findOne({
-//       where: {userId: req.params.user, status: Pending},
-//       include: {model: Product},
-//     })
-//     const items = cart.products
-//     const itemToUpdate = items.filter((item) => {
-//       return item.id === 2
-//     })
-//     res.send(cart)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 module.exports = router
