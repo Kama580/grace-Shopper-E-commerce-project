@@ -57,7 +57,7 @@ class Cart extends React.Component {
     try {
       if (this.props.user.id) {
         await this.props.removeAnItemThunk(userId, productId)
-        this.setState({...this.state, items: this.props.order.products})
+        this.setState({items: this.props.order.products})
         console.log(this.state)
       } else {
         await this.props.removeFromLocalStrage(productId)
