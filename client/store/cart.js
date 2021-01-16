@@ -38,8 +38,10 @@ export const fetchOrder = id => {
 
 export const fetchLocalStorageData = () => {
   return async dispatch => {
+    console.log('Thunk called')
     try {
       const data = JSON.parse(window.localStorage.getItem('cart'))
+      console.log(data)
       if (data) {
         dispatch(setItems(data))
       }

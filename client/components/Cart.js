@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchOrder} from '../store/cart'
+import {fetchOrder, fetchLocalStorageData} from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
 
-const guestSample = {1: 2, 6: 7, 5: 1}
+// const guestSample = {1: 2, 6: 7, 5: 1}
 
 class Cart extends React.Component {
   constructor() {
@@ -16,33 +16,33 @@ class Cart extends React.Component {
     try {
       await this.props.getProducts()
       //if logged-in user:
+      if (this.props.user.id) {
+        await this.props.getOrder(this.props.user.id)
+        let items = this.props.order.products.map(item => {
+          return item
+        })
+        this.setState({
+          items: items,
+          totalPrice: this.props.order.total_price / 100,
+          totalItems: this.props.order.total_qty
+        })
+      } else {
+        // if guest
+        await this.props.getLocalStorage()
+        const itemsIds = Object.keys(this.props.order)
+        const items = this.props.products.filter(item => {
+          return itemsIds.includes(String(item.id))
+        })
+        items.forEach(item => {
+          item.qty = this.props.order[item.id]
+          item.subtotal = item.qty * item.price
+        })
+        //   const totalPrice = items.reduce((acc, curr) => {
+        //     acc + curr.subtotal
+        //   })}
 
-      // if (this.props.user.id) {
-      await this.props.getOrder(this.props.user.id)
-      let items = this.props.order.products.map(item => {
-        return item
-      })
-      this.setState({
-        items: items,
-        totalPrice: this.props.order.total_price / 100,
-        totalItems: this.props.order.total_qty
-      })
-      // } else {
-      //   //if guest
-      //   const itemsIds = Object.keys(guestSample)
-      //   const items = this.props.products.filter(item => {
-      //     return itemsIds.includes(String(item.id))
-      //   })
-      //   items.forEach(item => {
-      //     item.qty = guestSample[item.id]
-      //     item.subtotal = item.qty * item.price
-      //   })
-      //   //   const totalPrice = items.reduce((acc, curr) => {
-      //   //     acc + curr.subtotal
-      //   //   })}
-
-      //   this.setState({items: items})
-      // }
+        this.setState({items: items})
+      }
     } catch (error) {
       console.log(error)
     }
@@ -103,7 +103,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getOrder: userId => dispatch(fetchOrder(userId)),
-    getProducts: () => dispatch(fetchProducts())
+    getProducts: () => dispatch(fetchProducts()),
+    getLocalStorage: () => dispatch(fetchLocalStorageData())
     //call guest thunk
   }
 }
