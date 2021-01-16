@@ -1,6 +1,6 @@
 import React from 'react'
 import {Route, BrowserRouter as Router} from 'react-router-dom'
-import {Navbar, AllProducts, SingleProduct, AdminHome} from './components'
+import {Navbar, AllProducts, SingleProduct, AdminHome, Cart} from './components'
 
 const App = () => {
   return (
@@ -11,6 +11,7 @@ const App = () => {
           <Route exact path="/products" component={AllProducts} />
           <Route exact path="/products/:productId" component={SingleProduct} />
           <Route exact path="/admin" component={AdminHome} />
+          <Route exact path="/cart/:user" component={Cart} />
         </main>
       </div>
     </Router>

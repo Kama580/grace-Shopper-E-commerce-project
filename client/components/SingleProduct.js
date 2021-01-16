@@ -1,16 +1,34 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct'
+import {addToCart, addLocalStorage} from '../store/cart'
 
 class SingleProduct extends React.Component {
   constructor(props) {
     super(props)
+    this.addCartHandler = this.addCartHandler.bind(this)
   }
 
   async componentDidMount() {
     try {
       console.log('PROPS:', this.props)
       await this.props.loadSingleProduct(this.props.match.params.productId)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async addCartHandler() {
+    try {
+      console.log(this)
+      if (this.props.user.id) {
+        await this.props.addToCart(
+          this.props.use.id,
+          this.props.singleProduct.id
+        )
+      } else {
+        await this.props.addLocalStorage(this.props.singleProduct.id)
+      }
     } catch (err) {
       console.log(err)
     }
@@ -29,10 +47,9 @@ class SingleProduct extends React.Component {
           <p>Size: {product.size}</p>
           <p>Quantity: 1</p>
         </div>
-        {/* get link from Kamah */}
-        {/* <Link to={}>
-            <button type="button">Add To Cart</button>
-          </Link> */}
+        <button type="button" onClick={this.addCartHandler}>
+          Add To Cart
+        </button>
         <div>
           <h2>Description</h2>
           <p>{product.description}</p>
@@ -45,13 +62,16 @@ class SingleProduct extends React.Component {
 const mapState = state => {
   console.log('State:', state)
   return {
-    singleProduct: state.singleProduct
+    singleProduct: state.singleProduct,
+    user: state.user
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadSingleProduct: id => dispatch(fetchSingleProduct(id))
+    loadSingleProduct: id => dispatch(fetchSingleProduct(id)),
+    addItem: (userId, productId) => dispatch(addToCart(userId, productId)),
+    addLocalStorage: id => dispatch(addLocalStorage(id))
   }
 }
 
