@@ -79,6 +79,17 @@ export const addLocalStorage = id => {
   }
 }
 
+export const removeItemThunk = (userId, productId) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`/api/cart/${userId}/${productId}`)
+      dispatch(removeItems(data))
+    } catch (error) {
+      console.log('Error in fetchItems thunk', error)
+    }
+  }
+}
+
 export default function itemsReducer(state = {}, action) {
   switch (action.type) {
     case SET_ITEMS:
@@ -87,6 +98,13 @@ export default function itemsReducer(state = {}, action) {
       return {...state, products: [...state.products, action.addedItem]}
     case ADD_GUEST_ITEM:
       return action.data
+    case REMOVE_ITEM:
+      return {
+        ...state,
+        products: state.products.filter(product => {
+          return product.id !== action.removedItem.id
+        })
+      }
     default:
       return state
   }
