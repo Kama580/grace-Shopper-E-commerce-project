@@ -10,6 +10,7 @@ router.get('/:user', async (req, res, next) => {
       where: {userId: req.params.user, status: Pending},
       include: {model: Product}
     })
+    console.log(cart)
     res.json(cart)
   } catch (error) {
     next(error)
@@ -40,6 +41,15 @@ router.put('/:userId/:productId', async (req, res, next) => {
     //   return item.id === 2
     // })
     res.send(res)
+
+    const cart = await Order.findOne({
+      where: {userId: req.params.user, status: Pending},
+      include: {model: Product}
+    })
+    cart.removeProducts(req.params.product)
+    const removedItem = await Product.findByPk(req.params.product)
+    console.log(removedItem)
+    res.json(removedItem)
   } catch (error) {
     next(error)
   }

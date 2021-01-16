@@ -1,8 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchOrder, fetchLocalStorageData} from '../store/cart'
+import {fetchOrder, fetchLocalStorageData, removeItemThunk} from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
+import user from '../store/user'
 
 // const guestSample = {1: 2, 6: 7, 5: 1}
 
@@ -10,20 +11,20 @@ class Cart extends React.Component {
   constructor() {
     super()
     this.state = {items: [], totalPrice: 0, totalItems: 0}
+    this.handleDeleteItem = this.handleDeleteItem.bind(this)
   }
 
   async componentDidMount() {
     try {
       await this.props.getProducts()
       //if logged-in user:
+
       if (this.props.user.id) {
-        await this.props.getOrder(this.props.user.id)
-        let items = this.props.order.products.map(item => {
-          return item
-        })
+        await this.props.getOrder(6)
+        console.log(this.props.order)
         this.setState({
-          items: items,
-          totalPrice: this.props.order.total_price / 100,
+          items: this.props.order.products,
+          totalPrice: this.props.order.total_price,
           totalItems: this.props.order.total_qty
         })
       } else {
@@ -48,6 +49,11 @@ class Cart extends React.Component {
     }
   }
 
+  async handleDeleteItem(userId, productId) {
+    await this.props.removeAnItemThunk(userId, productId)
+    this.setState({...this.state, items: this.props.order.products})
+    console.log(this.state)
+  }
   render() {
     return (
       <div>
@@ -62,10 +68,10 @@ class Cart extends React.Component {
                   <Link to={`/products/${item.id}`}>{item.name}</Link>
                   <p>{`Color: ${item.color}`}</p>
                   <p>{`Size: ${item.size}`}</p>
-                  <p>{`Price: ${item.price}`}</p>
-                  <p>{`Quantity: ${item.qty || item.itemOrder.qty}`}</p>
-                  <p>{`Subtotal: ${item.subtotal ||
-                    item.itemOrder.item_subtotal}`}</p>
+                  <p>{`Price: $${item.price / 100}`}</p>
+                  <p>{`Quantity: ${item.qty || item.itemOrder.qty || 1}`}</p>
+                  <p>{`Subtotal: $${item.subtotal / 100 ||
+                    item.itemOrder.item_subtotal / 100}`}</p>
                   <label htmlFor="qty">Change Amount:</label>
                   <select name="qty">
                     {[1, 2, 3, 4, 5, 6, 7].map(num => {
@@ -76,11 +82,19 @@ class Cart extends React.Component {
                       )
                     })}
                   </select>
+                  <button
+                    onClick={() => {
+                      this.handleDeleteItem(6, item.id)
+                    }}
+                  >
+                    Remove from cart
+                  </button>
                 </div>
               )
             })}
             <div>
-              Order Summary<p>{`Total Price: $${this.state.totalPrice}`}</p>
+              Order Summary
+              <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
             </div>
             <button>Checkout</button>
           </div>
@@ -104,7 +118,9 @@ const mapDispatch = dispatch => {
   return {
     getOrder: userId => dispatch(fetchOrder(userId)),
     getProducts: () => dispatch(fetchProducts()),
-    getLocalStorage: () => dispatch(fetchLocalStorageData())
+    getLocalStorage: () => dispatch(fetchLocalStorageData()),
+    removeAnItemThunk: (userId, productId) =>
+      dispatch(removeItemThunk(userId, productId))
     //call guest thunk
   }
 }
