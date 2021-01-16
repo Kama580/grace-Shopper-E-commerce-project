@@ -22,12 +22,8 @@ class Cart extends React.Component {
       //   if (this.props.user.id) {
       await this.props.getOrder(6)
       console.log(this.props.order)
-
-      let items = this.props.order.products.map(item => {
-        return item
-      })
       this.setState({
-        items: items,
+        items: this.props.order.products,
         totalPrice: this.props.order.total_price,
         totalItems: this.props.order.total_qty
       })
@@ -53,8 +49,10 @@ class Cart extends React.Component {
     }
   }
 
-  handleDeleteItem(userId, productId) {
-    this.props.removeAnItemThunk(userId, productId)
+  async handleDeleteItem(userId, productId) {
+    await this.props.removeAnItemThunk(userId, productId)
+    this.setState({...this.state, items: this.props.order.products})
+    console.log(this.state)
   }
   render() {
     return (
