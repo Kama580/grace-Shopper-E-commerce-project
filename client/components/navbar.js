@@ -152,7 +152,12 @@ export default function Navbar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 6 new mails" color="inherit">
+        <IconButton
+          aria-label="show 6 new mails"
+          color="inherit"
+          component={Link}
+          to="/cart"
+        >
           <Badge badgeContent={6} color="secondary">
             <ShoppingBasket />
           </Badge>
@@ -210,13 +215,14 @@ export default function Navbar() {
             <div className={classes.sectionDesktop} />
           </div>
 
+          {/* Shopping Cart */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton
               aria-label="show 6 new mails"
               color="inherit"
               component={Link}
-              to="/admin"
+              to="/cart"
             >
               <Badge badgeContent={6} color="secondary">
                 <ShoppingBasket />
