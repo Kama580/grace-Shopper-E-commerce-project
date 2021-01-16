@@ -79,51 +79,66 @@ class Cart extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.items[0] ? (
-          <div>
-            {this.state.items.map(item => {
-              return (
-                <div key={item.id}>
-                  <div>
-                    <img src={item.imageUrl} />
+      <div className="cartContainer">
+        <div className="itemContainer">
+          <h3>MY CART</h3>
+          <hr />
+          {this.state.items[0] ? (
+            <div className="itemCardContainer">
+              {this.state.items.map(item => {
+                return (
+                  <div className="cartCard" key={item.id}>
+                    <div className="cardImage">
+                      <img src={item.imageUrl} />
+                    </div>
+                    <div className="cardItemInfo">
+                      <Link to={`/products/${item.id}`}>{item.name}</Link>
+                      <p>{`Color: ${item.color}`}</p>
+                      <p>{`Size: ${item.size}`}</p>
+                      <p>{`Price: $${item.price / 100}`}</p>
+                      <p>{`Quantity: ${item.qty ||
+                        item.itemOrder.qty ||
+                        1}`}</p>
+                      <p>{`Subtotal: $${item.subtotal / 100 ||
+                        item.itemOrder.item_subtotal / 100}`}</p>
+                      <label htmlFor="qty">Change Amount:</label>
+                      <select name="qty">
+                        {[1, 2, 3, 4, 5, 6, 7].map(num => {
+                          return (
+                            <option key={num} value="$num">
+                              {num}
+                            </option>
+                          )
+                        })}
+                      </select>
+                      <button
+                        onClick={() => {
+                          this.handleDeleteItem(6, item.id)
+                        }}
+                      >
+                        Remove from cart
+                      </button>
+                    </div>
                   </div>
-                  <Link to={`/products/${item.id}`}>{item.name}</Link>
-                  <p>{`Color: ${item.color}`}</p>
-                  <p>{`Size: ${item.size}`}</p>
-                  <p>{`Price: $${item.price / 100}`}</p>
-                  <p>{`Quantity: ${item.qty || item.itemOrder.qty || 1}`}</p>
-                  <p>{`Subtotal: $${item.subtotal / 100 ||
-                    item.itemOrder.item_subtotal / 100}`}</p>
-                  <label htmlFor="qty">Change Amount:</label>
-                  <select name="qty">
-                    {[1, 2, 3, 4, 5, 6, 7].map(num => {
-                      return (
-                        <option key={num} value="$num">
-                          {num}
-                        </option>
-                      )
-                    })}
-                  </select>
-                  <button
-                    onClick={() => {
-                      this.handleDeleteItem(6, item.id)
-                    }}
-                  >
-                    Remove from cart
-                  </button>
-                </div>
-              )
-            })}
-            <div>
-              Order Summary
-              <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
+                )
+              })}{' '}
             </div>
-            <button>Checkout</button>
+          ) : (
+            <div>Your cart is empty!</div>
+          )}
+        </div>
+
+        <div className="summaryContainer">
+          <div>
+            <h3>ORDER SUMMARY</h3>
+            <hr />
+            <div className="summaryInfo">
+              {' '}
+              <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
+              <button>Checkout</button>
+            </div>
           </div>
-        ) : (
-          <div>Your cart is empty!</div>
-        )}
+        </div>
       </div>
     )
   }

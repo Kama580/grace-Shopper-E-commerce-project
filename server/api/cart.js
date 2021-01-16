@@ -19,31 +19,28 @@ router.get('/:user', async (req, res, next) => {
 
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
+    console.log(req.query)
     const action = req.query.action
     const userId = req.params.userId
     const productId = Number(req.params.productId)
+
     // for add cart
     if (action === 'add') {
       const order = await Order.findOne({
         where: {userId: userId, status: Pending},
         include: {model: Product}
       })
-      const items = await ItemOrder.findAll({
+      const item = await ItemOrder.findAll({
         where: {productId: productId, orderId: order.id}
       })
-      console.log(items)
-      // if (items.filter((item) => item.id === productId).length) {
-      //   items = items.map((item) => {
-      //     return
-      //     item.id === productId
-      //       ? {...item.itemOrder, qty: (item.itemOrder.qty += 1)}
-      //       : item
-      //   })
-
-      // const itemToUpdate = items.filter((item) => {
-      //   return item.id === 2
-      // })
-      res.send(res)
+      if (item.length) {
+        const updatedQty = item[0].qty + 1
+        const res = await item.update({qty: updatedQty})
+        console.log(res)
+      } else {
+        order.addProduct(productId)
+      }
+      res.send('update done')
       //for delete item from cart
     } else if (acton === 'remove') {
       const cart = await Order.findOne({

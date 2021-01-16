@@ -92,3 +92,49 @@ img {
 .sidebar img {
   margin: 10px 0;
 }
+
+.cartContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.itemContainer {
+  width: 60%;
+  margin: 10px;
+}
+
+.itemCardContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardImage {
+  margin-right: 10px;
+  width: 133px;
+  height: 180px;
+}
+
+.cartCard {
+  margin: 5px 5px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.cardItemInfo {
+  width: 95%;
+  background-color: rgb(255, 250, 245);
+}
+
+.cardItemInfo p {
+  margin: 3px;
+}
+
+.summaryContainer {
+  margin: 10px;
+  width: 30%;
+}
+
+.summaryInfo {
+  background-color: rgb(255, 250, 245);
+}

@@ -54,7 +54,9 @@ export const fetchLocalStorageData = () => {
 export const addToCart = (userId, productId) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/cart/${userId}/${productId}`)
+      const {data} = await axios.put(
+        `/api/cart/${userId}/${productId}?action=add`
+      )
       dispatch(addItem(data))
     } catch (error) {
       console.log('Error in addToCart thunk', error)
