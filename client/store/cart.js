@@ -92,6 +92,16 @@ export const removeItemThunk = (userId, productId) => {
   }
 }
 
+export const removeFromLocalStrage = productId => {
+  return dispatch => {
+    let data = JSON.parse(window.localStorage.getItem('cart'))
+    delete data[productId]
+    window.localStorage.clear()
+    window.localStorage.setItem('cart', JSON.stringify(data))
+    dispatch(addGuestItem(data))
+  }
+}
+
 export default function itemsReducer(state = {}, action) {
   switch (action.type) {
     case SET_ITEMS:

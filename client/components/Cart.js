@@ -1,7 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {fetchOrder, fetchLocalStorageData, removeItemThunk} from '../store/cart'
+import {
+  fetchOrder,
+  fetchLocalStorageData,
+  removeItemThunk,
+  removeFromLocalStrage
+} from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
 import user from '../store/user'
 
@@ -21,7 +26,6 @@ class Cart extends React.Component {
 
       if (this.props.user.id) {
         await this.props.getOrder(6)
-        console.log(this.props.order)
         this.setState({
           items: this.props.order.products,
           totalPrice: this.props.order.total_price,
@@ -50,10 +54,29 @@ class Cart extends React.Component {
   }
 
   async handleDeleteItem(userId, productId) {
-    await this.props.removeAnItemThunk(userId, productId)
-    this.setState({...this.state, items: this.props.order.products})
-    console.log(this.state)
+    try {
+      if (this.props.user.id) {
+        await this.props.removeAnItemThunk(userId, productId)
+        this.setState({...this.state, items: this.props.order.products})
+        console.log(this.state)
+      } else {
+        await this.props.removeFromLocalStrage(productId)
+        const itemsIds = Object.keys(this.props.order)
+        const items = this.props.products.filter(item => {
+          return itemsIds.includes(String(item.id))
+        })
+        items.forEach(item => {
+          item.qty = this.props.order[item.id]
+          item.subtotal = item.qty * item.price
+        })
+
+        this.setState({items: items})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
+
   render() {
     return (
       <div>
@@ -120,8 +143,9 @@ const mapDispatch = dispatch => {
     getProducts: () => dispatch(fetchProducts()),
     getLocalStorage: () => dispatch(fetchLocalStorageData()),
     removeAnItemThunk: (userId, productId) =>
-      dispatch(removeItemThunk(userId, productId))
-    //call guest thunk
+      dispatch(removeItemThunk(userId, productId)),
+    removeFromLocalStrage: productId =>
+      dispatch(removeFromLocalStrage(productId))
   }
 }
 

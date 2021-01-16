@@ -19,37 +19,45 @@ router.get('/:user', async (req, res, next) => {
 
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
+    const action = req.query.action
     const userId = req.params.userId
     const productId = Number(req.params.productId)
-    const order = await Order.findOne({
-      where: {userId: userId, status: Pending},
-      include: {model: Product}
-    })
-    const items = await ItemOrder.findAll({
-      where: {productId: productId, orderId: order.id}
-    })
-    console.log(items)
-    // if (items.filter((item) => item.id === productId).length) {
-    //   items = items.map((item) => {
-    //     return
-    //     item.id === productId
-    //       ? {...item.itemOrder, qty: (item.itemOrder.qty += 1)}
-    //       : item
-    //   })
+    // for add cart
+    if (action === 'add') {
+      const order = await Order.findOne({
+        where: {userId: userId, status: Pending},
+        include: {model: Product}
+      })
+      const items = await ItemOrder.findAll({
+        where: {productId: productId, orderId: order.id}
+      })
+      console.log(items)
+      // if (items.filter((item) => item.id === productId).length) {
+      //   items = items.map((item) => {
+      //     return
+      //     item.id === productId
+      //       ? {...item.itemOrder, qty: (item.itemOrder.qty += 1)}
+      //       : item
+      //   })
 
-    // const itemToUpdate = items.filter((item) => {
-    //   return item.id === 2
-    // })
-    res.send(res)
-
-    const cart = await Order.findOne({
-      where: {userId: req.params.user, status: Pending},
-      include: {model: Product}
-    })
-    cart.removeProducts(req.params.product)
-    const removedItem = await Product.findByPk(req.params.product)
-    console.log(removedItem)
-    res.json(removedItem)
+      // const itemToUpdate = items.filter((item) => {
+      //   return item.id === 2
+      // })
+      res.send(res)
+      //for delete item from cart
+    } else if (acton === 'remove') {
+      const cart = await Order.findOne({
+        where: {userId: req.params.user, status: Pending},
+        include: {model: Product}
+      })
+      cart.removeProducts(req.params.product)
+      const removedItem = await Product.findByPk(req.params.product)
+      console.log(removedItem)
+      res.json(removedItem)
+      //for edit cart
+    } else {
+      //edit qty code here
+    }
   } catch (error) {
     next(error)
   }
