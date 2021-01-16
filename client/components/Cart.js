@@ -17,32 +17,32 @@ class Cart extends React.Component {
       await this.props.getProducts()
       //if logged-in user:
 
-      if (this.props.user.id) {
-        await this.props.getOrder(this.props.user.id)
-        let items = this.props.order.products.map(item => {
-          return item
-        })
-        this.setState({
-          items: items,
-          totalPrice: this.props.order.total_price / 100,
-          totalItems: this.props.order.total_qty
-        })
-      } else {
-        //if guest
-        const itemsIds = Object.keys(guestSample)
-        const items = this.props.products.filter(item => {
-          return itemsIds.includes(String(item.id))
-        })
-        items.forEach(item => {
-          item.qty = guestSample[item.id]
-          item.subtotal = item.qty * item.price
-        })
-        //   const totalPrice = items.reduce((acc, curr) => {
-        //     acc + curr.subtotal
-        //   })}
+      // if (this.props.user.id) {
+      await this.props.getOrder(this.props.user.id)
+      let items = this.props.order.products.map(item => {
+        return item
+      })
+      this.setState({
+        items: items,
+        totalPrice: this.props.order.total_price / 100,
+        totalItems: this.props.order.total_qty
+      })
+      // } else {
+      //   //if guest
+      //   const itemsIds = Object.keys(guestSample)
+      //   const items = this.props.products.filter(item => {
+      //     return itemsIds.includes(String(item.id))
+      //   })
+      //   items.forEach(item => {
+      //     item.qty = guestSample[item.id]
+      //     item.subtotal = item.qty * item.price
+      //   })
+      //   //   const totalPrice = items.reduce((acc, curr) => {
+      //   //     acc + curr.subtotal
+      //   //   })}
 
-        this.setState({items: items})
-      }
+      //   this.setState({items: items})
+      // }
     } catch (error) {
       console.log(error)
     }
