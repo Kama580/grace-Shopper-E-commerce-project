@@ -6,8 +6,6 @@ import {
   postProduct,
   updateProduct
 } from '../store/allProducts'
-// import {
-// } from '../store/singleProduct'
 import {
   List,
   Paper,
@@ -18,7 +16,17 @@ import {
   Fab,
   Button
 } from '@material-ui/core'
-
+const {
+  Mermaid,
+  Ballgown,
+  Aline,
+  Sheath,
+  Other,
+  Silk,
+  Crepe,
+  Polyester,
+  White
+} = require('../../server/db/models/constant')
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 
@@ -110,7 +118,7 @@ class ManageProducts extends React.Component {
     return (
       <div className="adminContainer">
         <div className="adminListContainer">
-          {/*********************************** */}
+          {/* ADD FORM */}
           <Paper>
             {this.state.addFormOpen ? (
               <form onSubmit={this.handleSubmit}>
@@ -156,11 +164,11 @@ class ManageProducts extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.product.fit}
                 >
-                  <option value="Mermaid">Mermaid</option>
-                  <option value="Ballgown">Ballgown</option>
-                  <option value="Aline">A-line</option>
-                  <option value="Sheath">Sheath</option>
-                  <option value="Other">Other</option>
+                  <option value={Mermaid}>Mermaid</option>
+                  <option value={Ballgown}>Ballgown</option>
+                  <option value={Aline}>A-line</option>
+                  <option value={Sheath}>Sheath</option>
+                  <option value={Other}>Other</option>
                 </select>
 
                 {/* MATERIAL */}
@@ -175,10 +183,10 @@ class ManageProducts extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.product.material}
                 >
-                  <option value="Silk">Silk</option>
-                  <option value="Crepe">Crepe</option>
-                  <option value="Polyester">Polyester</option>
-                  <option value="Other">Other</option>
+                  <option value={Silk}>Silk</option>
+                  <option value={Crepe}>Crepe</option>
+                  <option value={Polyester}>Polyester</option>
+                  <option value={Other}>Other</option>
                 </select>
 
                 {/* COLOR */}
@@ -235,7 +243,8 @@ class ManageProducts extends React.Component {
               </Button>
             )}
           </Paper>
-          {/* ***************************************************************** */}
+
+          {/* PRODUCT LIST */}
           <Paper>
             <List>
               {this.props.products.map(product => {
@@ -259,6 +268,8 @@ class ManageProducts extends React.Component {
                         <EditIcon />
                       </Fab>
                     </ListItem>
+
+                    {/* EDIT FORM */}
                     {this.state.editFormOpen &&
                     this.state.currentProductId === product.id ? (
                       <Paper key={product.name}>
@@ -275,7 +286,6 @@ class ManageProducts extends React.Component {
                             type="text"
                             onChange={this.handleChange}
                             value={this.state.product.name}
-                            // placeholder={product.name}
                           />
 
                           {/* PRICE */}
@@ -290,7 +300,6 @@ class ManageProducts extends React.Component {
                             type="number"
                             onChange={this.handleChange}
                             value={this.state.product.price}
-                            // placeholder={product.price}
                           />
 
                           {/* FIT */}
@@ -302,14 +311,14 @@ class ManageProducts extends React.Component {
                           </label>
                           <select
                             name="fit"
-                            value={product.fit}
+                            value={this.state.product.fit}
                             onChange={this.handleChange}
                           >
-                            <option value="Mermaid">Mermaid</option>
-                            <option value="Ballgown">Ballgown</option>
-                            <option value="Aline">A-line</option>
-                            <option value="Sheath">Sheath</option>
-                            <option value="Other">Other</option>
+                            <option value={Mermaid}>Mermaid</option>
+                            <option value={Ballgown}>Ballgown</option>
+                            <option value={Aline}>A-line</option>
+                            <option value={Sheath}>Sheath</option>
+                            <option value={Other}>Other</option>
                           </select>
 
                           {/* MATERIAL */}
@@ -321,13 +330,13 @@ class ManageProducts extends React.Component {
                           </label>
                           <select
                             name="material"
-                            value={product.material}
+                            value={this.state.product.material}
                             onChange={this.handleChange}
                           >
-                            <option value="Silk">Silk</option>
-                            <option value="Crepe">Crepe</option>
-                            <option value="Polyester">Polyester</option>
-                            <option value="Other">Other</option>
+                            <option value={Silk}>Silk</option>
+                            <option value={Crepe}>Crepe</option>
+                            <option value={Polyester}>Polyester</option>
+                            <option value={Other}>Other</option>
                           </select>
 
                           {/* COLOR */}
@@ -342,7 +351,6 @@ class ManageProducts extends React.Component {
                             type="text"
                             onChange={this.handleChange}
                             value={this.state.product.color}
-                            // placeholder={product.color}
                           />
 
                           {/* SIZE */}
@@ -357,7 +365,6 @@ class ManageProducts extends React.Component {
                             type="number"
                             onChange={this.handleChange}
                             value={this.state.product.size}
-                            // placeholder={product.size}
                           />
 
                           {/* IMAGE URL */}
@@ -372,7 +379,6 @@ class ManageProducts extends React.Component {
                             type="text"
                             onChange={this.handleChange}
                             value={this.state.product.imageUrl}
-                            // placeholder={this.state.product.imageUrl}
                           />
 
                           <Button type="submit">Save</Button>
