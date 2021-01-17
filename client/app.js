@@ -1,6 +1,14 @@
 import React from 'react'
 import {Route, BrowserRouter as Router} from 'react-router-dom'
-import {Navbar, AllProducts, SingleProduct, AdminHome, Cart} from './components'
+import {
+  Navbar,
+  AllProducts,
+  SingleProduct,
+  AdminHome,
+  ManageProducts,
+  ManageUsers,
+  Cart
+} from './components'
 
 const App = () => {
   return (
