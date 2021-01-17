@@ -19,7 +19,6 @@ router.get('/:user', async (req, res, next) => {
 
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
-    console.log('here!!!!!!!!!!!!!', req.query)
     const action = req.query.action
     const userId = req.params.userId
     const productId = Number(req.params.productId)
@@ -30,27 +29,27 @@ router.put('/:userId/:productId', async (req, res, next) => {
         where: {userId: userId, status: Pending},
         include: {model: Product}
       })
-      const item = await ItemOrder.findAll({
+      const item = await ItemOrder.findOne({
         where: {productId: productId, orderId: order.id}
       })
-      if (item.length) {
-        const updatedQty = item[0].qty + 1
-        const res = await item.update({qty: updatedQty})
-        console.log(res)
+      console.log(item)
+      if (item) {
+        const updatedQty = item.qty + 1
+        await item.update({qty: updatedQty})
       } else {
-        order.addProduct(productId)
+        await order.addProduct(productId)
       }
-      res.send('update done')
+      const updatedItems = await ItemOrder.findAll({where: {orderId: order.id}})
+
+      res.send(updatedItems)
       //for delete item from cart
     } else if (action === 'remove') {
-      console.log('Ive been called!!!!!!!')
       const cart = await Order.findOne({
         where: {userId: userId, status: Pending},
         include: {model: Product}
       })
       cart.removeProducts(productId)
       const removedItem = await Product.findByPk(productId)
-      console.log(removedItem)
       res.json(removedItem)
       //for edit cart
     } else {
