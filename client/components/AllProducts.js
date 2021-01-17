@@ -43,7 +43,6 @@ class AllProducts extends React.Component {
         </div>
         <div className="cardContainer">
           {this.props.products.map(product => {
-            console.log(product)
             return (
               <div className="card" key={product.id}>
                 <Link to={`/products/${product.id}`}>
