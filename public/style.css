@@ -142,3 +142,19 @@ img {
 .summaryInfo {
   background-color: rgb(255, 250, 245);
 }
+
+.singleViewContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.productContainer {
+  margin-top: 40px;
+  width: 70%;
+  display: flex;
+}
+
+.productContainer img {
+  max-width: 40%;
+  margin-right: 20px;
+}
