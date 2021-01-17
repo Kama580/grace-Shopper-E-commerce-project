@@ -67,9 +67,9 @@ class ManageProducts extends React.Component {
       ...this.state,
       product: product,
       editFormOpen: true,
+      addFormOpen: false,
       currentProductId: product.id
     })
-    console.log('STATE ON OPEN EDIT:', this.state)
   }
 
   onUpdateHandler(event) {
@@ -84,7 +84,9 @@ class ManageProducts extends React.Component {
   onOpenAddForm(event) {
     this.setState({
       ...this.state,
-      addFormOpen: true
+      addFormOpen: true,
+      editFormOpen: false,
+      currentProductId: null
     })
   }
 
@@ -97,7 +99,6 @@ class ManageProducts extends React.Component {
   }
 
   handleChange(event) {
-    console.log('STATE:', this.state)
     this.setState({
       ...this.state,
       product: {...this.state.product, [event.target.name]: event.target.value}
@@ -249,8 +250,8 @@ class ManageProducts extends React.Component {
             <List>
               {this.props.products.map(product => {
                 return (
-                  <div>
-                    <ListItem key={product.id}>
+                  <div key={product.id}>
+                    <ListItem>
                       <ListItemAvatar>
                         <Avatar src={product.imageUrl} />
                       </ListItemAvatar>
@@ -272,7 +273,7 @@ class ManageProducts extends React.Component {
                     {/* EDIT FORM */}
                     {this.state.editFormOpen &&
                     this.state.currentProductId === product.id ? (
-                      <Paper key={product.name}>
+                      <Paper>
                         <form onSubmit={this.onUpdateHandler}>
                           {/* NAME */}
                           <label htmlFor="name">
