@@ -135,7 +135,9 @@ class Cart extends React.Component {
             <div className="summaryInfo">
               {' '}
               <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
-              <button>Checkout</button>
+              <Link to="/cart/checkout">
+                <button>Checkout</button>
+              </Link>
             </div>
           </div>
         </div>

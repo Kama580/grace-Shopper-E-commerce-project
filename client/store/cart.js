@@ -1,3 +1,4 @@
+import {NextWeek} from '@material-ui/icons'
 import axios from 'axios'
 
 const SET_ITEMS = 'SET_ITEMS'
@@ -103,6 +104,33 @@ export const removeFromLocalStrage = productId => {
     window.localStorage.clear()
     window.localStorage.setItem('cart', JSON.stringify(data))
     dispatch(addGuestItem(data))
+  }
+}
+
+export const checkoutUser = (orderId, orderData) => {
+  console.log('callllled')
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(
+        `/api/cart/order/${orderId}`,
+        orderData.shippingData
+      )
+      console.log('how about this', data)
+      dispatch(setItems(data))
+    } catch (error) {
+      console.log('Error in checkoutUser thunk', error)
+    }
+  }
+}
+
+export const checkoutGuest = orderData => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post('/api/cart', orderData)
+      dispatch({type: 'default'})
+    } catch (error) {
+      console.log('Error in checkoutUser thunk', error)
+    }
   }
 }
 

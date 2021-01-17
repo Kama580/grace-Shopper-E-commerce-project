@@ -17,6 +17,22 @@ router.get('/:user', async (req, res, next) => {
   }
 })
 
+router.put('/order/:orderId', async (req, res, next) => {
+  try {
+    console.log('This is also called')
+    console.log(req.body)
+    const order = await Order.findByPk(req.params.orderId)
+    if (order) {
+      console.log(req.body)
+      await order.update(req.body)
+      const newOrder = await Order.create({userId: order.userId})
+      res.json(newOrder)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
     const action = req.query.action
@@ -55,6 +71,14 @@ router.put('/:userId/:productId', async (req, res, next) => {
     } else {
       //edit qty code here
     }
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/', async (req, res, next) => {
+  try {
+    const guestOrder = await Order.create(req.body)
   } catch (error) {
     next(error)
   }
