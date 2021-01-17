@@ -235,6 +235,21 @@ class ManageProducts extends React.Component {
                   placeholder={this.state.product.imageUrl}
                 />
 
+                {/* DESCRIPTION */}
+                <label htmlFor="description">
+                  Description:
+                  {this.props.warningMessage && (
+                    <span>{this.props.warningMessage}</span>
+                  )}
+                </label>
+                <input
+                  name="description"
+                  type="text"
+                  onChange={this.handleChange}
+                  value={this.state.product.description}
+                  placeholder={this.state.product.description}
+                />
+
                 <Button type="submit">Add</Button>
                 <Button onClick={() => this.onCloseAddForm()}>Close</Button>
               </form>
@@ -380,6 +395,20 @@ class ManageProducts extends React.Component {
                             type="text"
                             onChange={this.handleChange}
                             value={this.state.product.imageUrl}
+                          />
+
+                          {/* DESCRIPTION */}
+                          <label htmlFor="description">
+                            Description:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <input
+                            name="description"
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.product.description}
                           />
 
                           <Button type="submit">Save</Button>
