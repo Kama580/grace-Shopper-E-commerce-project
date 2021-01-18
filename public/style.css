@@ -28,6 +28,26 @@ img {
   max-height: 100%;
 }
 
+.itemContainer input {
+  margin: 10px 0;
+  width: 92.7%;
+}
+
+.halfField {
+  margin: 0 10px 0 0;
+  display: inline-block;
+  width: 47%;
+}
+
+.halfField input {
+  width: 95%;
+}
+
+.formContainer {
+  margin-top: 10px;
+  background-color: rgb(255, 250, 245);
+}
+
 .nav h1 {
   font-family: 'Sacramento', cursive;
   color: rgb(89, 67, 67);

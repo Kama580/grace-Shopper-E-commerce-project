@@ -10,7 +10,6 @@ router.get('/:user', async (req, res, next) => {
       where: {userId: req.params.user, status: Pending},
       include: {model: Product}
     })
-    console.log(cart)
     res.json(cart)
   } catch (error) {
     next(error)
@@ -19,11 +18,8 @@ router.get('/:user', async (req, res, next) => {
 
 router.put('/order/:orderId', async (req, res, next) => {
   try {
-    console.log('This is also called')
-    console.log(req.body)
     const order = await Order.findByPk(req.params.orderId)
     if (order) {
-      console.log(req.body)
       await order.update(req.body)
       const newOrder = await Order.create({userId: order.userId})
       res.json(newOrder)
@@ -48,7 +44,6 @@ router.put('/:userId/:productId', async (req, res, next) => {
       const item = await ItemOrder.findOne({
         where: {productId: productId, orderId: order.id}
       })
-      console.log(item)
       if (item) {
         const updatedQty = item.qty + 1
         await item.update({qty: updatedQty})

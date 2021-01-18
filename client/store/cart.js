@@ -39,10 +39,8 @@ export const fetchOrder = id => {
 
 export const fetchLocalStorageData = () => {
   return async dispatch => {
-    console.log('Thunk called')
     try {
       const data = JSON.parse(window.localStorage.getItem('cart'))
-      console.log(data)
       if (data) {
         dispatch(setItems(data))
       }
@@ -108,14 +106,12 @@ export const removeFromLocalStrage = productId => {
 }
 
 export const checkoutUser = (orderId, orderData) => {
-  console.log('callllled')
   return async dispatch => {
     try {
       const {data} = await axios.put(
         `/api/cart/order/${orderId}`,
         orderData.shippingData
       )
-      console.log('how about this', data)
       dispatch(setItems(data))
     } catch (error) {
       console.log('Error in checkoutUser thunk', error)
