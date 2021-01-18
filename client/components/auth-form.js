@@ -58,6 +58,7 @@ const mapSignup = state => {
 }
 
 const mapDispatch = dispatch => {
+  // console.log('this is iprops', props)
   return {
     handleSubmit(evt) {
       evt.preventDefault()
