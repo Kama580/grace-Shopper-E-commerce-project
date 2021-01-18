@@ -6,8 +6,6 @@ import {
   postProduct,
   updateProduct
 } from '../store/allProducts'
-// import {
-// } from '../store/singleProduct'
 import {
   List,
   Paper,
@@ -18,7 +16,17 @@ import {
   Fab,
   Button
 } from '@material-ui/core'
-
+const {
+  Mermaid,
+  Ballgown,
+  Aline,
+  Sheath,
+  Other,
+  Silk,
+  Crepe,
+  Polyester,
+  White
+} = require('../../server/db/models/constant')
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 
@@ -54,11 +62,13 @@ class ManageProducts extends React.Component {
     }
   }
 
-  onOpenHandler(id) {
+  onOpenHandler(product) {
     this.setState({
       ...this.state,
+      product: product,
       editFormOpen: true,
-      currentProductId: id
+      addFormOpen: false,
+      currentProductId: product.id
     })
   }
 
@@ -69,13 +79,14 @@ class ManageProducts extends React.Component {
     //   editFormOpen: false,
     //   currentProductId: null
     // })
-    console.log('STATE:', this.state)
   }
 
   onOpenAddForm(event) {
     this.setState({
       ...this.state,
-      addFormOpen: true
+      addFormOpen: true,
+      editFormOpen: false,
+      currentProductId: null
     })
   }
 
@@ -98,7 +109,6 @@ class ManageProducts extends React.Component {
     event.preventDefault()
     this.props.addProduct(this.state.product)
     this.setState(defaultState)
-    console.log('STATE:', this.state)
   }
 
   deleteHandler(id) {
@@ -106,11 +116,10 @@ class ManageProducts extends React.Component {
   }
 
   render() {
-    console.log('PROPS:', this.props)
     return (
       <div className="adminContainer">
         <div className="adminListContainer">
-          {/*********************************** */}
+          {/* ADD FORM */}
           <Paper>
             {this.state.addFormOpen ? (
               <form onSubmit={this.handleSubmit}>
@@ -156,13 +165,11 @@ class ManageProducts extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.product.fit}
                 >
-                  <option value="Mermaid" selected="defaultValue">
-                    Mermaid
-                  </option>
-                  <option value="Ballgown">Ballgown</option>
-                  <option value="Aline">A-line</option>
-                  <option value="Sheath">Sheath</option>
-                  <option value="Other">Other</option>
+                  <option value={Mermaid}>Mermaid</option>
+                  <option value={Ballgown}>Ballgown</option>
+                  <option value={Aline}>A-line</option>
+                  <option value={Sheath}>Sheath</option>
+                  <option value={Other}>Other</option>
                 </select>
 
                 {/* MATERIAL */}
@@ -177,12 +184,10 @@ class ManageProducts extends React.Component {
                   onChange={this.handleChange}
                   value={this.state.product.material}
                 >
-                  <option value="Silk" selected="defaultValue">
-                    Silk
-                  </option>
-                  <option value="Crepe">Crepe</option>
-                  <option value="Polyester">Polyester</option>
-                  <option value="Other">Other</option>
+                  <option value={Silk}>Silk</option>
+                  <option value={Crepe}>Crepe</option>
+                  <option value={Polyester}>Polyester</option>
+                  <option value={Other}>Other</option>
                 </select>
 
                 {/* COLOR */}
@@ -230,6 +235,21 @@ class ManageProducts extends React.Component {
                   placeholder={this.state.product.imageUrl}
                 />
 
+                {/* DESCRIPTION */}
+                <label htmlFor="description">
+                  Description:
+                  {this.props.warningMessage && (
+                    <span>{this.props.warningMessage}</span>
+                  )}
+                </label>
+                <input
+                  name="description"
+                  type="text"
+                  onChange={this.handleChange}
+                  value={this.state.product.description}
+                  placeholder={this.state.product.description}
+                />
+
                 <Button type="submit">Add</Button>
                 <Button onClick={() => this.onCloseAddForm()}>Close</Button>
               </form>
@@ -239,14 +259,14 @@ class ManageProducts extends React.Component {
               </Button>
             )}
           </Paper>
-          {/* ***************************************************************** */}
+
+          {/* PRODUCT LIST */}
           <Paper>
             <List>
               {this.props.products.map(product => {
-                console.log(product)
                 return (
-                  <div>
-                    <ListItem key={product.id}>
+                  <div key={product.id}>
+                    <ListItem>
                       <ListItemAvatar>
                         <Avatar src={product.imageUrl} />
                       </ListItemAvatar>
@@ -259,139 +279,144 @@ class ManageProducts extends React.Component {
                       </Fab>
                       <Fab
                         size="small"
-                        onClick={() => this.onOpenHandler(product.id)}
+                        onClick={() => this.onOpenHandler(product)}
                       >
                         <EditIcon />
                       </Fab>
                     </ListItem>
+
+                    {/* EDIT FORM */}
                     {this.state.editFormOpen &&
                     this.state.currentProductId === product.id ? (
-                      <ListItem key={product.name}>
-                        <ListItem key={product.price}>
-                          <Paper>
-                            <form onSubmit={this.onUpdateHandler}>
-                              {/* NAME */}
-                              <label htmlFor="name">
-                                Name:
-                                {this.props.warningMessage && (
-                                  <span>{this.props.warningMessage}</span>
-                                )}
-                              </label>
-                              <input
-                                name="name"
-                                type="text"
-                                onChange={this.handleChange}
-                                value={this.state.product.name}
-                                placeholder={product.name}
-                              />
+                      <Paper>
+                        <form onSubmit={this.onUpdateHandler}>
+                          {/* NAME */}
+                          <label htmlFor="name">
+                            Name:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <input
+                            name="name"
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.product.name}
+                          />
 
-                              {/* PRICE */}
-                              <label htmlFor="price">
-                                Price:
-                                {this.props.warningMessage && (
-                                  <span>{this.props.warningMessage}</span>
-                                )}
-                              </label>
-                              <input
-                                name="price"
-                                type="number"
-                                onChange={this.handleChange}
-                                value={this.state.product.price}
-                                placeholder={product.price}
-                              />
+                          {/* PRICE */}
+                          <label htmlFor="price">
+                            Price:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <input
+                            name="price"
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.product.price}
+                          />
 
-                              {/* FIT */}
-                              <label htmlFor="fit">
-                                Fit:
-                                {this.props.warningMessage && (
-                                  <span>{this.props.warningMessage}</span>
-                                )}
-                              </label>
-                              <select
-                                name="fit"
-                                onChange={this.handleChange}
-                                placeholder={product.fit}
-                              >
-                                <option value="Mermaid">Mermaid</option>
-                                <option value="Ballgown">Ballgown</option>
-                                <option value="Aline">A-line</option>
-                                <option value="Sheath">Sheath</option>
-                                <option value="Other">Other</option>
-                              </select>
+                          {/* FIT */}
+                          <label htmlFor="fit">
+                            Fit:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <select
+                            name="fit"
+                            value={this.state.product.fit}
+                            onChange={this.handleChange}
+                          >
+                            <option value={Mermaid}>Mermaid</option>
+                            <option value={Ballgown}>Ballgown</option>
+                            <option value={Aline}>A-line</option>
+                            <option value={Sheath}>Sheath</option>
+                            <option value={Other}>Other</option>
+                          </select>
 
-                              {/* MATERIAL */}
-                              <label htmlFor="material">
-                                Material:
-                                {this.props.warningMessage && (
-                                  <span>{this.props.warningMessage}</span>
-                                )}
-                              </label>
-                              <select
-                                name="material"
-                                onChange={this.handleChange}
-                                value={product.material}
-                              >
-                                <option value="Silk" selected="defaultValue">
-                                  Silk
-                                </option>
-                                <option value="Crepe">Crepe</option>
-                                <option value="Polyester">Polyester</option>
-                                <option value="Other">Other</option>
-                              </select>
+                          {/* MATERIAL */}
+                          <label htmlFor="material">
+                            Material:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <select
+                            name="material"
+                            value={this.state.product.material}
+                            onChange={this.handleChange}
+                          >
+                            <option value={Silk}>Silk</option>
+                            <option value={Crepe}>Crepe</option>
+                            <option value={Polyester}>Polyester</option>
+                            <option value={Other}>Other</option>
+                          </select>
 
-                              {/* COLOR */}
-                              <label htmlFor="color">
-                                Color:
-                                {this.props.warningMessage && (
-                                  <span>{this.props.warningMessage}</span>
-                                )}
-                              </label>
-                              <input
-                                name="color"
-                                type="text"
-                                onChange={this.handleChange}
-                                value={product.color}
-                                placeholder={this.state.product.color}
-                              />
+                          {/* COLOR */}
+                          <label htmlFor="color">
+                            Color:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <input
+                            name="color"
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.product.color}
+                          />
 
-                              {/* SIZE */}
-                              <label htmlFor="size">
-                                Size:
-                                {this.props.warningMessage && (
-                                  <span>{this.props.warningMessage}</span>
-                                )}
-                              </label>
-                              <input
-                                name="size"
-                                type="number"
-                                onChange={this.handleChange}
-                                value={product.size}
-                                placeholder={this.state.product.size}
-                              />
+                          {/* SIZE */}
+                          <label htmlFor="size">
+                            Size:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <input
+                            name="size"
+                            type="number"
+                            onChange={this.handleChange}
+                            value={this.state.product.size}
+                          />
 
-                              {/* IMAGE URL */}
-                              <label htmlFor="imageUrl">
-                                Image Url:
-                                {this.props.warningMessage && (
-                                  <span>{this.props.warningMessage}</span>
-                                )}
-                              </label>
-                              <input
-                                name="imageUrl"
-                                type="text"
-                                onChange={this.handleChange}
-                                value={product.imageUrl}
-                                placeholder={this.state.product.imageUrl}
-                              />
+                          {/* IMAGE URL */}
+                          <label htmlFor="imageUrl">
+                            Image Url:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <input
+                            name="imageUrl"
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.product.imageUrl}
+                          />
 
-                              <Button type="submit">Save</Button>
-                              <Button onClick={() => this.onCloseEditForm()}>
-                                Discard Changes
-                              </Button>
-                            </form>
-                          </Paper>
-                        </ListItem>
-                      </ListItem>
+                          {/* DESCRIPTION */}
+                          <label htmlFor="description">
+                            Description:
+                            {this.props.warningMessage && (
+                              <span>{this.props.warningMessage}</span>
+                            )}
+                          </label>
+                          <input
+                            name="description"
+                            type="text"
+                            onChange={this.handleChange}
+                            value={this.state.product.description}
+                          />
+
+                          <Button type="submit">Save</Button>
+                          <Button onClick={() => this.onCloseEditForm()}>
+                            Discard Changes
+                          </Button>
+                        </form>
+                      </Paper>
                     ) : null}
                   </div>
                 )

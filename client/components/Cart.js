@@ -80,7 +80,7 @@ class Cart extends React.Component {
     return (
       <div className="cartContainer">
         <div className="itemContainer">
-          <h3>MY CART</h3>
+          <h2>MY CART</h2>
           <hr />
           {this.state.items[0] ? (
             <div className="itemCardContainer">
@@ -129,7 +129,7 @@ class Cart extends React.Component {
 
         <div className="summaryContainer">
           <div>
-            <h3>ORDER SUMMARY</h3>
+            <h2>ORDER SUMMARY</h2>
             <hr />
             <div className="summaryInfo">
               {' '}

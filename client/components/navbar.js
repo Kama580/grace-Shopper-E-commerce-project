@@ -89,6 +89,7 @@ export default function Navbar() {
 
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  const [value, setValue] = React.useState(0)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -118,6 +119,10 @@ export default function Navbar() {
     browserHistory.push('/admin')
   }
 
+  const handleTabClick = (event, newValue) => {
+    setValue(newValue)
+  }
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -131,7 +136,7 @@ export default function Navbar() {
     >
       <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
       <MenuItem
-        containerElement={<Link to="/admin" />}
+        containerelement={<Link to="/admin" />}
         onClick={handleDashboard}
       >
         Dashboard
@@ -185,7 +190,7 @@ export default function Navbar() {
         <Toolbar className="nav">
           {/* Brand Name */}
           <h1>
-            <Link to="/home" style={{color: '#FFF'}}>
+            <Link to="/" style={{color: '#FFF'}}>
               always & forever
             </Link>
           </h1>
@@ -205,7 +210,7 @@ export default function Navbar() {
             />
           </div>
 
-          <Tabs>
+          <Tabs value={false} onChange={handleTabClick} centered>
             <Tab label="Dresses" component={Link} to="/products" />
             <Tab label="Shoes" />
             <Tab label="Accessories" />
