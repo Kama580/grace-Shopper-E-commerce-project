@@ -29,23 +29,15 @@ class Routes extends Component {
 
     return (
       <Switch>
-        <Route exact path="/products" component={AllProducts} />
-        <Route path="/login" component={Login} />;
-        <Route path="/signup" component={Signup} />;
-        <Route exact path="/products/:productId" component={SingleProduct} />;
-        <Route exact path="/profiles/:profileId" component={SingleUser} />;
-        <Route
-          exact
-          path="/profiles/:profileId"
-          component={UpdateUserProfile}
-        />;
-        <Route exact path="/profiles" component={CreateUserProfile} />;
-        <Route exact path="/admin" component={AdminHome} />;
-        <Route exact path="/cart/:user" component={Cart} />;
+        {/* Routes placed here are available to all visitors */}
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/products" conponent={AllProducts} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route exact path="/profiles/:profileId" component={SingleUser} />;
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
