@@ -139,6 +139,19 @@ img {
   width: 30%;
 }
 
+.landing-page {
+  align-items: center;
+}
+
+.landing-image {
+  display: block;
+  object-fit: cover;
+  width: 96%;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
 .summaryInfo {
   background-color: rgb(255, 250, 245);
 }

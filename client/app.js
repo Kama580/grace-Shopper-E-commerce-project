@@ -1,12 +1,12 @@
 import React from 'react'
+import {AnimatePresence} from 'framer-motion'
 import {Route, BrowserRouter as Router} from 'react-router-dom'
 import {
   Navbar,
   AllProducts,
   SingleProduct,
   AdminHome,
-  ManageProducts,
-  ManageUsers,
+  LandingPage,
   Cart
 } from './components'
 
@@ -15,12 +15,19 @@ const App = () => {
     <Router>
       <div>
         <Navbar />
-        <main>
-          <Route exact path="/products" component={AllProducts} />
-          <Route exact path="/products/:productId" component={SingleProduct} />
-          <Route exact path="/admin" component={AdminHome} />
-          <Route exact path="/cart" component={Cart} />
-        </main>
+        <AnimatePresence>
+          <main>
+            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/products" component={AllProducts} />
+            <Route
+              exact
+              path="/products/:productId"
+              component={SingleProduct}
+            />
+            <Route exact path="/admin" component={AdminHome} />
+            <Route exact path="/cart" component={Cart} />
+          </main>
+        </AnimatePresence>
       </div>
     </Router>
   )

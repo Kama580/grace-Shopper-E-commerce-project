@@ -190,7 +190,7 @@ export default function Navbar() {
         <Toolbar className="nav">
           {/* Brand Name */}
           <h1>
-            <Link to="/home" style={{color: '#FFF'}}>
+            <Link to="/" style={{color: '#FFF'}}>
               always & forever
             </Link>
           </h1>

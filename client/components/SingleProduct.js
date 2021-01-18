@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct'
 import {addToCart, addLocalStorage} from '../store/cart'
 import {Paper} from '@material-ui/core'
+import {motion} from 'framer-motion'
 
 class SingleProduct extends React.Component {
   constructor(props) {
@@ -39,9 +40,15 @@ class SingleProduct extends React.Component {
 
     return (
       <div className="product-container">
-        <div className="product-image">
+        <motion.div
+          className="product-image"
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          exit={{opacity: 0}}
+          transition={{duration: 1}}
+        >
           <img src={product.imageUrl} />
-        </div>
+        </motion.div>
 
         <div className="product-card">
           <Paper>
@@ -50,6 +57,7 @@ class SingleProduct extends React.Component {
                 <h2>{product.name}</h2>
                 <p>${product.price}</p>
               </div>
+              <hr />
               <div className="colors">
                 <p>Color: {product.color}</p>
               </div>
@@ -74,7 +82,6 @@ class SingleProduct extends React.Component {
 }
 
 const mapState = state => {
-  console.log('State:', state)
   return {
     singleProduct: state.singleProduct,
     user: state.user
