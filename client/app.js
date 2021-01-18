@@ -7,6 +7,7 @@ import {
   SingleProduct,
   AdminHome,
   LandingPage,
+  SingleUser,
   Checkout,
   Cart
 } from './components'
@@ -26,6 +27,7 @@ const App = () => {
               component={SingleProduct}
             />
             <Route exact path="/admin" component={AdminHome} />
+            <Route exact path="/profiles/:profileId" component={SingleUser} />;
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/cart/checkout" component={Checkout} />
           </main>
