@@ -10,6 +10,7 @@ const REMOVE_USER = 'REMOVE_USER'
 /**
  * INITIAL STATE
  */
+// const defaultUser = {}
 const defaultUser = {
   id: 6,
   email: 'sichii@gmail.com',

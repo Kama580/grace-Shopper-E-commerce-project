@@ -56,6 +56,13 @@ img {
   font-weight: 900;
 }
 
+.formContainer button {
+  margin-top: 15px;
+  background-color: rgb(207, 142, 133);
+  color: whitesmoke;
+  line-height: 30px;
+}
+
 /* .nav {
   background-color: rgb(240, 216, 216);
   display: flex;
