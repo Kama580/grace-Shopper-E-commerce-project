@@ -2,9 +2,6 @@ const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-// have model workin
-//create routes
-//check out
 const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
@@ -13,63 +10,22 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
+    // Making `.password` act like a func hides it when serializing to JSON.
+    // This is a hack to get around Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('password')
     }
   },
-  isAdmin: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
-  },
-  firstName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  lastName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  billingAddress: {
-    //may need its own table
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  shippingAddress: {
-    type: Sequelize.STRING
-  },
   salt: {
     type: Sequelize.STRING,
+    // Making `.salt` act like a function hides it when serializing to JSON.
+    // This is a hack to get around Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('salt')
     }
   },
-  phone: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
-  },
-  size: {
+  googleId: {
     type: Sequelize.STRING
-  },
-  weddingDate: {
-    type: Sequelize.DATEONLY
-  },
-  fullName: {
-    type: Sequelize.VIRTUAL,
-    get() {
-      return (
-        this.getDataValue('firstName') + ' ' + this.getDataValue('lastName')
-      )
-    }
   }
 })
 
@@ -106,12 +62,6 @@ const setSaltAndPassword = user => {
     user.password = User.encryptPassword(user.password(), user.salt())
   }
 }
-User.beforeSave(user => {
-  if (!user.shippingAddress) {
-    user.shippingAddress = user.billingAddress
-  }
-})
-//validation for phone num
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)

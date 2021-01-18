@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const {User, Order} = require('../db/models')
+const {User, Order, Profile} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
-      attributes: ['id', 'email', 'firstName', 'lastName']
+      attributes: ['id', 'email']
     })
     res.json(users)
   } catch (err) {
@@ -17,7 +17,7 @@ router.get('/:userId', async (req, res, next) => {
     const id = req.params.userId
     if (isNaN(id)) res.status(400).send()
     const myUser = await User.findByPk(id, {
-      include: [{model: Order}]
+      include: [{model: Order}, {model: Profile}]
     })
     if (!myUser) res.status(400).send()
     res.status(200).send(myUser)

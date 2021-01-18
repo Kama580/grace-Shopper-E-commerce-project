@@ -5,8 +5,6 @@ export class CreateUserProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
       firstName: '',
       lastName: '',
       billingAddress: '',
@@ -28,32 +26,22 @@ export class CreateUserProfile extends React.Component {
 
   async handleSubmit() {
     event.preventDefault()
-    const res = await axios.post(`/api/users`, {
+    const res = await axios.post(`/api/profiles`, {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       billingAddress: this.state.billingAddress,
       shippingAddress: this.state.shippingAddress,
       phone: this.state.phone,
       size: this.state.size,
-      email: this.state.email,
-      password: this.state.password,
       wddingDate: this.state.wddingDate
     })
     const id = res.data.id
-    this.props.history.push(`/users/${id}`)
+    this.props.history.push(`/profiles/${id}`)
   }
   myForm() {
     console.log('this is props', this.props)
     return (
       <form onSubmit={this.handleSubmit}>
-        <label htmlFor="email" value={this.state.email}>
-          Email
-        </label>
-        <input type="text" name="email" onChange={this.handleChange} />
-        <label htmlFor="password" value={this.state.password}>
-          Password
-        </label>
-        <input type="text" name="password" onChange={this.handleChange} />
         <label htmlFor="firstName" value={this.state.firstName}>
           First Name
         </label>

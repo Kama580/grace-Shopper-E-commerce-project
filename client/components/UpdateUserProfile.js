@@ -5,8 +5,6 @@ export class UpdateUserProfile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
       firstName: '',
       lastName: '',
       billingAddress: '',
@@ -27,8 +25,6 @@ export class UpdateUserProfile extends React.Component {
       shippingAddress: this.props.Updateuser.shippingAddress,
       phone: this.props.Updateuser.phone,
       size: this.props.Updateuser.size,
-      email: this.props.Updateuser.email,
-      password: this.props.Updateuser.password,
       wddingDate: this.props.Updateuser.wddingDate
     })
   }
@@ -39,25 +35,14 @@ export class UpdateUserProfile extends React.Component {
     })
   }
   handleUpdate() {
-    console.log('this is handle update props', this.props)
-
-    const id = this.props.match.params.userId
+    const id = this.props.Updateuser.id
     this.props.loadupdateUser(id, this.state)
     // this.props.history.push(`/users/${id}`)
   }
 
   render() {
-    console.log('this is props from update', this.props.Updateuser)
     return (
       <form onSubmit={this.handleUpdate}>
-        <label htmlFor="email" value={this.state.email}>
-          Email
-        </label>
-        <input type="text" name="email" onChange={this.handleChange} />
-        <label htmlFor="password" value={this.state.password}>
-          Password
-        </label>
-        <input type="text" name="password" onChange={this.handleChange} />
         <label htmlFor="firstName" value={this.state.firstName}>
           First Name
         </label>

@@ -30,12 +30,16 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/products" component={AllProducts} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/login" component={Login} />;
+        <Route path="/signup" component={Signup} />;
         <Route exact path="/products/:productId" component={SingleProduct} />;
-        <Route exact path="/users/:userId" component={SingleUser} />;
-        <Route exact path="/users/:userId" component={UpdateUserProfile} />;
-        <Route exact path="/users" component={CreateUserProfile} />;
+        <Route exact path="/profiles/:profileId" component={SingleUser} />;
+        <Route
+          exact
+          path="/profiles/:profileId"
+          component={UpdateUserProfile}
+        />;
+        <Route exact path="/profiles" component={CreateUserProfile} />;
         <Route exact path="/admin" component={AdminHome} />;
         <Route exact path="/cart/:user" component={Cart} />;
         {isLoggedIn && (
