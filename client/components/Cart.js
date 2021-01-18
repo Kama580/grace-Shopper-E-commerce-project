@@ -23,7 +23,6 @@ class Cart extends React.Component {
     try {
       await this.props.getProducts()
       //if logged-in user:
-
       if (this.props.user.id) {
         await this.props.getOrder(6)
         this.setState({
@@ -135,7 +134,9 @@ class Cart extends React.Component {
             <div className="summaryInfo">
               {' '}
               <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
-              <button>Checkout</button>
+              <Link to="/cart/checkout">
+                <button>Checkout</button>
+              </Link>
             </div>
           </div>
         </div>

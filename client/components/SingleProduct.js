@@ -24,7 +24,7 @@ class SingleProduct extends React.Component {
       console.log(this)
       if (this.props.user.id) {
         await this.props.addToCart(
-          this.props.use.id,
+          this.props.user.id,
           this.props.singleProduct.id
         )
       } else {
@@ -91,7 +91,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadSingleProduct: id => dispatch(fetchSingleProduct(id)),
-    addItem: (userId, productId) => dispatch(addToCart(userId, productId)),
+    addToCart: (userId, productId) => dispatch(addToCart(userId, productId)),
     addLocalStorage: id => dispatch(addLocalStorage(id))
   }
 }

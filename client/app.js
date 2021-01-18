@@ -7,6 +7,7 @@ import {
   SingleProduct,
   AdminHome,
   LandingPage,
+  Checkout,
   Cart
 } from './components'
 
@@ -26,6 +27,7 @@ const App = () => {
             />
             <Route exact path="/admin" component={AdminHome} />
             <Route exact path="/cart" component={Cart} />
+            <Route exact path="/cart/checkout" component={Checkout} />
           </main>
         </AnimatePresence>
       </div>
