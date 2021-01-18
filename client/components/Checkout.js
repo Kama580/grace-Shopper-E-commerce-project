@@ -85,33 +85,33 @@ class Checkout extends React.Component {
                   value={this.props.user.lastName || ''}
                 />
               </div>
-              <label htmlFor="streetAddress">STREET ADDRESS</label>
+              <label htmlFor="sAddress">STREET ADDRESS</label>
               <input
                 type="text"
-                name="streetAddress"
+                name="sAddress"
                 onChange={this.handleChange}
-                value={this.props.user.streetAddress || ''}
+                value={this.props.user.sAddress || ''}
               />
-              <label htmlFor="city">CITY</label>
+              <label htmlFor="sCity">CITY</label>
               <input
                 type="text"
-                name="city"
+                name="sCity"
                 onChange={this.handleChange}
-                value={this.props.user.city || ''}
+                value={this.props.user.sCity || ''}
               />
-              <label htmlFor="state">STATE</label>
+              <label htmlFor="sState">STATE</label>
               <input
                 type="text"
-                name="state"
+                name="sState"
                 onChange={this.handleChange}
-                value={this.props.user.state || ''}
+                value={this.props.user.sState || ''}
               />
-              <label htmlFor="zip">ZIP CODE</label>
+              <label htmlFor="sZipCode">ZIP CODE</label>
               <input
                 type="text"
-                name="zip"
+                name="sZipCode"
                 onChange={this.handleChange}
-                value={this.props.user.zip || ''}
+                value={this.props.user.sZipCode || ''}
               />
               <label htmlFor="country">COUNTRY</label>
               <input

@@ -9,7 +9,28 @@ const Order = db.define('order', {
   total_qty: {
     type: Sequelize.INTEGER
   },
-  shipping_address: {
+  email: {
+    type: Sequelize.STRING
+  },
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
+  sAddress: {
+    type: Sequelize.STRING
+  },
+  sCity: {
+    type: Sequelize.STRING
+  },
+  sState: {
+    type: Sequelize.STRING
+  },
+  sZipCode: {
+    type: Sequelize.STRING
+  },
+  country: {
     type: Sequelize.STRING
   },
   date: {
