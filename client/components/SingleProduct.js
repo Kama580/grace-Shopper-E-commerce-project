@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct'
 import {addToCart, addLocalStorage} from '../store/cart'
+import {Paper} from '@material-ui/core'
+import {motion} from 'framer-motion'
 
 class SingleProduct extends React.Component {
   constructor(props) {
@@ -11,7 +13,6 @@ class SingleProduct extends React.Component {
 
   async componentDidMount() {
     try {
-      console.log('PROPS:', this.props)
       await this.props.loadSingleProduct(this.props.match.params.productId)
     } catch (err) {
       console.log(err)
@@ -38,21 +39,42 @@ class SingleProduct extends React.Component {
     const product = this.props.singleProduct
 
     return (
-      <div>
-        <div>
-          <h1>{product.name}</h1>
+      <div className="product-container">
+        <motion.div
+          className="product-image"
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          exit={{opacity: 0}}
+          transition={{duration: 1}}
+        >
           <img src={product.imageUrl} />
-          <p>{product.price}</p>
-          <p>Color: {product.color}</p>
-          <p>Size: {product.size}</p>
-          <p>Quantity: 1</p>
-        </div>
-        <button type="button" onClick={this.addCartHandler}>
-          Add To Cart
-        </button>
-        <div>
-          <h2>Description</h2>
-          <p>{product.description}</p>
+        </motion.div>
+
+        <div className="product-card">
+          <Paper>
+            <div className="product-content">
+              <div className="product-title">
+                <h2>{product.name}</h2>
+                <p>${product.price}</p>
+              </div>
+              <hr />
+              <div className="colors">
+                <p>Color: {product.color}</p>
+              </div>
+
+              <p>Size: {product.size}</p>
+              <p>Quantity: 1</p>
+              <p>{product.description}</p>
+
+              <button
+                className="cart-button"
+                type="button"
+                onClick={this.addCartHandler}
+              >
+                Add To Cart
+              </button>
+            </div>
+          </Paper>
         </div>
       </div>
     )
@@ -60,7 +82,6 @@ class SingleProduct extends React.Component {
 }
 
 const mapState = state => {
-  console.log('State:', state)
   return {
     singleProduct: state.singleProduct,
     user: state.user
