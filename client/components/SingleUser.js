@@ -17,7 +17,7 @@ class SingleUser extends React.Component {
   async componentDidMount() {
     try {
       const profileId = this.props.match.params.profileId
-      console.log('this is profileId', profileId)
+
       await this.props.loadSingleUser(profileId)
     } catch (error) {
       console.log(error)
@@ -38,8 +38,7 @@ class SingleUser extends React.Component {
       <div>
         <div>
           <h2>Customer Profile</h2>
-          <h3> First Name: {profile.firstName}</h3>
-          <h3> Last Name: {profile.lastName}</h3>
+          <h3>Customer Name: {profile.fullName}</h3>
           <h4>Dress Size: {profile.size}</h4>
           <h4>Phone Number: {profile.phone}</h4>
           {/* //fix weedding date not showing */}

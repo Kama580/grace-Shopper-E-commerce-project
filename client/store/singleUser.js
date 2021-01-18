@@ -30,7 +30,6 @@ export const fetchSingleUser = id => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/profiles/${id}`)
-      console.log('this is data', data)
       dispatch(setSingleUser(data))
     } catch (error) {
       console.log(error)
@@ -40,7 +39,6 @@ export const fetchSingleUser = id => {
 }
 
 export const fetchUpdateUser = (id, info) => {
-  console.log('this is profileId form store', id)
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/profiles/${id}`, info)

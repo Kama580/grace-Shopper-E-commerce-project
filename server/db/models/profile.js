@@ -20,19 +20,87 @@ const Profile = db.define('profile', {
       notEmpty: true
     }
   },
-  billingAddress: {
-    //may need its own table
+  bAddress: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: true
     }
   },
-  shippingAddress: {
+  bCity: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  bState: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  country: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  bZipCode: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  billingAddress: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return (
+        this.getDataValue('bAddress') +
+        ' , ' +
+        this.getDataValue('bCity') +
+        ', ' +
+        this.getDataValue('bState') +
+        ', ' +
+        this.getDataValue('country') +
+        ', ' +
+        this.getDataValue('bZipCode')
+      )
+    }
+  },
+  sAddress: {
     type: Sequelize.STRING
   },
+  sCity: {
+    type: Sequelize.STRING
+  },
+  sState: {
+    type: Sequelize.STRING
+  },
+  sZipCode: {
+    type: Sequelize.STRING
+  },
+  shippingAddress: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return (
+        this.getDataValue('sAddress') +
+        ' , ' +
+        this.getDataValue('sCity') +
+        ', ' +
+        this.getDataValue('sState') +
+        ', ' +
+        this.getDataValue('country') +
+        ', ' +
+        this.getDataValue('sZipCode')
+      )
+    }
+  },
   phone: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(13),
     unique: true,
     allowNull: false
   },
@@ -40,7 +108,7 @@ const Profile = db.define('profile', {
     type: Sequelize.STRING
   },
   weddingDate: {
-    type: Sequelize.DATEONLY
+    type: Sequelize.DATE
   },
   fullName: {
     type: Sequelize.VIRTUAL,
@@ -65,9 +133,10 @@ module.exports = Profile
 /**
  * hooks
  */
-Profile.beforeSave(user => {
-  if (!user.shippingAddress) {
-    user.shippingAddress = user.billingAddress
+Profile.beforeSave(profile => {
+  if (!profile.shippingAddress) {
+    profile.shippingAddress = profile.billingAddress
   }
 })
+
 //validation for phone num

@@ -17,8 +17,8 @@ Order.belongsTo(User)
 Product.belongsToMany(Order, {through: ItemOrder})
 Order.belongsToMany(Product, {through: ItemOrder})
 
-Profile.belongsTo(User)
-User.hasOne(Profile)
+User.belongsTo(Profile)
+Profile.hasOne(User)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
