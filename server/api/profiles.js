@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User, Profile} = require('../db/models')
+const {profileValidationRules, validate} = require('./validator.js')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -25,10 +26,11 @@ router.get('/:profileId', async (req, res, next) => {
     next(error)
   }
 })
-router.post('/', async (req, res, next) => {
+router.post('/', profileValidationRules(), validate, async (req, res, next) => {
   try {
     const newProfile = await Profile.create(req.body)
-    res.status(201).send(newProfile)
+    console.log('this is inewProfile', newProfile)
+    res.status(201).json(newProfile)
   } catch (error) {
     next(error)
   }
