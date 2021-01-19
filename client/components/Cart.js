@@ -7,7 +7,8 @@ import {
   fetchLocalStorageData,
   removeItemThunk,
   removeFromLocalStrage,
-  updateQtyThunk
+  updateQtyThunk,
+  editLocalStorage
 } from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
 import {fetchSingleUser} from '../store/singleUser'
@@ -67,7 +68,7 @@ class Cart extends React.Component {
         this.setState({items: this.props.order.products})
         console.log(this.state)
       } else {
-        await this.props.removeFromLocalStrage(productId)
+        this.props.removeFromLocalStrage(productId)
         const itemsIds = Object.keys(this.props.order)
         const items = this.props.products.filter(item => {
           return itemsIds.includes(String(item.id))
@@ -78,6 +79,7 @@ class Cart extends React.Component {
         })
 
         this.setState({items: items})
+        console.log(this.state.items)
       }
     } catch (error) {
       console.log(error)
@@ -85,8 +87,26 @@ class Cart extends React.Component {
   }
 
   async handleChangeQty(itemId, qty) {
-    await this.props.updateQty(this.props.user.id, itemId, {updateQty: qty})
-    this.setState({items: this.props.order.products})
+    try {
+      if (this.props.user.id) {
+        await this.props.updateQty(this.props.user.id, itemId, {updateQty: qty})
+        this.setState({items: this.props.order.products})
+      } else {
+        console.log(itemId, qty)
+        this.props.editLocalStorage(itemId, Number(qty))
+        const itemsIds = Object.keys(this.props.order)
+        const items = this.props.products.filter(item => {
+          return itemsIds.includes(String(item.id))
+        })
+        items.forEach(item => {
+          item.qty = this.props.order[item.id]
+          item.subtotal = item.qty * item.price
+        })
+        this.setState({items: items})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
@@ -186,7 +206,9 @@ const mapDispatch = dispatch => {
     removeFromLocalStrage: productId =>
       dispatch(removeFromLocalStrage(productId)),
     updateQty: (userId, productId, updateObj) =>
-      dispatch(updateQtyThunk(userId, productId, updateObj))
+      dispatch(updateQtyThunk(userId, productId, updateObj)),
+    editLocalStorage: (productId, qty) =>
+      dispatch(editLocalStorage(productId, qty))
   }
 }
 
