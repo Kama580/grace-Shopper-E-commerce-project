@@ -1,25 +1,19 @@
 import React from 'react'
-import {AnimatePresence} from 'framer-motion'
-import {Route, BrowserRouter as Router} from 'react-router-dom'
-import {
-  Navbar,
-  AllProducts,
-  SingleProduct,
-  AdminHome,
-  LandingPage,
-  SingleUser,
-  Checkout,
-  Login,
-  Signup,
-  Cart
-} from './components'
+import {Navbar} from './components'
+import Routes from './routes'
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <Navbar />
-        <AnimatePresence>
+    <div>
+      <Navbar />
+      <Routes />
+    </div>
+  )
+}
+
+export default App
+{
+  /* <AnimatePresence>
           <main>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/products" component={AllProducts} />
@@ -30,15 +24,11 @@ const App = () => {
             />
             <Route exact path="/admin" component={AdminHome} />
             <Route exact path="/profiles/:profileId" component={SingleUser} />
+            <Route path="/profiles" component={CreateUserProfile} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/cart/checkout" component={Checkout} />
           </main>
-        </AnimatePresence>
-      </div>
-    </Router>
-  )
+        </AnimatePresence> */
 }
-
-export default App

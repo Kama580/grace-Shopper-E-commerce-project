@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import {fetchOrder, fetchLocalStorageData} from '../store/cart'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {fade, makeStyles} from '@material-ui/core/styles'
 import {Tabs, Tab, AppBar} from '@material-ui/core'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-// import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase'
 import Badge from '@material-ui/core/Badge'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -15,11 +14,9 @@ import ShoppingBasket from '@material-ui/icons/ShoppingBasket'
 import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
-import {Link} from 'react-router-dom'
 import {createBrowserHistory} from 'history'
 import itemsReducer from '../store/cart'
 
-// *** this is like CSS of Material UI ***
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
@@ -87,41 +84,24 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Navbar(props) {
-  // *** this is importing the CSS above ***
+const Navbar = ({isLoggedIn, handleClick}) => {
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const [value, setValue] = React.useState(0)
-  const navState = useSelector(state => state)
-  const dispatch = useDispatch()
-  // const [cum, setValue] = React.useState(0)
-
-  console.log('This is navState', navState)
-  const getData = async () => {
-    if (navState.user.id) {
-      await dispatch(fetchOrder(navState.user.id))
-    } else {
-      dispatch(fetchLocalStorageData())
-    }
-    console.log('after dispatch', navState)
-  }
-
-  const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget)
+  const handleProfileMenuOpen = () => {
+    {
+      isLoggedIn
+        ? browserHistory.push('/myaccount')
+        : browserHistory.push('/login')
+    }
   }
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null)
-  }
-
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-    handleMobileMenuClose()
   }
 
   const handleMobileMenuOpen = event => {
@@ -130,46 +110,14 @@ export default function Navbar(props) {
 
   const browserHistory = createBrowserHistory({forceRefresh: true})
 
-  const handleDashboard = () => {
-    setAnchorEl(null)
-    handleMobileMenuClose()
-    browserHistory.push('/admin')
-  }
-  const handleLogOut = () => {
-    setAnchorEl(null)
-    handleMobileMenuClose()
-    browserHistory.push('/login')
-  }
-
   const handleTabClick = (event, newValue) => {
     setValue(newValue)
   }
 
   const menuId = 'primary-search-account-menu'
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-      id={menuId}
-      keepMounted
-      transformOrigin={{vertical: 'top', horizontal: 'right'}}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
-      <MenuItem
-        containerelement={<Link to="/admin" />}
-        onClick={handleDashboard}
-      >
-        Dashboard
-      </MenuItem>
-      <MenuItem containerelement={<Link to="/login" />} onClick={handleLogOut}>
-        Log out
-      </MenuItem>
-    </Menu>
-  )
 
   const mobileMenuId = 'primary-search-account-menu-mobile'
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -212,14 +160,13 @@ export default function Navbar(props) {
     <div className={classes.grow}>
       <AppBar position="static" style={{background: '#F0D8D8'}}>
         <Toolbar className="nav">
-          {/* Brand Name */}
+          {/* The navbar will show these links and tools to anyone */}
           <h1>
-            <Link to="/" style={{color: '#FFF'}}>
+            <Link to="/home" style={{color: '#FFF'}}>
               always & forever
             </Link>
           </h1>
 
-          {/* Search Bar */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -236,16 +183,12 @@ export default function Navbar(props) {
 
           <Tabs value={false} onChange={handleTabClick} centered>
             <Tab label="Dresses" component={Link} to="/products" />
-            <Tab label="Shoes" />
-            <Tab label="Accessories" />
+            <Tab label="Shoes" component={Link} to="/shoes" />
+            <Tab label="Accessories" component={Link} to="/accessories" />
           </Tabs>
 
-          <div className={classes.grow}>
-            <div className={classes.sectionDesktop} />
-          </div>
-
-          {/* Shopping Cart */}
           <div className={classes.grow} />
+
           <div className={classes.sectionDesktop}>
             <IconButton
               aria-label="show 6 new mails"
@@ -283,68 +226,24 @@ export default function Navbar(props) {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
     </div>
   )
 }
 
-// import React from 'react'
-// import PropTypes from 'prop-types'
-// import {connect} from 'react-redux'
-// import {Link} from 'react-router-dom'
-// import {logout} from '../store'
+/**
+ * CONTAINER
+ */
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id
+  }
+}
 
-// const Navbar = ({handleClick, isLoggedIn}) => (
-//   <div className="nav">
-//     <h1>
-//       <Link to="/home">always & forever</Link>
-//     </h1>
-//     <div>
-//       <Link to="/products">All Dresses</Link>
-//     </div>
-//     <nav>
-//       {isLoggedIn ? (
-//         <div>
-//           {/* The navbar will show these links after you log in */}
-//           <Link to="/home">Home</Link>
-//           <a href="#" onClick={handleClick}>
-//             Logout
-//           </a>
-//         </div>
-//       ) : (
-//         <div>
-//           {/* The navbar will show these links before you log in */}
-//           <Link to="/login">Login</Link>
-//           <Link to="/signup">Sign Up</Link>
-//         </div>
-//       )}
-//     </nav>
-//   </div>
-// )
+export default connect(mapState)(Navbar)
 
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     handleClick() {
-//       dispatch(logout())
-//     }
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// /**
-//  * PROP TYPES
-//  */
-// Navbar.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }
+/**
+ * PROP TYPES
+ */
+Navbar.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired
+}
