@@ -54,6 +54,7 @@ export class CreateUserProfile extends React.Component {
     this.props.history.push(`/profiles/${id}`)
   }
   myForm() {
+    console.log('this isi props from creat', this.props)
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="firstName" value={this.state.firstName}>

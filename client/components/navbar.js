@@ -91,6 +91,7 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const [value, setValue] = React.useState(0)
+  // const [cum, setValue] = React.useState(0)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -119,6 +120,11 @@ export default function Navbar() {
     handleMobileMenuClose()
     browserHistory.push('/admin')
   }
+  const handleLogOut = () => {
+    setAnchorEl(null)
+    handleMobileMenuClose()
+    browserHistory.push('/login')
+  }
 
   const handleTabClick = (event, newValue) => {
     setValue(newValue)
@@ -142,7 +148,9 @@ export default function Navbar() {
       >
         Dashboard
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+      <MenuItem containerelement={<Link to="/login" />} onClick={handleLogOut}>
+        Log out
+      </MenuItem>
     </Menu>
   )
 
