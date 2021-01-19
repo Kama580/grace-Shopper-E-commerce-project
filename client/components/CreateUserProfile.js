@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react'
 import axios from 'axios'
 
@@ -19,6 +20,20 @@ export class CreateUserProfile extends React.Component {
       phone: '',
       size: '',
       wddingDate: ''
+      // firstNameError: '',
+      // lastNameError: '',
+      // bAddresseError: '',
+      // bCityError: '',
+      // bStateError: '',
+      // bZipCodeError: '',
+      // sAddressError: '',
+      // sCityError: '',
+      // sStateError: '',
+      // sZipCodeError: '',
+      // countryError: '',
+      // phoneError: '',
+      // sizeError: '',
+      // wddingDateError: '',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -30,7 +45,34 @@ export class CreateUserProfile extends React.Component {
       [event.target.name]: event.target.value
     })
   }
-
+  // validate() {
+  //   let firstNameError = ''
+  //   let lastNameError = ''
+  //   let bAddresseError = ''
+  //   let bCityError = ''
+  //   let bStateError = ''
+  //   let bZipCodeError = ''
+  //   let sAddressError = ''
+  //   let sCityError = ''
+  //   let sStateError = ''
+  //   let sZipCodeError = ''
+  //   let countryError = ''
+  //   let phoneError = ''
+  //   let sizeError = ''
+  //   let wddingDateError = ''
+  //   if (!this.state.firstName || !this.state.firstName.isNaN())
+  //     firstNameError = 'First Name cant not include a  number or be blank'
+  //   if (!this.state.lastName || !this.state.lastName.isNaN())
+  //     lastNameError = 'Last  Name cannot be blank or include a number'
+  //   if (!this.state.bAddress)
+  //     bAddresseError = 'billing Addresse cannot be blank'
+  //   if (!this.state.bCity || !this.state.bCity.isNaN())
+  //     bCityError = 'billing CityAddresse cannot be blank or include a number'
+  //   if (!this.state.bCity || !this.state.bCity.isNaN())
+  //     bStateError = 'billing State Addresse cannot be blank or include a number'
+  //   if (!this.state.bZipCode || this.state.bCity.isNaN())
+  //     bStateError = 'billing State Addresse cannot be blank or include a number'
+  // }
   async handleSubmit(event) {
     event.preventDefault()
     console.log('this is state', this.state)
@@ -54,7 +96,6 @@ export class CreateUserProfile extends React.Component {
     this.props.history.push(`/profiles/${id}`)
   }
   myForm() {
-    console.log('this isi props from creat', this.props)
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="firstName" value={this.state.firstName}>
