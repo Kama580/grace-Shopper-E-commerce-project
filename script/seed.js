@@ -9,6 +9,7 @@ const {
   ItemOrder,
   Profile
 } = require('../server/db/models')
+const {Pending} = require('../server/db/models/constant.js')
 
 const products = [
   {
@@ -239,10 +240,10 @@ const userOrders = [
   }
 ]
 
-const itemsForOrder1 = {item_subtotal: 100000, qty: 1}
-const itemsForOrder2 = {item_subtotal: 320000, qty: 2}
-const itemsForOrder3 = {item_subtotal: 100, qty: 1}
-const itemsForOrder4 = {item_subtotal: 10005400, qty: 1}
+const itemsForOrder1 = {subtotal: 100000, qty: 1}
+const itemsForOrder2 = {subtotal: 320000, qty: 2}
+const itemsForOrder3 = {subtotal: 100, qty: 1}
+const itemsForOrder4 = {subtotal: 10005400, qty: 1}
 
 async function seed() {
   await db.sync({force: true})
@@ -285,17 +286,20 @@ async function seed() {
     })
   )
 
-  const anOrder = await Order.findOne({where: {id: 2}})
+  const anOrder = await Order.findOne({where: {status: Pending}})
 
   const dressesForItemOrder1 = await Product.findOne({where: {id: 1}})
   const dressesForItemOrder2 = await Product.findOne({where: {id: 2}})
   const dressesForItemOrder3 = await Product.findOne({where: {id: 3}})
-
-  await anOrder.setProducts([
-    dressesForItemOrder1,
-    dressesForItemOrder2,
-    dressesForItemOrder3
-  ])
+  await anOrder.addProduct(dressesForItemOrder1, {
+    through: {qty: 1, subtotal: dressesForItemOrder1.price}
+  })
+  await anOrder.addProduct(dressesForItemOrder2, {
+    through: {qty: 1, subtotal: dressesForItemOrder2.price}
+  })
+  await anOrder.addProduct(dressesForItemOrder3, {
+    through: {qty: 1, subtotal: dressesForItemOrder3.price}
+  })
 
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${users.length} users`)
