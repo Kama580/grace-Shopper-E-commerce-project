@@ -10,6 +10,7 @@ router.get('/:user', async (req, res, next) => {
       where: {userId: req.params.user, status: Pending},
       include: {model: Product}
     })
+    console.log(cart)
     res.json(cart)
   } catch (error) {
     next(error)
@@ -43,11 +44,17 @@ router.put('/:userId/:productId', async (req, res, next) => {
       const item = await ItemOrder.findOne({
         where: {productId: productId, orderId: cart.id}
       })
+      const pricePerOne = await Product.findOne({where: {id: productId}})
       if (item) {
         const updatedQty = item.qty + 1
-        await item.update({qty: updatedQty})
+        const updatedPrice = updatedQty * pricePerOne.price
+        await item.update({qty: updatedQty, subtotal: updatedPrice})
       } else {
         await cart.addProduct(productId)
+        const newItemInCart = await ItemOrder.findOne({
+          where: {productId: productId, orderId: cart.id}
+        })
+        await newItemInCart.update({qty: 1, subtotal: pricePerOne})
       }
       const updatedItems = await ItemOrder.findAll({where: {orderId: cart.id}})
 
@@ -63,13 +70,11 @@ router.put('/:userId/:productId', async (req, res, next) => {
       const item = await ItemOrder.findOne({
         where: {productId: productId, orderId: cart.id}
       })
-      console.log(typeof item.qty)
-      console.log(typeof req.body.updateQty)
+      const product = await Product.findOne({where: {id: productId}})
       item.qty = Number(req.body.updateQty)
+      item.subtotal = item.qty * product.price
+      console.log('here!!!!')
       await item.save()
-      // const updatedItems = await ItemOrder.findAll({where: {orderId: cart.id}})
-      //await cart.reload()
-      //console.log(item)
       res.json(item)
     }
   } catch (error) {

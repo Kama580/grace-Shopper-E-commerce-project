@@ -29,11 +29,9 @@ class Cart extends React.Component {
       //console.log(this.props.singleUser)
       if (this.props.user.id) {
         //console.log('inside logged in condition')
-        await this.props.getOrder(6)
+        await this.props.getOrder(this.props.user.id)
         this.setState({
-          items: this.props.order.products,
-          totalPrice: this.props.order.total_price,
-          totalItems: this.props.order.total_qty
+          items: this.props.order.products
         })
       } else {
         // if guest
@@ -52,6 +50,12 @@ class Cart extends React.Component {
 
         this.setState({items: items})
       }
+      const totalItems = this.state.items.length
+      // const totalPrice = this.state.items.reduce((acc, curr) => {
+      //   acc + curr.itemOrder.subtotal
+      // }, 0)
+      console.log('total items:', totalItems)
+      console.log('total price:', totalPrice)
     } catch (error) {
       console.log(error)
     }
@@ -105,12 +109,10 @@ class Cart extends React.Component {
                       <p>{`Color: ${item.color}`}</p>
                       <p>{`Size: ${item.size}`}</p>
                       <p>{`Price: $${item.price / 100}`}</p>
-                      <p>{`Quantity: ${item.qty ||
-                        item.itemOrder.qty ||
-                        1}`}</p>
-                      <p>{`Subtotal: $${item.subtotal / 100 ||
-                        item.itemOrder.item_subtotal / 100}`}</p>
-                      <label htmlFor="qty">Change Amount:</label>
+                      {/* <p>{`Quantity: ${
+                        item.qty || item.itemOrder.qty || 1
+                      }`}</p> */}
+                      <label htmlFor="qty">Quantity:</label>
                       <select
                         value={item.itemOrder.qty}
                         onChange={event => {
@@ -125,6 +127,9 @@ class Cart extends React.Component {
                           )
                         })}
                       </select>
+                      <p>{`Subtotal: $${item.subtotal / 100 ||
+                        item.itemOrder.subtotal / 100}`}</p>
+
                       <button
                         onClick={() => {
                           this.handleDeleteItem(item.id)
