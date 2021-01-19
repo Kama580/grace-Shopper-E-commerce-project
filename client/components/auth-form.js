@@ -6,8 +6,10 @@ import {auth} from '../store'
 /**
  * COMPONENT
  */
+
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, reroute, reroutePath} = props
+
 
   return (
     <div>
