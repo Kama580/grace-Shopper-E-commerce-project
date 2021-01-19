@@ -90,6 +90,7 @@ class Cart extends React.Component {
   }
 
   render() {
+    console.log('STATE ITEM', this.state.items)
     return (
       <div className="cartContainer">
         <div className="itemContainer">
@@ -113,7 +114,7 @@ class Cart extends React.Component {
                       }`}</p> */}
                       <label htmlFor="qty">Quantity:</label>
                       <select
-                        value={item.itemOrder.qty}
+                        value={item.qty || item.itemOrder.qty || 1}
                         onChange={event => {
                           this.handleChangeQty(item.id, event.target.value)
                         }}
