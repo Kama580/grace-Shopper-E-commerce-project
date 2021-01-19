@@ -82,7 +82,9 @@ class Checkout extends React.Component {
     return (
       <div>
         {this.state.submit ? (
-          <div>Thank you for shopping with us!</div>
+          <div>
+            <h3>Thank you for shopping with us!</h3>
+          </div>
         ) : (
           <div className="cartContainer">
             <div className="itemContainer">
