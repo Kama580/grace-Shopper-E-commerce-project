@@ -5,6 +5,7 @@ const SET_ITEMS = 'SET_ITEMS'
 const REMOVE_ITEM = 'REMOVE_ITEM'
 const ADD_ITEM = 'ADD_ITEM'
 const ADD_GUEST_ITEM = 'ADD_GUEST_ITEM'
+const UPDATE_QTY = 'UPDATE_QTY'
 
 export const setItems = items => {
   return {
@@ -13,7 +14,6 @@ export const setItems = items => {
   }
 }
 
-// For later
 export const removeItems = removedItem => {
   return {type: REMOVE_ITEM, removedItem}
 }
@@ -24,6 +24,10 @@ export const addItem = addedItem => {
 
 export const addGuestItem = data => {
   return {type: ADD_GUEST_ITEM, data}
+}
+
+export const updateQty = updatedItem => {
+  return {type: UPDATE_QTY, updatedItem}
 }
 
 export const fetchOrder = id => {
@@ -138,6 +142,21 @@ export const checkoutGuest = orderData => {
   }
 }
 
+export const updateQtyThunk = (userId, productId, updateObj) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(
+        `/api/cart/${userId}/${productId}?action=updateQty`,
+        updateObj
+      )
+      //console.log(data)
+      dispatch(updateQty(data))
+    } catch (error) {
+      console.log('Error in updateQtyThunk', error)
+    }
+  }
+}
+
 export default function itemsReducer(state = {}, action) {
   switch (action.type) {
     case SET_ITEMS:
@@ -153,6 +172,13 @@ export default function itemsReducer(state = {}, action) {
           return product.id !== action.removedItem.id
         })
       }
+    case UPDATE_QTY:
+      const index = state.products.findIndex(
+        product => product.itemOrder.productId === action.updatedItem.productId
+      )
+      const newStateProducts = [...state.products]
+      newStateProducts[index].itemOrder = action.updatedItem
+      return {...state, products: newStateProducts}
     default:
       return state
   }

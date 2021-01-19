@@ -10,6 +10,7 @@ router.get('/:user', async (req, res, next) => {
       where: {userId: req.params.user, status: Pending},
       include: {model: Product}
     })
+    console.log(cart)
     res.json(cart)
   } catch (error) {
     next(error)
@@ -37,37 +38,47 @@ router.put('/:userId/:productId', async (req, res, next) => {
     const action = req.query.action
     const userId = req.params.userId
     const productId = Number(req.params.productId)
-
+    const cart = await Order.findOne({
+      where: {userId: userId, status: Pending},
+      include: {model: Product}
+    })
     // for add cart
     if (action === 'add') {
-      const order = await Order.findOne({
-        where: {userId: userId, status: Pending},
-        include: {model: Product}
-      })
       const item = await ItemOrder.findOne({
-        where: {productId: productId, orderId: order.id}
+        where: {productId: productId, orderId: cart.id}
       })
+      const pricePerOne = await Product.findOne({where: {id: productId}})
       if (item) {
         const updatedQty = item.qty + 1
-        await item.update({qty: updatedQty})
+        const updatedPrice = updatedQty * pricePerOne.price
+        await item.update({qty: updatedQty, subtotal: updatedPrice})
       } else {
-        await order.addProduct(productId)
+        await cart.addProduct(productId)
+        const newItemInCart = await ItemOrder.findOne({
+          where: {productId: productId, orderId: cart.id}
+        })
+        await newItemInCart.update({qty: 1, subtotal: pricePerOne})
       }
-      const updatedItems = await ItemOrder.findAll({where: {orderId: order.id}})
+      const updatedItems = await ItemOrder.findAll({where: {orderId: cart.id}})
 
       res.send(updatedItems)
       //for delete item from cart
     } else if (action === 'remove') {
-      const cart = await Order.findOne({
-        where: {userId: userId, status: Pending},
-        include: {model: Product}
-      })
       cart.removeProducts(productId)
       const removedItem = await Product.findByPk(productId)
       res.json(removedItem)
       //for edit cart
-    } else {
+    } else if (action === 'updateQty') {
       //edit qty code here
+      const item = await ItemOrder.findOne({
+        where: {productId: productId, orderId: cart.id}
+      })
+      const product = await Product.findOne({where: {id: productId}})
+      item.qty = Number(req.body.updateQty)
+      item.subtotal = item.qty * product.price
+      console.log('here!!!!')
+      await item.save()
+      res.json(item)
     }
   } catch (error) {
     next(error)
