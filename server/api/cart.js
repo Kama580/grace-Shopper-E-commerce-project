@@ -19,9 +19,12 @@ router.get('/:user', async (req, res, next) => {
 router.put('/order/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId)
+    console.log(req.body)
+
     if (order) {
       await order.update(req.body)
-      const newOrder = await Order.create({userId: order.userId})
+      const newOrder = await Order.create()
+      newOrder.setUser(order.userId)
       res.json(newOrder)
     }
   } catch (error) {
@@ -73,7 +76,20 @@ router.put('/:userId/:productId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const guestOrder = await Order.create(req.body)
+    console.log('REQ BODY in ROUTE ', req.body)
+    const guestOrder = await Order.create(req.body.order)
+    const itemObj = req.body.item
+    Object.keys(itemObj).map(async item => {
+      const product = await Product.findByPk(item)
+      console.log(product)
+      await ItemOrder.create({
+        productId: item,
+        orderId: guestOrder.id,
+        qty: itemObj[item],
+        item_subtotal: product.price * itemObj[item]
+      })
+    })
+    res.json(guestOrder)
   } catch (error) {
     next(error)
   }

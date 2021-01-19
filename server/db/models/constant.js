@@ -1,6 +1,6 @@
 const Shipped = 'Shipped'
 const Delivered = 'Delivered'
-const Comfirmed = 'Comfirmed'
+const Confirmed = 'Confirmed'
 const Canceled = 'Canceled'
 const Pending = 'Pending'
 const Mermaid = 'Mermaid'
@@ -16,7 +16,7 @@ const White = 'White'
 module.exports = {
   Shipped,
   Delivered,
-  Comfirmed,
+  Confirmed,
   Canceled,
   Pending,
   Mermaid,
