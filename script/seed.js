@@ -2,7 +2,13 @@
 
 const {create} = require('react-test-renderer')
 const db = require('../server/db')
-const {User, Product, Order, ItemOrder} = require('../server/db/models')
+const {
+  User,
+  Product,
+  Order,
+  ItemOrder,
+  Profile
+} = require('../server/db/models')
 
 const products = [
   {
@@ -95,16 +101,19 @@ const products = [
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train.'
   }
 ]
-
-const users = [
+const profiles = [
   {
     firstName: 'Halle',
     lastName: 'Berry',
-    email: 'hberry@email.com',
-    password: 'hbpassword',
     isAdmin: 'false',
-    billingAddress: '123 Berry Rd, New York, NY, 10001',
-    shippingAddress: '123 Berry Rd, New York, NY, 10001',
+    bAddress: '123 Berry Rd',
+    bCity: 'New York',
+    bState: 'NY',
+    bZipCode: '10001',
+    sAddress: '123 Berry Rd',
+    sCity: 'New York',
+    sState: 'NY',
+    sZipCode: '10001',
     country: 'United States',
     phone: '123-456-7891',
     size: '6',
@@ -113,11 +122,15 @@ const users = [
   {
     firstName: 'Rebel',
     lastName: 'Wilson',
-    email: 'rwilson@email.com',
-    password: 'rwpassword',
     isAdmin: 'false',
-    billingAddress: '456 Wilson Rd, Brooklyn, NY, 12345',
-    shippingAddress: '789 Another Rd, Queens, NY, 1234',
+    bAddress: '456 Wilson Rd',
+    bCity: 'Brooklyn',
+    bState: 'NY',
+    bZipCode: '12345',
+    sAddress: '789 Another Rd',
+    sCity: 'Queens',
+    sState: 'NY',
+    sZipCode: ' 1234',
     country: 'United States',
     phone: '123-321-1234',
     size: '18',
@@ -126,11 +139,15 @@ const users = [
   {
     firstName: 'Lucy',
     lastName: 'Liu',
-    email: 'lliu@email.com',
-    password: 'llpassword',
     isAdmin: 'false',
-    billingAddress: '789 Liu Rd, Los Angeles, CA, 90210',
-    shippingAddress: '789 Liu Rd, Los Angeles, CA, 90210',
+    bAddress: '789 Liu Rd',
+    bCity: ' Los Angeles',
+    bState: 'NY',
+    bZipCode: '12345',
+    sAddress: '7789 Liu Rd',
+    sCity: ' Los Angeles',
+    sState: 'CA',
+    sZipCode: '90210',
     country: 'United States',
     phone: '100-100-1000',
     size: '4',
@@ -139,11 +156,15 @@ const users = [
   {
     firstName: 'Rachel',
     lastName: 'Stack',
-    email: 'rstack@email.com',
-    password: 'rspassword',
     isAdmin: 'true',
-    billingAddress: '132 Boston road, Boston, MA, 1456',
-    shippingAddress: '',
+    bAddress: '132 Boston road',
+    bCity: 'Boston',
+    bState: ' MA',
+    bZipCode: '1456',
+    sAddress: '',
+    sCity: '',
+    sState: '',
+    sZipCode: '',
     country: 'United States',
     phone: '345-555-7890',
     size: '2',
@@ -152,13 +173,40 @@ const users = [
   {
     firstName: 'Cody',
     lastName: 'Pug',
-    email: 'cpug@email.com',
-    password: 'cppassword',
-    billingAddress: '2020 dog road, New York City, NY, 10101',
-    shippingAddress: '2020  No catsallowed street, New York City, NY, 10111',
+    bAddress: '2020 dog road',
+    bCity: 'Chicago',
+    bState: ' IL',
+    bZipCode: '606',
+    sAddress: '2020 dog road',
+    sCity: 'Chicago',
+    sState: 'IL',
+    sZipCode: '6060',
+    country: 'United States',
     phone: '123-456-7890',
     size: '18',
     weddingDate: '02/04/2028'
+  }
+]
+const users = [
+  {
+    email: 'hberry@email.com',
+    password: 'hbpassword'
+  },
+  {
+    email: 'rwilson@email.com',
+    password: 'rwpassword'
+  },
+  {
+    email: 'lliu@email.com',
+    password: 'llpassword'
+  },
+  {
+    email: 'rstack@email.com',
+    password: 'rspassword'
+  },
+  {
+    email: 'cpug@email.com',
+    password: 'cppassword'
   }
 ]
 
@@ -214,6 +262,12 @@ async function seed() {
   await Promise.all(
     users.map(user => {
       return User.create(user)
+    })
+  )
+
+  await Promise.all(
+    profiles.map(profile => {
+      return Profile.create(profile)
     })
   )
 

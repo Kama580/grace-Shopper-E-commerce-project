@@ -16,7 +16,8 @@ const Order = db.define('order', {
     type: Sequelize.DATE
   },
   status: {
-    type: Sequelize.ENUM(Shipped, Delivered, Comfirmed, Canceled, Pending)
+    type: Sequelize.ENUM(Shipped, Delivered, Comfirmed, Canceled, Pending),
+    defaultValue: Pending
   }
 })
 

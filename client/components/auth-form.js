@@ -25,54 +25,6 @@ const AuthForm = props => {
           <input name="password" type="password" />
         </div>
         <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input name="firstName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input name="lastName" type="text" />
-        </div>
-        <div>
-          <label htmlFor="billingAddress">
-            <small>Billing Address</small>
-          </label>
-          <input name="billingAddress" type="text" />
-        </div>
-        <div>
-          <label htmlFor="shippingAddress">
-            <small>Shipping Address</small>
-          </label>
-          <input name="shippingAddress" type="text" />
-        </div>
-        <div>
-          <label htmlFor="country">
-            <small>Country</small>
-          </label>
-          <input name="country" type="text" />
-        </div>
-        <div>
-          <label htmlFor="phone">
-            <small>Phone Number</small>
-          </label>
-          <input name="phone" type="text" />
-        </div>
-        <div>
-          <label htmlFor="size">
-            <small>Dress Size</small>
-          </label>
-          <input name="size" type="text" />
-        </div>
-        <div>
-          <label htmlFor="wddingDate">
-            <small>Wedding Date</small>
-          </label>
-          <input name="weddingDate" type="text" />
-        </div>
-        <div>
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
@@ -106,6 +58,7 @@ const mapSignup = state => {
 }
 
 const mapDispatch = dispatch => {
+  // console.log('this is iprops', props)
   return {
     handleSubmit(evt) {
       evt.preventDefault()

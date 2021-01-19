@@ -7,8 +7,11 @@ import {
   SingleProduct,
   AdminHome,
   LandingPage,
-  Cart,
-  SignInSignUp
+  SingleUser,
+  Checkout,
+  Login,
+  Signup,
+  Cart
 } from './components'
 
 const App = () => {
@@ -26,8 +29,11 @@ const App = () => {
               component={SingleProduct}
             />
             <Route exact path="/admin" component={AdminHome} />
+            <Route exact path="/profiles/:profileId" component={SingleUser} />;
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
             <Route exact path="/cart" component={Cart} />
-            <Route exact path="/signin" component={SignInSignUp} />
+            <Route exact path="/cart/checkout" component={Checkout} />
           </main>
         </AnimatePresence>
       </div>

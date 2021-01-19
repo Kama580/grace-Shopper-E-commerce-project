@@ -10,7 +10,19 @@ const REMOVE_USER = 'REMOVE_USER'
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+// const defaultUser = {}
+const defaultUser = {
+  id: 6,
+  email: 'sichii@gmail.com',
+  firstName: 'Satomi',
+  lastName: 'Ichii',
+  streetAddress: '100 Woodruff Ave. apt5A',
+  city: 'Brooklyn',
+  state: 'New York',
+  zip: 11226,
+  country: 'United States',
+  phone: '646-318-4835'
+}
 
 /**
  * ACTION CREATORS
@@ -31,6 +43,7 @@ export const me = () => async dispatch => {
 }
 
 export const auth = (email, password, method) => async dispatch => {
+  console.log('this is method', method)
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
@@ -40,10 +53,11 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    // history.push('/users')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
+  method === 'login' ? history.push('/products') : history.push('/profiles')
 }
 
 export const logout = () => async dispatch => {
