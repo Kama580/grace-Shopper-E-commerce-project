@@ -262,13 +262,12 @@ async function seed() {
     await profilesToSet[i].setUser(usersToSet[i])
   }
 
-  //create some orders for users 1 and 2
+  //create some orders for user1
   await Promise.all(
     userOrders.map(order => {
       return Order.create(order)
     })
   )
-  //create general pending order
   const allOrders = await Order.findAll()
   const user1 = await User.findByPk(1)
   await Promise.all(
@@ -276,18 +275,14 @@ async function seed() {
       return order.setUser(user1)
     })
   )
-  const user2 = await User.findByPk(2)
-  await Promise.all(
-    allOrders.map(order => {
-      return order.setUser(user2)
-    })
-  )
 
   //add pending order to all other users
   await Order.create(generalPendingOrder)
   await Order.create(generalPendingOrder)
   await Order.create(generalPendingOrder)
+  await Order.create(generalPendingOrder)
 
+  const user2 = await User.findByPk(2)
   const user3 = await User.findByPk(3)
   const user4 = await User.findByPk(4)
   const user5 = await User.findByPk(5)
@@ -295,7 +290,9 @@ async function seed() {
   const anOrder3 = await Order.findByPk(3)
   const anOrder4 = await Order.findByPk(4)
   const anOrder5 = await Order.findByPk(5)
+  const anOrder6 = await Order.findByPk(6)
 
+  await anOrder6.setUser(user2)
   await anOrder3.setUser(user3)
   await anOrder4.setUser(user4)
   await anOrder5.setUser(user5)
