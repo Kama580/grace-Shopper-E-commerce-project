@@ -6,12 +6,12 @@ import {
   fetchOrder,
   fetchLocalStorageData,
   removeItemThunk,
-  removeFromLocalStrage
+  removeFromLocalStrage,
+  updateQtyThunk
 } from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
-import user from '../store/user'
-
-// const guestSample = {1: 2, 6: 7, 5: 1}
+import {fetchSingleUser} from '../store/singleUser'
+import {me} from '../store/user'
 
 class Cart extends React.Component {
   constructor() {
@@ -23,8 +23,12 @@ class Cart extends React.Component {
   async componentDidMount() {
     try {
       await this.props.getProducts()
+      //await this.props.getUser()
+      await this.props.getMe()
       //if logged-in user:
+      //console.log(this.props.singleUser)
       if (this.props.user.id) {
+        //console.log('inside logged in condition')
         await this.props.getOrder(6)
         this.setState({
           items: this.props.order.products,
@@ -53,10 +57,10 @@ class Cart extends React.Component {
     }
   }
 
-  async handleDeleteItem(userId, productId) {
+  async handleDeleteItem(productId) {
     try {
       if (this.props.user.id) {
-        await this.props.removeAnItemThunk(userId, productId)
+        await this.props.removeAnItemThunk(this.props.user.id, productId)
         this.setState({items: this.props.order.products})
         console.log(this.state)
       } else {
@@ -75,6 +79,11 @@ class Cart extends React.Component {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  async handleChangeQty(itemId, qty) {
+    await this.props.updateQty(this.props.user.id, itemId, {updateQty: qty})
+    this.setState({items: this.props.order.products})
   }
 
   render() {
@@ -102,10 +111,15 @@ class Cart extends React.Component {
                       <p>{`Subtotal: $${item.subtotal / 100 ||
                         item.itemOrder.item_subtotal / 100}`}</p>
                       <label htmlFor="qty">Change Amount:</label>
-                      <select name="qty">
+                      <select
+                        value={item.itemOrder.qty}
+                        onChange={event => {
+                          this.handleChangeQty(item.id, event.target.value)
+                        }}
+                      >
                         {[1, 2, 3, 4, 5, 6, 7].map(num => {
                           return (
-                            <option key={num} value="$num">
+                            <option key={num} value={`${num}`}>
                               {num}
                             </option>
                           )
@@ -113,7 +127,7 @@ class Cart extends React.Component {
                       </select>
                       <button
                         onClick={() => {
-                          this.handleDeleteItem(6, item.id)
+                          this.handleDeleteItem(item.id)
                         }}
                       >
                         Remove from cart
@@ -150,7 +164,8 @@ const mapState = state => {
   return {
     order: state.order,
     products: state.products,
-    user: state.user
+    user: state.user,
+    singleUser: state.singleUser
   }
 }
 
@@ -158,11 +173,15 @@ const mapDispatch = dispatch => {
   return {
     getOrder: userId => dispatch(fetchOrder(userId)),
     getProducts: () => dispatch(fetchProducts()),
+    getUser: () => dispatch(fetchSingleUser()),
+    getMe: () => dispatch(me()),
     getLocalStorage: () => dispatch(fetchLocalStorageData()),
     removeAnItemThunk: (userId, productId) =>
       dispatch(removeItemThunk(userId, productId)),
     removeFromLocalStrage: productId =>
-      dispatch(removeFromLocalStrage(productId))
+      dispatch(removeFromLocalStrage(productId)),
+    updateQty: (userId, productId, updateObj) =>
+      dispatch(updateQtyThunk(userId, productId, updateObj))
   }
 }
 
