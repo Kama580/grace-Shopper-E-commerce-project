@@ -66,7 +66,6 @@ class Cart extends React.Component {
       if (this.props.user.id) {
         await this.props.removeAnItemThunk(this.props.user.id, productId)
         this.setState({items: this.props.order.products})
-        console.log(this.state)
       } else {
         this.props.removeFromLocalStrage(productId)
         const itemsIds = Object.keys(this.props.order)
@@ -79,7 +78,6 @@ class Cart extends React.Component {
         })
 
         this.setState({items: items})
-        console.log(this.state.items)
       }
     } catch (error) {
       console.log(error)
@@ -92,7 +90,6 @@ class Cart extends React.Component {
         await this.props.updateQty(this.props.user.id, itemId, {updateQty: qty})
         this.setState({items: this.props.order.products})
       } else {
-        console.log(itemId, qty)
         await this.props.editLocalStorage(itemId, Number(qty))
         const itemsIds = Object.keys(this.props.order)
         const items = this.props.products.filter(item => {
@@ -110,7 +107,6 @@ class Cart extends React.Component {
   }
 
   render() {
-    console.log('STATE ITEM', this.state.items)
     return (
       <div className="cartContainer">
         <div className="itemContainer">
