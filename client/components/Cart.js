@@ -93,7 +93,7 @@ class Cart extends React.Component {
         this.setState({items: this.props.order.products})
       } else {
         console.log(itemId, qty)
-        this.props.editLocalStorage(itemId, Number(qty))
+        await this.props.editLocalStorage(itemId, Number(qty))
         const itemsIds = Object.keys(this.props.order)
         const items = this.props.products.filter(item => {
           return itemsIds.includes(String(item.id))
