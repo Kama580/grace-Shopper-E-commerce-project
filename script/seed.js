@@ -10,6 +10,7 @@ const {
   Profile
 } = require('../server/db/models')
 const {Pending} = require('../server/db/models/constant.js')
+const {Op} = require('sequelize')
 
 const products = [
   {
@@ -106,7 +107,6 @@ const profiles = [
   {
     firstName: 'Halle',
     lastName: 'Berry',
-    isAdmin: 'false',
     bAddress: '123 Berry Rd',
     bCity: 'New York',
     bState: 'NY',
@@ -123,7 +123,6 @@ const profiles = [
   {
     firstName: 'Rebel',
     lastName: 'Wilson',
-    isAdmin: 'false',
     bAddress: '456 Wilson Rd',
     bCity: 'Brooklyn',
     bState: 'NY',
@@ -140,7 +139,6 @@ const profiles = [
   {
     firstName: 'Lucy',
     lastName: 'Liu',
-    isAdmin: 'false',
     bAddress: '789 Liu Rd',
     bCity: ' Los Angeles',
     bState: 'NY',
@@ -157,7 +155,6 @@ const profiles = [
   {
     firstName: 'Rachel',
     lastName: 'Stack',
-    isAdmin: 'true',
     bAddress: '132 Boston road',
     bCity: 'Boston',
     bState: ' MA',
@@ -203,91 +200,108 @@ const users = [
   },
   {
     email: 'rstack@email.com',
-    password: 'rspassword'
+    password: 'rspassword',
+    isAdmin: 'true'
   },
   {
     email: 'cpug@email.com',
-    password: 'cppassword'
+    password: 'cppassword',
+    isAdmin: 'true'
   }
 ]
-
-const userForOrder = {
-  firstName: 'Gal',
-  lastName: 'Gadot',
-  email: 'ggrocks@email.com',
-  password: 'notyourpassword',
-  billingAddress: '11 super st, New York City, NY, 10101',
-  shippingAddress: '23 super st, New York City, NY, 10111',
-  phone: '917-294-1912',
-  size: '0',
-  weddingDate: '02/04/2028'
-}
 
 const userOrders = [
   {
     total_price: 10000,
     total_qty: 5,
-    shipping_address: '1 Pike St',
     date: '2020-12-01',
     status: 'Shipped'
   },
   {
     total_price: 12000,
     total_qty: 1,
-    shipping_address: '224 E 10th',
     date: '2021-01-01',
     status: 'Pending'
   }
 ]
 
-const itemsForOrder1 = {subtotal: 100000, qty: 1}
-const itemsForOrder2 = {subtotal: 320000, qty: 2}
-const itemsForOrder3 = {subtotal: 100, qty: 1}
-const itemsForOrder4 = {subtotal: 10005400, qty: 1}
+const generalPendingOrder = {
+  total_price: 0,
+  total_qty: 0,
+  date: '2021-01-01',
+  status: 'Pending'
+}
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-
-  // const users = await Promise.all([
-  //   User.create({email: 'cody@email.com', password: '123'}),
-  //   User.create({email: 'murphy@email.com', password: '123'})
-  // ])
-
+  //creating all products
   await Promise.all(
     products.map(product => {
       return Product.create(product)
     })
   )
-
+  //creating all users
   await Promise.all(
     users.map(user => {
       return User.create(user)
     })
   )
-
+  //createing all profiles
   await Promise.all(
     profiles.map(profile => {
       return Profile.create(profile)
     })
   )
 
+  //setting profiles to user
+  const usersToSet = await User.findAll()
+  const profilesToSet = await Profile.findAll()
+
+  for (let i = 0; i < usersToSet.length; i++) {
+    await profilesToSet[i].setUser(usersToSet[i])
+  }
+
+  //create some orders for users 1 and 2
   await Promise.all(
     userOrders.map(order => {
       return Order.create(order)
     })
   )
-
+  //create general pending order
   const allOrders = await Order.findAll()
-  const gal = await User.create(userForOrder)
+  const user1 = await User.findByPk(1)
   await Promise.all(
     allOrders.map(order => {
-      return order.setUser(gal)
+      return order.setUser(user1)
+    })
+  )
+  const user2 = await User.findByPk(2)
+  await Promise.all(
+    allOrders.map(order => {
+      return order.setUser(user2)
     })
   )
 
-  const anOrder = await Order.findOne({where: {status: Pending}})
+  //add pending order to all other users
+  await Order.create(generalPendingOrder)
+  await Order.create(generalPendingOrder)
+  await Order.create(generalPendingOrder)
 
+  const user3 = await User.findByPk(3)
+  const user4 = await User.findByPk(4)
+  const user5 = await User.findByPk(5)
+
+  const anOrder3 = await Order.findByPk(3)
+  const anOrder4 = await Order.findByPk(4)
+  const anOrder5 = await Order.findByPk(5)
+
+  await anOrder3.setUser(user3)
+  await anOrder4.setUser(user4)
+  await anOrder5.setUser(user5)
+
+  //set some items to an order
+  const anOrder = await Order.findOne({where: {status: Pending}})
   const dressesForItemOrder1 = await Product.findOne({where: {id: 1}})
   const dressesForItemOrder2 = await Product.findOne({where: {id: 2}})
   const dressesForItemOrder3 = await Product.findOne({where: {id: 3}})
