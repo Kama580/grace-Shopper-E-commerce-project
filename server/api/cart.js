@@ -73,15 +73,17 @@ router.put('/:userId/:productId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('REQ BODY in ROUTE ', req.body)
     const guestOrder = await Order.create(req.body.order)
     const itemObj = req.body.item
     Object.keys(itemObj).map(async item => {
       const product = await Product.findByPk(item)
-      ItemOrder.create({
+      console.log(product)
+      await ItemOrder.create({
         productId: item,
         orderId: guestOrder.id,
-        qty: itemobj[item],
-        item_subtotal: product.price * itemobj[item]
+        qty: itemObj[item],
+        item_subtotal: product.price * itemObj[item]
       })
     })
     res.json(guestOrder)

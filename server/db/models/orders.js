@@ -33,6 +33,9 @@ const Order = db.define('order', {
   country: {
     type: Sequelize.STRING
   },
+  phone: {
+    type: Sequelize.STRING
+  },
   date: {
     type: Sequelize.DATE
   },
