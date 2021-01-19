@@ -17,6 +17,7 @@ class Checkout extends React.Component {
   }
 
   handleChange(event) {
+    console.log(event.target)
     this.setState({
       order: {...this.state.order, [event.target.name]: event.target.value}
     })
@@ -30,7 +31,7 @@ class Checkout extends React.Component {
         await checkoutUser(this.state.order.id, this.state.order)
         this.setState({submit: true})
       } else {
-        await checkoutUser(this.state)
+        await checkoutGuest(this.state)
         this.setState({submit: true})
       }
     } catch (error) {
@@ -65,7 +66,8 @@ class Checkout extends React.Component {
                 type="text"
                 name="email"
                 onChange={this.handleChange}
-                value={this.props.user.email || ''}
+                // value={'test'}
+                // ?this.props.user.email || ''
               />
               <div className="halfField">
                 <label htmlFor="firstName">FIRST NAME</label>

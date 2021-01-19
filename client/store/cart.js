@@ -123,6 +123,7 @@ export const checkoutGuest = orderData => {
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/cart', orderData)
+      window.localStorage.clear()
       dispatch({type: 'default'})
     } catch (error) {
       console.log('Error in checkoutUser thunk', error)
