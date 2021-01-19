@@ -107,7 +107,6 @@ const profiles = [
   {
     firstName: 'Halle',
     lastName: 'Berry',
-    isAdmin: 'false',
     bAddress: '123 Berry Rd',
     bCity: 'New York',
     bState: 'NY',
@@ -124,7 +123,6 @@ const profiles = [
   {
     firstName: 'Rebel',
     lastName: 'Wilson',
-    isAdmin: 'false',
     bAddress: '456 Wilson Rd',
     bCity: 'Brooklyn',
     bState: 'NY',
@@ -141,7 +139,6 @@ const profiles = [
   {
     firstName: 'Lucy',
     lastName: 'Liu',
-    isAdmin: 'false',
     bAddress: '789 Liu Rd',
     bCity: ' Los Angeles',
     bState: 'NY',
@@ -158,7 +155,6 @@ const profiles = [
   {
     firstName: 'Rachel',
     lastName: 'Stack',
-    isAdmin: 'true',
     bAddress: '132 Boston road',
     bCity: 'Boston',
     bState: ' MA',
@@ -204,11 +200,13 @@ const users = [
   },
   {
     email: 'rstack@email.com',
-    password: 'rspassword'
+    password: 'rspassword',
+    isAdmin: 'true'
   },
   {
     email: 'cpug@email.com',
-    password: 'cppassword'
+    password: 'cppassword',
+    isAdmin: 'true'
   }
 ]
 
