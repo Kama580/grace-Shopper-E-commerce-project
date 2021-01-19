@@ -6,7 +6,7 @@ import {
   checkoutUser,
   checkoutGuest
 } from '../store/cart'
-import {Comfirmed} from '../../server/db/models/constant'
+import {Confirmed} from '../../server/db/models/constant'
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Checkout extends React.Component {
         sZipCode: '',
         country: '',
         phone: '',
-        status: Comfirmed
+        status: Confirmed
       },
       submit: false,
       item: {}
@@ -44,8 +44,8 @@ class Checkout extends React.Component {
     console.log('submit')
     try {
       if (this.props.user.id) {
-        console.log('user')
-        await this.props.checkoutUser(this.state.order.id, this.state.order)
+        console.log(this.state.order)
+        await this.props.checkoutUser(this.props.order.id, this.state.order)
         this.setState({submit: true})
       } else {
         console.log('guest')
@@ -63,9 +63,9 @@ class Checkout extends React.Component {
       if (this.props.user.id) {
         const user = this.props.user
         const profile = user.profile
-        await this.props.getOrsder(this.props.user.id)
+        await this.props.getOrder(this.props.user.id)
         this.setState({
-          order: {...profile, email: user.email},
+          order: {...profile, email: user.email, status: Confirmed},
           item: this.props.order.products
         })
         console.log(this.state)

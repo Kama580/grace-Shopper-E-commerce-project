@@ -19,9 +19,12 @@ router.get('/:user', async (req, res, next) => {
 router.put('/order/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId)
+    console.log(req.body)
+
     if (order) {
       await order.update(req.body)
-      const newOrder = await Order.create({userId: order.userId})
+      const newOrder = await Order.create()
+      newOrder.setUser(order.userId)
       res.json(newOrder)
     }
   } catch (error) {

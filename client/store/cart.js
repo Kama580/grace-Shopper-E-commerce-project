@@ -108,10 +108,7 @@ export const removeFromLocalStrage = productId => {
 export const checkoutUser = (orderId, orderData) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(
-        `/api/cart/order/${orderId}`,
-        orderData.shippingData
-      )
+      const {data} = await axios.put(`/api/cart/order/${orderId}`, orderData)
       dispatch(setItems(data))
     } catch (error) {
       console.log('Error in checkoutUser thunk', error)

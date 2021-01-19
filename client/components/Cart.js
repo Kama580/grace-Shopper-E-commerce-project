@@ -25,7 +25,7 @@ class Cart extends React.Component {
       await this.props.getProducts()
       //if logged-in user:
       if (this.props.user.id) {
-        await this.props.getOrder(6)
+        await this.props.getOrder(this.props.user.id)
         this.setState({
           items: this.props.order.products,
           totalPrice: this.props.order.total_price,
