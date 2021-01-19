@@ -38,7 +38,7 @@ export const fetchOrder = id => {
 }
 
 export const fetchLocalStorageData = () => {
-  return async dispatch => {
+  return dispatch => {
     try {
       const data = JSON.parse(window.localStorage.getItem('cart'))
       if (data) {

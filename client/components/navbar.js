@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {fetchOrder, fetchLocalStorageData} from '../store/cart'
 import {fade, makeStyles} from '@material-ui/core/styles'
 import {Tabs, Tab, AppBar} from '@material-ui/core'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -15,6 +17,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import {Link} from 'react-router-dom'
 import {createBrowserHistory} from 'history'
+import itemsReducer from '../store/cart'
 
 // *** this is like CSS of Material UI ***
 const useStyles = makeStyles(theme => ({
@@ -84,14 +87,26 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Navbar() {
+export default function Navbar(props) {
   // *** this is importing the CSS above ***
   const classes = useStyles()
 
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const [value, setValue] = React.useState(0)
+  const navState = useSelector(state => state)
+  const dispatch = useDispatch()
   // const [cum, setValue] = React.useState(0)
+
+  console.log('This is navState', navState)
+  const getData = async () => {
+    if (navState.user.id) {
+      await dispatch(fetchOrder(navState.user.id))
+    } else {
+      dispatch(fetchLocalStorageData())
+    }
+    console.log('after dispatch', navState)
+  }
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -172,7 +187,7 @@ export default function Navbar() {
           component={Link}
           to="/cart"
         >
-          <Badge badgeContent={6} color="secondary">
+          <Badge badgeContent={0} color="secondary">
             <ShoppingBasket />
           </Badge>
         </IconButton>
@@ -238,7 +253,7 @@ export default function Navbar() {
               component={Link}
               to="/cart"
             >
-              <Badge badgeContent={6} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <ShoppingBasket />
               </Badge>
             </IconButton>
