@@ -10,6 +10,7 @@ import {
   SingleUser,
   Checkout,
   Login,
+  CreateUserProfile,
   Signup,
   Cart
 } from './components'
@@ -30,6 +31,7 @@ const App = () => {
             />
             <Route exact path="/admin" component={AdminHome} />
             <Route exact path="/profiles/:profileId" component={SingleUser} />
+            <Route path="/profiles" component={CreateUserProfile} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/cart" component={Cart} />
