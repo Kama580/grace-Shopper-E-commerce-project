@@ -105,6 +105,16 @@ export const removeFromLocalStrage = productId => {
   }
 }
 
+export const editLocalStorage = (productId, qty) => {
+  return dispatch => {
+    let data = JSON.parse(window.localStorage.getItem('cart'))
+    data[productId] = qty
+    window.localStorage.clear()
+    window.localStorage.setItem('cart', JSON.stringify(data))
+    dispatch(setItems(data))
+  }
+}
+
 export const checkoutUser = (orderId, orderData) => {
   return async dispatch => {
     try {
