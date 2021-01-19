@@ -4,16 +4,15 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
+  LandingPage,
   Login,
   Signup,
+  MyAccount,
+  AdminHome,
   AllProducts,
   SingleProduct,
-  SingleUser,
-  CreateUserProfile,
-  UpdateUserProfile,
-  AdminHome,
   Cart,
-  UserHome
+  Checkout
 } from './components'
 import {me} from './store'
 /**
@@ -25,22 +24,36 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, isAdmin} = this.props
 
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/profiles" component={CreateUserProfile} />
-        <Route path="/products" conponent={AllProducts} />
+        <Route exact path="/home" component={LandingPage} />
+        <Route exact path="/products" component={AllProducts} />
+        <Route exact path="/products/:productId" component={SingleProduct} />
+        <Route exact path="/cart" component={Cart} />
+        <Route exact path="/cart/checkout" component={Checkout} />
+        <Route path="/admin" component={AdminHome} />
+
+        {!isLoggedIn && (
+          <Switch>
+            {/* Routes placed here are only available before logging in */}
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        )}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-            <Route exact path="/profiles/:profileId" component={SingleUser} />;
+            <Route path="/myaccount" component={MyAccount} />
           </Switch>
         )}
+        {/* Routes placed here are only available for logged in admins */}
+        {/* {isAdmin && (
+          <Switch>
+          </Switch>
+        )} */}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
@@ -55,7 +68,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.isAdmin
   }
 }
 
@@ -76,5 +90,23 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired
 }
+
+// {/* <Switch>
+//         {/* Routes placed here are available to all visitors */}
+//         <Route path="/login" component={Login} />
+//         <Route path="/signup" component={Signup} />
+//         <Route path="/profiles" component={CreateUserProfile} />
+//         <Route path="/products" conponent={AllProducts} />
+//         {isLoggedIn && (
+//           <Switch>
+//             {/* Routes placed here are only available after logging in */}
+//             <Route path="/home" component={UserHome} />
+//             <Route exact path="/profiles/:profileId" component={SingleUser} />;
+//           </Switch>
+//         )}
+//         {/* Displays our Login component as a fallback */}
+//         <Route component={Login} />
+//       </Switch> */}

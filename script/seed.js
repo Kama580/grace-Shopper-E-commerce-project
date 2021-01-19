@@ -203,11 +203,13 @@ const users = [
   },
   {
     email: 'rstack@email.com',
-    password: 'rspassword'
+    password: 'rspassword',
+    isAdmin: 'true'
   },
   {
     email: 'cpug@email.com',
-    password: 'cppassword'
+    password: 'cppassword',
+    isAdmin: 'true'
   }
 ]
 

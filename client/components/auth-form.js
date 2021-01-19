@@ -7,7 +7,7 @@ import {auth} from '../store'
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, displayName, handleSubmit, error, reroute, reroutePath} = props
 
   return (
     <div>
@@ -29,7 +29,9 @@ const AuthForm = props => {
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      {/* <a href="/auth/google">{displayName} with Google</a> */}
+      <a href="/auth/google">{displayName} with Google</a>
+      <hr />
+      <a href={reroutePath}>{reroute}</a>
     </div>
   )
 }
@@ -45,6 +47,8 @@ const mapLogin = state => {
   return {
     name: 'login',
     displayName: 'Login',
+    reroute: 'Create an Account',
+    reroutePath: '/signup',
     error: state.user.error
   }
 }
@@ -53,12 +57,13 @@ const mapSignup = state => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
+    reroute: 'Already have an account?',
+    reroutePath: '/login',
     error: state.user.error
   }
 }
 
 const mapDispatch = dispatch => {
-  // console.log('this is iprops', props)
   return {
     handleSubmit(evt) {
       evt.preventDefault()
