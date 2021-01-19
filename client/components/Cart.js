@@ -28,7 +28,6 @@ class Cart extends React.Component {
       //if logged-in user:
       //console.log(this.props.singleUser)
       if (this.props.user.id) {
-        //console.log('inside logged in condition')
         await this.props.getOrder(this.props.user.id)
         this.setState({
           items: this.props.order.products
@@ -155,7 +154,7 @@ class Cart extends React.Component {
               {' '}
               <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
               <Link to="/cart/checkout">
-                <button>Checkout</button>
+                <button disabled={this.state.items === []}>Checkout</button>
               </Link>
             </div>
           </div>

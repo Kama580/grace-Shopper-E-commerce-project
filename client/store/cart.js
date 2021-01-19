@@ -109,13 +109,20 @@ export const removeFromLocalStrage = productId => {
   }
 }
 
+export const editLocalStorage = (productId, qty) => {
+  return dispatch => {
+    let data = JSON.parse(window.localStorage.getItem('cart'))
+    data[productId] = qty
+    window.localStorage.clear()
+    window.localStorage.setItem('cart', JSON.stringify(data))
+    dispatch(setItems(data))
+  }
+}
+
 export const checkoutUser = (orderId, orderData) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(
-        `/api/cart/order/${orderId}`,
-        orderData.shippingData
-      )
+      const {data} = await axios.put(`/api/cart/order/${orderId}`, orderData)
       dispatch(setItems(data))
     } catch (error) {
       console.log('Error in checkoutUser thunk', error)
@@ -127,6 +134,7 @@ export const checkoutGuest = orderData => {
   return async dispatch => {
     try {
       const {data} = await axios.post('/api/cart', orderData)
+      window.localStorage.clear()
       dispatch({type: 'default'})
     } catch (error) {
       console.log('Error in checkoutUser thunk', error)
