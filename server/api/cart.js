@@ -6,6 +6,7 @@ const {Pending} = require('../db/models/constant.js')
 //assume user has always 1 pending order
 router.get('/:user', async (req, res, next) => {
   try {
+    console.log(req.params.user)
     const cart = await Order.findOne({
       where: {userId: req.params.user, status: Pending},
       include: {model: Product}

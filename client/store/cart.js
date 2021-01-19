@@ -34,6 +34,7 @@ export const fetchOrder = id => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/cart/${id}`)
+      console.log('this is order data in getchOrder', data)
       dispatch(setItems(data))
     } catch (error) {
       console.log('Error in fetchItems thunk', error)
