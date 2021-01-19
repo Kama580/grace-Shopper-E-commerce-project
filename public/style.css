@@ -261,3 +261,10 @@ img {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+.signin-card {
+  width: 40%;
+  margin-top: 5%;
+  margin-left: 30%;
+  margin-right: 30%;
+}
