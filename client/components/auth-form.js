@@ -10,7 +10,6 @@ import {auth} from '../store'
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, reroute, reroutePath} = props
 
-
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>

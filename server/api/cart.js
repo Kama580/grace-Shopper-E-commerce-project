@@ -10,7 +10,6 @@ router.get('/:user', async (req, res, next) => {
       where: {userId: req.params.user, status: Pending},
       include: {model: Product}
     })
-    console.log(cart)
     res.json(cart)
   } catch (error) {
     next(error)
@@ -20,7 +19,6 @@ router.get('/:user', async (req, res, next) => {
 router.put('/order/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId)
-    console.log(req.body)
 
     if (order) {
       await order.update(req.body)
@@ -76,7 +74,6 @@ router.put('/:userId/:productId', async (req, res, next) => {
       const product = await Product.findOne({where: {id: productId}})
       item.qty = Number(req.body.updateQty)
       item.subtotal = item.qty * product.price
-      console.log('here!!!!')
       await item.save()
       res.json(item)
     }
@@ -87,12 +84,10 @@ router.put('/:userId/:productId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('REQ BODY in ROUTE ', req.body)
     const guestOrder = await Order.create(req.body.order)
     const itemObj = req.body.item
     Object.keys(itemObj).map(async item => {
       const product = await Product.findByPk(item)
-      console.log(product)
       await ItemOrder.create({
         productId: item,
         orderId: guestOrder.id,
