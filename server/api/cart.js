@@ -57,7 +57,7 @@ router.put('/:userId/:productId', async (req, res, next) => {
         const newItemInCart = await ItemOrder.findOne({
           where: {productId: productId, orderId: cart.id}
         })
-        await newItemInCart.update({qty: 1, subtotal: pricePerOne.price})
+        await newItemInCart.update({qty: 1, subtotal: pricePerOne})
       }
       const updatedOrder = await Order.findOne({
         where: {userId: userId, status: Pending},

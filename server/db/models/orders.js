@@ -4,10 +4,12 @@ const {Shipped, Delivered, Confirmed, Canceled, Pending} = require('./constant')
 
 const Order = db.define('order', {
   total_price: {
-    type: Sequelize.FLOAT
+    type: Sequelize.FLOAT,
+    defaultValue: 0
   },
   total_qty: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   email: {
     type: Sequelize.STRING
