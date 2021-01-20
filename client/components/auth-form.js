@@ -9,8 +9,6 @@ import {auth} from '../store'
 
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, reroute, reroutePath} = props
-
-
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
@@ -18,13 +16,13 @@ const AuthForm = props => {
           <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="text" />
+          <input name="email" type="text" required />
         </div>
         <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
-          <input name="password" type="password" />
+          <input name="password" type="password" required />
         </div>
         <div>
           <button type="submit">{displayName}</button>
@@ -72,7 +70,9 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      if (email.includes('@') || password.length >= 5) {
+        dispatch(auth(email, password, formName))
+      }
     }
   }
 }

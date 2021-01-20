@@ -45,37 +45,10 @@ export class CreateUserProfile extends React.Component {
       [event.target.name]: event.target.value
     })
   }
-  // validate() {
-  //   let firstNameError = ''
-  //   let lastNameError = ''
-  //   let bAddresseError = ''
-  //   let bCityError = ''
-  //   let bStateError = ''
-  //   let bZipCodeError = ''
-  //   let sAddressError = ''
-  //   let sCityError = ''
-  //   let sStateError = ''
-  //   let sZipCodeError = ''
-  //   let countryError = ''
-  //   let phoneError = ''
-  //   let sizeError = ''
-  //   let wddingDateError = ''
-  //   if (!this.state.firstName || !this.state.firstName.isNaN())
-  //     firstNameError = 'First Name cant not include a  number or be blank'
-  //   if (!this.state.lastName || !this.state.lastName.isNaN())
-  //     lastNameError = 'Last  Name cannot be blank or include a number'
-  //   if (!this.state.bAddress)
-  //     bAddresseError = 'billing Addresse cannot be blank'
-  //   if (!this.state.bCity || !this.state.bCity.isNaN())
-  //     bCityError = 'billing CityAddresse cannot be blank or include a number'
-  //   if (!this.state.bCity || !this.state.bCity.isNaN())
-  //     bStateError = 'billing State Addresse cannot be blank or include a number'
-  //   if (!this.state.bZipCode || this.state.bCity.isNaN())
-  //     bStateError = 'billing State Addresse cannot be blank or include a number'
-  // }
+
   async handleSubmit(event) {
     event.preventDefault()
-    console.log('this is state', this.state)
+
     const res = await axios.post(`/api/profiles`, {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -101,7 +74,13 @@ export class CreateUserProfile extends React.Component {
         <label htmlFor="firstName" value={this.state.firstName}>
           First Name
         </label>
-        <input type="text" name="firstName" onChange={this.handleChange} />
+        <input
+          type="text"
+          name="firstName"
+          onChange={this.handleChange}
+          validators={['required', 'isEmail']}
+          errorMessages={['this field is required', 'email is not valid']}
+        />
         <label htmlFor="lastName" value={this.state.lastName}>
           Last Name
         </label>
