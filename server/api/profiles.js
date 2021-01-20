@@ -4,7 +4,11 @@ const {profileValidationRules, validate} = require('./validator.js')
 module.exports = router
 
 const loggedInUserOnly = (req, res, next) => {
-  if (req.user.profileId !== Number(req.params.profileId)) {
+  if (!req.user) {
+    const err = new Error('You are not logged in')
+    err.status = 401
+    return next(err)
+  } else if (req.user.profileId !== Number(req.params.profileId)) {
     const err = new Error('No <3')
     err.status = 401
     return next(err)
@@ -13,7 +17,11 @@ const loggedInUserOnly = (req, res, next) => {
 }
 
 const adminsOnly = (req, res, next) => {
-  if (!req.user.isAdmin) {
+  if (!req.user) {
+    const err = new Error('You are not logged in')
+    err.status = 401
+    return next(err)
+  } else if (!req.user.isAdmin) {
     const err = new Error('You sneaky, you. Nothing to see here. ;)')
     err.status = 401
     return next(err)

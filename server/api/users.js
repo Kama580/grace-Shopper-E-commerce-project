@@ -3,8 +3,26 @@ const {User, Order, Profile} = require('../db/models')
 module.exports = router
 
 const adminsOnly = (req, res, next) => {
-  if (!req.user.isAdmin) {
+  if (!req.user) {
+    const err = new Error('You are not logged in')
+    err.status = 401
+    return next(err)
+  } else if (!req.user.isAdmin) {
     const err = new Error('You sneaky, you. Nothing to see here. ;)')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
+const loggedInUserAndAdminsOnly = (req, res, next) => {
+  if (!req.user) {
+    const err = new Error('You are not logged in')
+    err.status = 401
+    return next(err)
+  } else if (req.user.id !== Number(req.params.userId) && !req.user.isAdmin) {
+    console.log('Here', req.user.id, req.params.userId)
+    const err = new Error('No <3')
     err.status = 401
     return next(err)
   }
@@ -21,7 +39,8 @@ router.get('/', adminsOnly, async (req, res, next) => {
     next(err)
   }
 })
-router.get('/:userId', async (req, res, next) => {
+
+router.get('/:userId', loggedInUserAndAdminsOnly, async (req, res, next) => {
   try {
     const id = req.params.userId
     if (isNaN(id)) res.status(400).send()
@@ -44,7 +63,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.delete('/:userId', adminsOnly, async (req, res, next) => {
+router.delete('/:userId', loggedInUserAndAdminsOnly, async (req, res, next) => {
   try {
     const id = req.params.userId
     const user = await User.findByPk(id)
@@ -55,7 +74,7 @@ router.delete('/:userId', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', loggedInUserAndAdminsOnly, async (req, res, next) => {
   try {
     const id = req.params.userId
     const userUpdate = await User.findByPk(id)

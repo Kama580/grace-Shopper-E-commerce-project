@@ -2,7 +2,11 @@ const router = require('express').Router()
 const {Product} = require('../db/models')
 
 const adminsOnly = (req, res, next) => {
-  if (!req.user.isAdmin) {
+  if (!req.user) {
+    const err = new Error('You are not logged in')
+    err.status = 401
+    return next(err)
+  } else if (!req.user.isAdmin) {
     const err = new Error('You sneaky, you. Nothing to see here. ;)')
     err.status = 401
     return next(err)
