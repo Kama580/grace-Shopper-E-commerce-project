@@ -144,7 +144,6 @@ export const updateQtyThunk = (userId, productId, updateObj) => {
         `/api/cart/${userId}/${productId}?action=updateQty`,
         updateObj
       )
-      //console.log(data)
       dispatch(updateQty(data))
     } catch (error) {
       console.log('Error in updateQtyThunk', error)

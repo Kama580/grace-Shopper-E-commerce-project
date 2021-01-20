@@ -26,7 +26,6 @@ class Cart extends React.Component {
       await this.props.getUser(this.props.user.id)
       //if logged-in user:
       if (this.props.user.id) {
-        console.log('this is called')
         await this.props.getOrder(this.props.user.id)
         this.setState({
           items: this.props.order.products
@@ -48,12 +47,13 @@ class Cart extends React.Component {
 
         this.setState({items: items})
       }
-      const totalItems = this.state.items.length
-      // const totalPrice = this.state.items.reduce((acc, curr) => {
-      //   acc + curr.itemOrder.subtotal
-      // }, 0)
-      console.log('total items:', totalItems)
-      console.log('total price:', totalPrice)
+      const totalItems = this.state.items.reduce((acc, curr) => {
+        return acc + (curr.qty || curr.itemOrder.qty)
+      }, 0)
+      const totalPrice = this.state.items.reduce((acc, curr) => {
+        return acc + (curr.subtotal || curr.itemOrder.subtotal)
+      }, 0)
+      this.setState({totalItems, totalPrice})
     } catch (error) {
       console.log(error)
     }
@@ -77,6 +77,13 @@ class Cart extends React.Component {
 
         this.setState({items: items})
       }
+      const totalItems = this.state.items.reduce((acc, curr) => {
+        return acc + (curr.qty || curr.itemOrder.qty)
+      }, 0)
+      const totalPrice = this.state.items.reduce((acc, curr) => {
+        return acc + (curr.subtotal || curr.itemOrder.subtotal)
+      }, 0)
+      this.setState({totalPrice, totalItems})
     } catch (error) {
       console.log(error)
     }
@@ -99,6 +106,13 @@ class Cart extends React.Component {
         })
         this.setState({items: items})
       }
+      const totalItems = this.state.items.reduce((acc, curr) => {
+        return acc + (curr.qty || curr.itemOrder.qty)
+      }, 0)
+      const totalPrice = this.state.items.reduce((acc, curr) => {
+        return acc + (curr.subtotal || curr.itemOrder.subtotal)
+      }, 0)
+      this.setState({totalItems, totalPrice})
     } catch (error) {
       console.log(error)
     }
@@ -167,8 +181,15 @@ class Cart extends React.Component {
             <hr />
             <div className="summaryInfo">
               {' '}
+              <p>{`Total Items: ${this.state.totalItems}`}</p>
               <p>{`Total Price: $${this.state.totalPrice / 100}`}</p>
-              <Link to="/cart/checkout">
+              <Link
+                to={{
+                  pathname: 'cart/checkout',
+                  totalPrice: this.state.totalPrice,
+                  totalqty: this.state.totalItems
+                }}
+              >
                 <button disabled={this.state.items === []}>Checkout</button>
               </Link>
             </div>

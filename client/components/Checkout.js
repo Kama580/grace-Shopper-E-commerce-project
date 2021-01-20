@@ -66,7 +66,13 @@ class Checkout extends React.Component {
         console.log(this.props)
         await this.props.getOrder(this.props.user.id)
         this.setState({
-          order: {...profile, email: user.email, status: Confirmed},
+          order: {
+            ...profile,
+            email: user.email,
+            status: Confirmed,
+            total_price: this.props.location.totalPrice,
+            total_qty: this.props.location.totalqty
+          },
           item: this.props.order.products
         })
         console.log(this.state)
@@ -169,7 +175,8 @@ class Checkout extends React.Component {
                 <h3>ORDER SUMMARY</h3>
                 <hr />
                 <div className="summaryInfo">
-                  <p>{`Total Price: $${this.props.order.totalPrice / 100}`}</p>
+                  <p>{`Total Price: $${this.props.location.totalPrice /
+                    100}`}</p>
                 </div>
               </div>
             </div>
