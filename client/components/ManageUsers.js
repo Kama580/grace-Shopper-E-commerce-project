@@ -22,7 +22,6 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import {connect} from 'react-redux'
 import {fetchUsers} from '../store/allUsers'
-import {fetchAllUsersOrders} from '../store/cart'
 
 const defaultState = {
   detailsFormOpen: false,
@@ -115,15 +114,13 @@ class ManageUsers extends React.Component {
 
 const mapState = state => {
   return {
-    users: state.users,
-    userOrders: state.order
+    users: state.users
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getUsers: () => dispatch(fetchUsers()),
-    getUserOrders: id => dispatch(fetchAllUsersOrders(id))
+    getUsers: () => dispatch(fetchUsers())
   }
 }
 
