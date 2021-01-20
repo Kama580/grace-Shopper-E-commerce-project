@@ -33,31 +33,31 @@ export class UpdateUserProfile extends React.Component {
     ValidatorForm.removeValidationRule('isSize')
   }
   componentDidMount() {
-    ValidatorForm.addValidationRule('isAlpha', value => {
-      console.log('THIS IS  VALUE', value)
-      if (isNaN(value)) {
-        return true
-      }
-      return false
-    })
-    ValidatorForm.addValidationRule('isZipcode', value => {
-      if (!isNaN(value) && value.length === 5) {
-        return true
-      }
-      return false
-    })
-    ValidatorForm.addValidationRule('isNumerical', value => {
-      if (value.length >= 10) {
-        return true
-      }
-      return false
-    })
-    ValidatorForm.addValidationRule('isSize', value => {
-      if (!isNaN(value) && value % 2 === 0 && value <= 18 && value >= 0) {
-        return true
-      }
-      return false
-    })
+    // ValidatorForm.addValidationRule('isAlpha', (value) => {
+    //   console.log('THIS IS  VALUE', value)
+    //   if (isNaN(value)) {
+    //     return true
+    //   }
+    //   return false
+    // })
+    // ValidatorForm.addValidationRule('isZipcode', value => {
+    //   if (!isNaN(value) && value.length === 5) {
+    //     return true
+    //   }
+    //   return false
+    // })
+    // ValidatorForm.addValidationRule('isNumerical', value => {
+    //   if (value.length >= 10) {
+    //     return true
+    //   }
+    //   return false
+    // })
+    // ValidatorForm.addValidationRule('isSize', value => {
+    //   if (!isNaN(value) && value % 2 === 0 && value <= 18 && value >= 0) {
+    //     return true
+    //   }
+    //   return false
+    // })
     this.setState({
       firstName: this.props.Updateuser.firstName,
       lastName: this.props.Updateuser.lastName,
@@ -95,7 +95,7 @@ export class UpdateUserProfile extends React.Component {
     return (
       <ValidatorForm
         // ref="form"
-        onSubmit={this.handleSubmit}
+        onSubmit={this.handleUpdate}
         onError={errors => console.log(errors)}
       >
         {/* <form onSubmit={this.handleSubmit}> */}
