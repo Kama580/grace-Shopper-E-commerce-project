@@ -63,6 +63,7 @@ class Checkout extends React.Component {
       if (this.props.user.id) {
         const user = this.props.user
         const profile = user.profile
+        console.log(this.props)
         await this.props.getOrder(this.props.user.id)
         this.setState({
           order: {...profile, email: user.email, status: Confirmed},

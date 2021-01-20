@@ -57,7 +57,7 @@ export const auth = (email, password, method) => async dispatch => {
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
-  method === 'login' ? history.push('/products') : history.push('/profiles')
+  history.push('/products')
 }
 
 export const logout = () => async dispatch => {
@@ -67,6 +67,19 @@ export const logout = () => async dispatch => {
     history.push('/login')
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const fetchUserWithProfile = userId => {
+  return async dispatch => {
+    try {
+      console.log('this is hit')
+      const {data} = await axios.get(`/auth/${userId}`)
+      console.log('This is the user data', data)
+      dispatch(getUser(data))
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

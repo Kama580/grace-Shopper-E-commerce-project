@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fade, makeStyles} from '@material-ui/core/styles'
-import {Tabs, Tab, AppBar} from '@material-ui/core'
+import {Tabs, Tab, AppBar, Button} from '@material-ui/core'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import InputBase from '@material-ui/core/InputBase'
@@ -15,6 +15,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import {createBrowserHistory} from 'history'
+import itemsReducer, {fetchOrder, fetchLocalStorageData} from '../store/cart'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -89,8 +90,35 @@ const Navbar = ({isLoggedIn, handleClick}) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const [value, setValue] = React.useState(0)
-
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const navState = useSelector(state => state)
+  const dispatch = useDispatch()
+
+  let numItem
+
+  if (navState.order === {}) {
+    namItem = 0
+  } else if (navState.order.products) {
+    numItem = navState.order.products.filter(item => item.id).length
+  } else if (!navState.user.id) {
+    numItem = Object.keys(navState.order).length
+  } else {
+    numItem = 0
+  }
+
+  console.log('This is Num item', numItem)
+  // React.useEffect(async () => {
+  //   console.log('useEffecthook called')
+  //   // try {
+  //   //   if (navState.user.id) {
+  //   //     await dispatch(fetchOrder(navState.user.id))
+  //   //   } else {
+  //   //     dispatch(fetchLocalStorageData())
+  //   //   }
+  //   // } catch (error) {
+  //   //   console.log(error)
+  //   // }
+  // })
 
   const handleProfileMenuOpen = () => {
     {
@@ -135,7 +163,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
           component={Link}
           to="/cart"
         >
-          <Badge badgeContent={6} color="secondary">
+          <Badge badgeContent={numItem} color="secondary">
             <ShoppingBasket />
           </Badge>
         </IconButton>
@@ -151,7 +179,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        {isLoggedIn ? <p>Profile</p> : <p>Log In</p>}
       </MenuItem>
     </Menu>
   )
@@ -196,21 +224,26 @@ const Navbar = ({isLoggedIn, handleClick}) => {
               component={Link}
               to="/cart"
             >
-              <Badge badgeContent={6} color="secondary">
+              <Badge badgeContent={numItem} color="secondary">
                 <ShoppingBasket />
               </Badge>
             </IconButton>
-
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {isLoggedIn ? (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <Button style={{color: 'white'}} onClick={handleProfileMenuOpen}>
+                Log In
+              </Button>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

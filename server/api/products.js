@@ -1,6 +1,19 @@
 const router = require('express').Router()
 const {Product} = require('../db/models')
 
+const adminsOnly = (req, res, next) => {
+  if (!req.user) {
+    const err = new Error('You are not logged in')
+    err.status = 401
+    return next(err)
+  } else if (!req.user.isAdmin) {
+    const err = new Error('You sneaky, you. Nothing to see here. ;)')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
 router.get('/', async (req, res, next) => {
   try {
     const allProducts = await Product.findAll()
@@ -19,7 +32,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', adminsOnly, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body)
     res.json(newProduct)
@@ -29,7 +42,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', adminsOnly, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)
     if (product) {
@@ -44,7 +57,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', adminsOnly, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)
     if (product) {
