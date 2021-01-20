@@ -155,6 +155,7 @@ img {
 
 .cardItemInfo {
   width: 95%;
+  padding: 10px;
   background-color: rgb(255, 250, 245);
 }
 

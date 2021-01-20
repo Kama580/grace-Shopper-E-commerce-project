@@ -57,7 +57,7 @@ export const auth = (email, password, method) => async dispatch => {
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
-  method === 'login' ? history.push('/products') : history.push('/profiles')
+  history.push('/products')
 }
 
 export const logout = () => async dispatch => {

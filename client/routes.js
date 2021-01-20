@@ -15,6 +15,16 @@ import {
   Checkout
 } from './components'
 import {me} from './store'
+
+const adminsOnly = (req, res, next) => {
+  if (!req.user.isAdmin) {
+    const err = new Error('You look lost. Follow us on Insta!')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
 /**
  * COMPONENT
  */
@@ -25,16 +35,16 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn, isAdmin} = this.props
-
+    console.log('IS ADMIN?', isAdmin)
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="*" component={LandingPage} />
         <Route exact path="/home" component={LandingPage} />
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/cart/checkout" component={Checkout} />
-        <Route path="/admin" component={AdminHome} />
 
         {!isLoggedIn && (
           <Switch>
@@ -47,9 +57,9 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/myaccount" component={MyAccount} />
+            {isAdmin && <Route path="/admin" component={AdminHome} />}
           </Switch>
         )}
-        {/* Routes placed here are only available for logged in admins */}
         {/* {isAdmin && (
           <Switch>
           </Switch>
