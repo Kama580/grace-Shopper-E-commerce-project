@@ -186,8 +186,8 @@ class Cart extends React.Component {
               <Link
                 to={{
                   pathname: 'cart/checkout',
-                  totalPrice: this.state.totalPrice,
-                  totalIems: this.state.totalItems
+                  totalItems: this.state.totalItems,
+                  totalPrice: this.state.totalPrice
                 }}
               >
                 <button disabled={this.state.items === []}>Checkout</button>

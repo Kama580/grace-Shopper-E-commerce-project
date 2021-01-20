@@ -182,9 +182,11 @@ class Checkout extends React.Component {
                 <h3>ORDER SUMMARY</h3>
                 <hr />
                 <div className="summaryInfo">
-                  <p>{`Total Items: ${this.props.location.totalItems}`}</p>
-                  <p>{`Total Price: $${this.props.location.totalPrice /
-                    100}`}</p>
+                  <p>{`Total Items: ${this.props.location.totalItems || 0}`}</p>
+                  <p>
+                    {`Total Price: $${this.props.location.totalPrice / 100 ||
+                      0}`}
+                  </p>
                 </div>
               </div>
             </div>
