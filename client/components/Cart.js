@@ -65,7 +65,7 @@ class Cart extends React.Component {
         await this.props.removeAnItemThunk(this.props.user.id, productId)
         this.setState({items: this.props.order.products})
       } else {
-        this.props.removeFromLocalStrage(productId)
+        await this.props.removeFromLocalStrage(productId)
         const itemsIds = Object.keys(this.props.order)
         const items = this.props.products.filter(item => {
           return itemsIds.includes(String(item.id))
