@@ -33,13 +33,15 @@ router.put('/order/:orderId', async (req, res, next) => {
 
 router.put('/:userId/:productId', async (req, res, next) => {
   try {
+    console.log('Is this called?')
     const action = req.query.action
-    const userId = req.params.userId
+    const userId = Number(req.params.userId)
     const productId = Number(req.params.productId)
     const cart = await Order.findOne({
       where: {userId: userId, status: Pending},
       include: {model: Product}
     })
+    console.log('this is cart', cart)
     // for add cart
     if (action === 'add') {
       const item = await ItemOrder.findOne({
@@ -55,9 +57,11 @@ router.put('/:userId/:productId', async (req, res, next) => {
         const newItemInCart = await ItemOrder.findOne({
           where: {productId: productId, orderId: cart.id}
         })
-        await newItemInCart.update({qty: 1, subtotal: pricePerOne})
+        await newItemInCart.update({qty: 1, subtotal: pricePerOne.price})
       }
-      const updatedItems = await ItemOrder.findAll({where: {orderId: cart.id}})
+      const updatedItems = await ItemOrder.findAll({
+        where: {orderId: cart.id}
+      })
 
       res.send(updatedItems)
       //for delete item from cart
