@@ -40,13 +40,11 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-
         <Route exact path="/home" component={LandingPage} />
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/profiles" component={CreateUserProfile} />
         <Route exact path="/cart" component={Cart} />
-
         <Route exact path="/cart/checkout" component={Checkout} />
         <Route exact path="/" component={LandingPage} />
         {!isLoggedIn && (
