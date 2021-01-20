@@ -215,20 +215,13 @@ const users = [
 const shippedOrder = {
   total_price: 10000,
   total_qty: 5,
-  date: '2020-12-01',
   status: 'Shipped'
-}
-
-const generalPendingOrder = {
-  total_price: 0,
-  total_qty: 0,
-  date: '2021-01-01',
-  status: 'Pending'
 }
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
+
   //creating all products
   await Promise.all(
     products.map(product => {
@@ -248,7 +241,7 @@ async function seed() {
     })
   )
 
-  //setting profiles to user
+  //setting profiles to users
   const halle = await Profile.findOne({where: {firstName: 'Halle'}})
   const rebel = await Profile.findOne({where: {firstName: 'Rebel'}})
   const lucy = await Profile.findOne({where: {firstName: 'Lucy'}})
@@ -267,44 +260,13 @@ async function seed() {
   await rachel.setUser(rachelUser)
   await cody.setUser(codyUser)
 
-  // const usersToSet = await User.findAll()
-  // const profilesToSet = await Profile.findAll()
-
-  // for (let i = 0; i < usersToSet.length; i++) {
-  //   await profilesToSet[i].setUser(usersToSet[i])
-  // }
-
-  //create some orders for user1
-  // await Promise.all(
-  //   user1Orders.map(order => {
-  //     return Order.create(order)
-  //   })
-  // )
-  //const allOrders = await Order.findAll()
+  //assign a shipped order to a few users
   const user1 = await User.findByPk(1)
+  const user2 = await User.findByPk(2)
   const shippedOrder1 = await Order.create(shippedOrder)
   await shippedOrder1.setUser(user1)
-
-  //add pending order to all other users
-  // await Order.create(generalPendingOrder)
-  // await Order.create(generalPendingOrder)
-  // await Order.create(generalPendingOrder)
-  // await Order.create(generalPendingOrder)
-
-  // const user2 = await User.findByPk(2)
-  // const user3 = await User.findByPk(3)
-  // const user4 = await User.findByPk(4)
-  // const user5 = await User.findByPk(5)
-
-  // const anOrder3 = await Order.findByPk(3)
-  // const anOrder4 = await Order.findByPk(4)
-  // const anOrder5 = await Order.findByPk(5)
-  // const anOrder6 = await Order.findByPk(6)
-
-  // await anOrder6.setUser(user2)
-  // await anOrder3.setUser(user3)
-  // await anOrder4.setUser(user4)
-  //await anOrder5.setUser(user5)
+  const shippedOrder2 = await Order.create(shippedOrder)
+  await shippedOrder2.setUser(user2)
 
   //set some items to an order
   const anOrder = await Order.findOne({where: {status: Pending}})
