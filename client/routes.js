@@ -44,7 +44,6 @@ class Routes extends Component {
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/cart/checkout" component={Checkout} />
-        <Route path="*" component={LandingPage} />
 
         {!isLoggedIn && (
           <Switch>
@@ -60,10 +59,7 @@ class Routes extends Component {
             {isAdmin && <Route path="/admin" component={AdminHome} />}
           </Switch>
         )}
-        {/* {isAdmin && (
-          <Switch>
-          </Switch>
-        )} */}
+        <Route path="*" component={LandingPage} />
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>

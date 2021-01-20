@@ -3,11 +3,6 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchProducts} from '../store/allProducts'
 import {makeStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 
 const containerVariants = {
   hidden: {
@@ -16,7 +11,21 @@ const containerVariants = {
   },
   visible: {
     opacity: 1,
-    x: 0
+    x: 0,
+    transition: {
+      type: 'spring',
+      delay: 0.5
+    }
+  }
+}
+
+const nextVariants = {
+  hidden: {
+    x: '-100vw'
+  },
+  visible: {
+    x: 0,
+    transiton: {type: 'spring', stiffness: 120}
   }
 }
 
