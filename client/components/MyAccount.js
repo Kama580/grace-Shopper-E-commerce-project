@@ -15,38 +15,20 @@ class MyAccount extends React.Component {
       profile: {},
       editUser: false,
       addProfile: false,
-      editProfile: false,
-      orderHistory: {}
+      editProfile: false
     }
     // this.handleOrderHistoryClick = this.handleOrderHistoryClick.bind(this)
   }
   async componentDidMount() {
     try {
       if (this.props.user) {
-        console.log('props', this.props)
         await this.props.getProfileInfo(this.props.user.profileId)
         await this.props.getOrderHistory(this.props.user.id)
-        console.log(this.props.user)
-        this.setState({orderHistory: this.props.orderHistory})
-        console.log(this.state)
-
-        // this.setState({
-        //   orderHistory: this.props.orderHistory,
-        //   profile: this.props.user.profile,
-        // })
       }
     } catch (error) {
       console.log(error)
     }
   }
-  // async handleOrderHistoryClick(userId) {
-  //   try {
-  //     await this.props.getOrderHistory(userId)
-  //     this.setState({orderHistory: this.state.order})
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
   handleEdit() {
     this.setState({...this.state, editProfile: true})
   }
@@ -58,7 +40,7 @@ class MyAccount extends React.Component {
           <div>
             <h3>MY ACCOUNT</h3>
             <hr />
-            {/* <p>Name: {this.props.user.fullName}</p> */}
+            <p>Name: {this.props.singleUser.fullName}</p>
             <p>Email: {this.props.user.email} </p>
           </div>
         </div>
@@ -69,7 +51,14 @@ class MyAccount extends React.Component {
           </div>
         ) : null}
         <div>
-          <Link to={{pathname: '/order_history'}}>Order History</Link>
+          <Link
+            to={{
+              pathname: '/order_history',
+              orderHistory: this.props.order.orderHistory
+            }}
+          >
+            Order History
+          </Link>
         </div>
         <a href="#" onClick={this.props.handleLogOut}>
           Logout
@@ -93,7 +82,8 @@ const mapState = state => {
     user: state.user,
     isLoggedIn: !!state.user.id,
     isAdmin: !!state.user.isAdmin,
-    orderHistory: state.orderHistory
+    order: state.order,
+    singleUser: state.singleUser
   }
 }
 
