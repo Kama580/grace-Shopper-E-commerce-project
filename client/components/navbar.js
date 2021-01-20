@@ -106,7 +106,6 @@ const Navbar = ({isLoggedIn, handleClick}) => {
     numItem = 0
   }
 
-  console.log('This is Num item', numItem)
   // React.useEffect(async () => {
   //   console.log('useEffecthook called')
   //   // try {
