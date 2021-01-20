@@ -82,7 +82,6 @@ export const addLocalStorage = id => {
       } else {
         data[id] = 1
       }
-      window.localStorage.clear()
       window.localStorage.setItem('cart', JSON.stringify(data))
     } else {
       data = {[id]: 1}
