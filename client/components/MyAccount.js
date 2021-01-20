@@ -33,7 +33,7 @@ class MyAccount extends React.Component {
 
     this.setShowUpdate = this.setShowUpdate.bind(this)
   }
-  
+
   handleEdit() {
     this.setState({...this.state, editProfile: true})
   }

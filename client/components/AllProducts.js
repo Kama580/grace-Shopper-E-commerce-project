@@ -3,23 +3,31 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchProducts} from '../store/allProducts'
 import {makeStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 
-// const useStyles = makeStyles({
-//   root: {
-//     maxWidth: 271,
-//   },
-//   media: {
-//     height: 407,
-//   },
-// })
+const containerVariants = {
+  hidden: {
+    opacity: 0,
+    x: '100vw'
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: 'spring',
+      delay: 0.5
+    }
+  }
+}
 
-// const classes = useStyles()
-// console.log(classes)
+const nextVariants = {
+  hidden: {
+    x: '-100vw'
+  },
+  visible: {
+    x: 0,
+    transiton: {type: 'spring', stiffness: 120}
+  }
+}
 
 class AllProducts extends React.Component {
   constructor(props) {
