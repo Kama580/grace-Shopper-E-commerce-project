@@ -3,7 +3,27 @@ const {User, Profile} = require('../db/models')
 const {profileValidationRules, validate} = require('./validator.js')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+const loggedInUserOnly = (req, res, next) => {
+  if (req.user.profileId !== req.params.id) {
+    console.log('req.user.id:', req.user.id)
+    console.log('req.params.id', req.params.id)
+    const err = new Error('No <3')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
+const adminsOnly = (req, res, next) => {
+  if (!req.user.isAdmin) {
+    const err = new Error('You sneaky, you. Nothing to see here. ;)')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     const users = await Profile.findAll({
       attributes: ['id', 'fullName', 'firstName', 'lastName']
@@ -13,7 +33,8 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
-router.get('/:profileId', async (req, res, next) => {
+
+router.get('/:profileId', loggedInUserOnly, async (req, res, next) => {
   try {
     const id = req.params.profileId
     if (isNaN(id)) res.status(400).send()
@@ -26,6 +47,7 @@ router.get('/:profileId', async (req, res, next) => {
     next(error)
   }
 })
+
 router.post('/', profileValidationRules(), validate, async (req, res, next) => {
   try {
     const newProfile = await Profile.create(req.body)

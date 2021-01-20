@@ -2,7 +2,16 @@ const router = require('express').Router()
 const {User, Order, Profile} = require('../db/models')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+const adminsOnly = (req, res, next) => {
+  if (!req.user.isAdmin) {
+    const err = new Error('You sneaky, you. Nothing to see here. ;)')
+    err.status = 401
+    return next(err)
+  }
+  next()
+}
+
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     const users = await User.findAll({
       include: [{model: Profile}]
@@ -25,6 +34,7 @@ router.get('/:userId', async (req, res, next) => {
     next(error)
   }
 })
+
 router.post('/', async (req, res, next) => {
   try {
     const newUser = await User.create(req.body)
@@ -33,7 +43,8 @@ router.post('/', async (req, res, next) => {
     next(error)
   }
 })
-router.delete('/:userId', async (req, res, next) => {
+
+router.delete('/:userId', adminsOnly, async (req, res, next) => {
   try {
     const id = req.params.userId
     const user = await User.findByPk(id)
@@ -43,6 +54,7 @@ router.delete('/:userId', async (req, res, next) => {
     next(error)
   }
 })
+
 router.put('/:userId', async (req, res, next) => {
   try {
     const id = req.params.userId
