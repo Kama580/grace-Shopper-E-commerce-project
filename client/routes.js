@@ -44,6 +44,7 @@ class Routes extends Component {
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/cart/checkout" component={Checkout} />
+        <Route exact path="/" component={LandingPage} />
 
         {!isLoggedIn && (
           <Switch>
@@ -59,7 +60,7 @@ class Routes extends Component {
             {isAdmin && <Route path="/admin" component={AdminHome} />}
           </Switch>
         )}
-        <Route path="*" component={LandingPage} />
+
         {/* {isAdmin && (
           <Switch>
           </Switch>
