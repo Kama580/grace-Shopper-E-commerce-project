@@ -57,7 +57,6 @@ router.get('/:profileId', loggedInUserOnly, async (req, res, next) => {
 router.post('/', profileValidationRules(), validate, async (req, res, next) => {
   try {
     const newProfile = await Profile.create(req.body)
-    console.log('this is inewProfile', newProfile)
     res.status(201).json(newProfile)
   } catch (error) {
     next(error)
