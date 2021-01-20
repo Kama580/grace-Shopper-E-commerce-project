@@ -38,9 +38,6 @@ const Order = db.define('order', {
   phone: {
     type: Sequelize.STRING
   },
-  date: {
-    type: Sequelize.DATE
-  },
   status: {
     type: Sequelize.ENUM(Shipped, Delivered, Confirmed, Canceled, Pending),
     defaultValue: Pending
