@@ -3,8 +3,6 @@ import axios from 'axios'
 
 const SET_ITEMS = 'SET_ITEMS'
 const REMOVE_ITEM = 'REMOVE_ITEM'
-const ADD_ITEM = 'ADD_ITEM'
-const ADD_GUEST_ITEM = 'ADD_GUEST_ITEM'
 const UPDATE_QTY = 'UPDATE_QTY'
 
 export const setItems = items => {
@@ -16,10 +14,6 @@ export const setItems = items => {
 
 export const removeItems = removedItem => {
   return {type: REMOVE_ITEM, removedItem}
-}
-
-export const addGuestItem = data => {
-  return {type: ADD_GUEST_ITEM, data}
 }
 
 export const updateQty = updatedItem => {
@@ -78,7 +72,7 @@ export const addLocalStorage = id => {
       data = {[id]: 1}
       window.localStorage.setItem('cart', JSON.stringify(data))
     }
-    dispatch(addGuestItem(data))
+    dispatch(setItems(data))
   }
 }
 
@@ -101,7 +95,7 @@ export const removeFromLocalStrage = productId => {
     delete data[productId]
     window.localStorage.clear()
     window.localStorage.setItem('cart', JSON.stringify(data))
-    dispatch(addGuestItem(data))
+    dispatch(setItems(data))
   }
 }
 
@@ -155,10 +149,6 @@ export default function itemsReducer(state = {}, action) {
   switch (action.type) {
     case SET_ITEMS:
       return action.items
-    case ADD_ITEM:
-      return {...state, products: [action.addedItem]}
-    case ADD_GUEST_ITEM:
-      return action.data
     case REMOVE_ITEM:
       return {
         ...state,
