@@ -71,7 +71,6 @@ export const updateProduct = (productId, productUpdates) => {
     try {
       await axios.put(`/api/products/${productId}`, productUpdates)
       const {data} = await axios.get('/api/products')
-      console.log('UPDATED DAT:', data)
       dispatch(setProducts(data))
     } catch (err) {
       console.log(err)

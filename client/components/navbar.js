@@ -91,13 +91,15 @@ const Navbar = ({isLoggedIn, handleClick}) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const [value, setValue] = React.useState(0)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const [loaded, setLoaded] = React.useState(false)
   const navState = useSelector(state => state)
+  const [itemCount, setItemCount] = React.useState(0)
   const dispatch = useDispatch()
 
   let numItem
 
   if (navState.order === {}) {
-    namItem = 0
+    numItem = 0
   } else if (navState.order.products) {
     numItem = navState.order.products.filter(item => item.id).length
   } else if (!navState.user.id) {
@@ -106,18 +108,23 @@ const Navbar = ({isLoggedIn, handleClick}) => {
     numItem = 0
   }
 
-  // React.useEffect(async () => {
-  //   console.log('useEffecthook called')
-  //   // try {
-  //   //   if (navState.user.id) {
-  //   //     await dispatch(fetchOrder(navState.user.id))
-  //   //   } else {
-  //   //     dispatch(fetchLocalStorageData())
-  //   //   }
-  //   // } catch (error) {
-  //   //   console.log(error)
-  //   // }
-  // })
+  // React.useEffect(() => {
+  //   console.log('useEffect called')
+  //   const fetch = async () => {
+  //     try {
+  //       if (navState.user.id) {
+  //         await dispatch(fetchOrder(navState.user.id))
+  //       } else {
+  //         dispatch(fetchLocalStorageData())
+  //       }
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   fetch()
+  // }, loaded)
+
+  if (!loaded) setLoaded(true)
 
   const handleProfileMenuOpen = () => {
     {
