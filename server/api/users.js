@@ -21,7 +21,6 @@ const loggedInUserAndAdminsOnly = (req, res, next) => {
     err.status = 401
     return next(err)
   } else if (req.user.id !== Number(req.params.userId) && !req.user.isAdmin) {
-    console.log('Here', req.user.id, req.params.userId)
     const err = new Error('No <3')
     err.status = 401
     return next(err)

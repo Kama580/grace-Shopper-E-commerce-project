@@ -54,6 +54,8 @@ router.get('/me', (req, res) => {
   res.json(req.user)
 })
 
+router.use('/google', require('./google'))
+
 router.get('/:userId', async (req, res, next) => {
   try {
     const fullUserData = await User.findOne({
@@ -67,5 +69,3 @@ router.get('/:userId', async (req, res, next) => {
     next(error)
   }
 })
-
-router.use('/google', require('./google'))

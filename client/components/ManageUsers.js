@@ -76,7 +76,6 @@ class ManageUsers extends React.Component {
   }
 
   render() {
-    console.log('this isprops from manageuser', this.props)
     return (
       <TableContainer component={Paper}>
         <Toolbar>
