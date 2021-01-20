@@ -13,7 +13,8 @@ import {
   SingleProduct,
   CreateUserProfile,
   Cart,
-  Checkout
+  Checkout,
+  OrderHistory
 } from './components'
 import {me} from './store'
 
@@ -58,6 +59,8 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/myaccount" component={MyAccount} />
+            <Route path="/order_history" component={OrderHistory} />
+
             {isAdmin && <Route path="/admin" component={AdminHome} />}
           </Switch>
         )}
@@ -67,6 +70,8 @@ class Routes extends Component {
           </Switch>
         )} */}
         {/* Displays our Login component as a fallback */}
+        <Route path="*" component={LandingPage} />
+
         <Route component={Login} />
       </Switch>
     )

@@ -41,9 +41,6 @@ class Cart extends React.Component {
           item.qty = this.props.order[item.id]
           item.subtotal = item.qty * item.price
         })
-        //   const totalPrice = items.reduce((acc, curr) => {
-        //     acc + curr.subtotal
-        //   })}
 
         this.setState({items: items})
       }
@@ -186,8 +183,8 @@ class Cart extends React.Component {
               <Link
                 to={{
                   pathname: 'cart/checkout',
-                  totalPrice: this.state.totalPrice,
-                  totalIems: this.state.totalItems
+                  totalItems: this.state.totalItems,
+                  totalPrice: this.state.totalPrice
                 }}
               >
                 <button disabled={this.state.items === []}>Checkout</button>

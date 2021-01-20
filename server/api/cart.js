@@ -16,6 +16,22 @@ router.get('/:user', async (req, res, next) => {
   }
 })
 
+router.get('/allOrders/:user', async (req, res, next) => {
+  try {
+    const allOrders = await Order.findAll({
+      where: {userId: req.params.user},
+      include: {
+        model: Product,
+        attributes: ['id', 'name'],
+        through: {model: ItemOrder, attributes: ['qty', 'subtotal']}
+      }
+    })
+    res.json(allOrders)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.put('/order/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId)
