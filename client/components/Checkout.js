@@ -32,26 +32,20 @@ class Checkout extends React.Component {
   }
 
   handleChange(event) {
-    console.log(event.target)
     this.setState({
       order: {...this.state.order, [event.target.name]: event.target.value}
     })
-    console.log(this.state)
   }
 
   async handleSubmit(event) {
     event.preventDefault()
-    console.log('submit')
     try {
       if (this.props.user.id) {
-        console.log(this.state.order)
         await this.props.checkoutUser(this.props.order.id, this.state.order)
         this.setState({submit: true})
       } else {
-        console.log('guest')
         await this.props.checkoutGuest(this.state)
         this.setState({submit: true})
-        console.log(this.state)
       }
     } catch (error) {
       console.log(error)
@@ -63,7 +57,6 @@ class Checkout extends React.Component {
       if (this.props.user.id) {
         const user = this.props.user
         const profile = user.profile
-        console.log(this.props)
         await this.props.getOrder(this.props.user.id)
         this.setState({
           order: {
@@ -75,7 +68,6 @@ class Checkout extends React.Component {
           },
           item: this.props.order.products
         })
-        console.log(this.state)
       } else {
         await this.props.getLocalStorage()
         this.setState({

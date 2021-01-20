@@ -23,9 +23,9 @@ class Cart extends React.Component {
   async componentDidMount() {
     try {
       await this.props.getProducts()
-      await this.props.getUser(this.props.user.id)
       //if logged-in user:
       if (this.props.user.id) {
+        await this.props.getUser(this.props.user.id)
         await this.props.getOrder(this.props.user.id)
         this.setState({
           items: this.props.order.products
@@ -62,7 +62,7 @@ class Cart extends React.Component {
         await this.props.removeAnItemThunk(this.props.user.id, productId)
         this.setState({items: this.props.order.products})
       } else {
-        this.props.removeFromLocalStrage(productId)
+        await this.props.removeFromLocalStrage(productId)
         const itemsIds = Object.keys(this.props.order)
         const items = this.props.products.filter(item => {
           return itemsIds.includes(String(item.id))

@@ -15,8 +15,10 @@ class MyAccount extends React.Component {
       profile: {},
       editUser: false,
       addProfile: false,
-      editProfile: false
+      editProfile: false,
+      showUpdate: false
     }
+
     // this.handleOrderHistoryClick = this.handleOrderHistoryClick.bind(this)
   }
   async componentDidMount() {
@@ -28,11 +30,18 @@ class MyAccount extends React.Component {
     } catch (error) {
       console.log(error)
     }
+
+    this.setShowUpdate = this.setShowUpdate.bind(this)
   }
+  
   handleEdit() {
     this.setState({...this.state, editProfile: true})
   }
-
+  setShowUpdate() {
+    this.setState({
+      showUpdate: true
+    })
+  }
   render() {
     return (
       <div>
@@ -42,6 +51,8 @@ class MyAccount extends React.Component {
             <hr />
             <p>Name: {this.props.singleUser.fullName}</p>
             <p>Email: {this.props.user.email} </p>
+            <button type="button" onClick={setShowUpdate} />
+            {this.state.showUpdate ? <UpdateUserProfile /> : null}
           </div>
         </div>
 

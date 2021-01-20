@@ -11,6 +11,7 @@ import {
   AdminHome,
   AllProducts,
   SingleProduct,
+  CreateUserProfile,
   Cart,
   Checkout,
   OrderHistory
@@ -43,9 +44,10 @@ class Routes extends Component {
         <Route exact path="/home" component={LandingPage} />
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
+        <Route exact path="/profiles" component={CreateUserProfile} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/cart/checkout" component={Checkout} />
-
+        <Route exact path="/" component={LandingPage} />
         {!isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available before logging in */}
@@ -62,6 +64,7 @@ class Routes extends Component {
             {isAdmin && <Route path="/admin" component={AdminHome} />}
           </Switch>
         )}
+
         {/* {isAdmin && (
           <Switch>
           </Switch>

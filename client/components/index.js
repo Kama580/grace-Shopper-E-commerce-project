@@ -11,6 +11,7 @@ export {default as MyAccount} from './MyAccount'
 export {Login, Signup} from './auth-form'
 export {default as Cart} from './Cart'
 export {default as Checkout} from './Checkout'
+export {CreateUserProfile} from './CreateUserProfile'
 
 // admin routes
 export {default as AdminHome} from './AdminHome'
@@ -22,3 +23,4 @@ export {default as LandingPage} from './LandingPage'
 export {default as AllProducts} from './AllProducts'
 export {default as SingleProduct} from './SingleProduct'
 export {default as OrderHistory} from './OrderHistory'
+
