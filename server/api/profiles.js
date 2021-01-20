@@ -53,7 +53,7 @@ router.get('/:profileId', loggedInUserOnly, async (req, res, next) => {
     next(error)
   }
 })
-
+// profileValidationRules(), validate,
 router.post('/', profileValidationRules(), validate, async (req, res, next) => {
   try {
     const newProfile = await Profile.create(req.body)
