@@ -182,6 +182,7 @@ class Checkout extends React.Component {
                 <h3>ORDER SUMMARY</h3>
                 <hr />
                 <div className="summaryInfo">
+                  <p>{`Total Items: ${this.props.location.totalItems}`}</p>
                   <p>{`Total Price: $${this.props.location.totalPrice /
                     100}`}</p>
                 </div>
