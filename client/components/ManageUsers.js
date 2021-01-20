@@ -22,6 +22,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import {connect} from 'react-redux'
 import {fetchUsers} from '../store/allUsers'
+import UpdateUserProfile from './UpdateUserProfile'
 
 const defaultState = {
   detailsFormOpen: false,
@@ -52,8 +53,10 @@ class ManageUsers extends React.Component {
     this.state = {
       detailsFormOpen: false,
       currentUserId: null,
-      orderBy: ''
+      orderBy: '',
+      showUpdate: false
     }
+    this.showProfileUpdate = this.showProfileUpdate.bind(this)
   }
 
   async componentDidMount() {
@@ -70,11 +73,14 @@ class ManageUsers extends React.Component {
       currentProductId: id
     })
   }
-
   onCloseDetailForm(event) {
     this.setState(defaultState)
   }
-
+  showProfileUpdate() {
+    this.setState({
+      showUpdate: true
+    })
+  }
   render() {
     console.log('this isprops from manageuser', this.props)
     return (
@@ -119,6 +125,8 @@ class ManageUsers extends React.Component {
             ))}
           </TableBody>
         </Table>
+        <button type="button" onClick={showProfileUpdate} />
+        {this.state.showUpdate ? <UpdateIUserProfile /> : null}
       </TableContainer>
     )
   }
