@@ -9,17 +9,16 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 
-// const useStyles = makeStyles({
-//   root: {
-//     maxWidth: 271,
-//   },
-//   media: {
-//     height: 407,
-//   },
-// })
-
-// const classes = useStyles()
-// console.log(classes)
+const containerVariants = {
+  hidden: {
+    opacity: 0,
+    x: '100vw'
+  },
+  visible: {
+    opacity: 1,
+    x: 0
+  }
+}
 
 class AllProducts extends React.Component {
   constructor(props) {
