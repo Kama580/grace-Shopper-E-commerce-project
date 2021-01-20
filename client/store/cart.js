@@ -60,6 +60,7 @@ export const addToCart = (userId, productId) => {
       const {data} = await axios.put(
         `/api/cart/${userId}/${productId}?action=add`
       )
+      console.log('this is data', data)
       dispatch(addItem(data))
     } catch (error) {
       console.log('Error in addToCart thunk', error)
@@ -162,7 +163,7 @@ export default function itemsReducer(state = {}, action) {
     case SET_ITEMS:
       return action.items
     case ADD_ITEM:
-      return {...state, products: [...state.products, action.addedItem]}
+      return {...state, products: [action.addedItem]}
     case ADD_GUEST_ITEM:
       return action.data
     case REMOVE_ITEM:

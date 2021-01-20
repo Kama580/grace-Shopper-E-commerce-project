@@ -52,17 +52,19 @@ router.put('/:userId/:productId', async (req, res, next) => {
         const updatedQty = item.qty + 1
         const updatedPrice = updatedQty * pricePerOne.price
         await item.update({qty: updatedQty, subtotal: updatedPrice})
+        res.json(cart)
       } else {
         await cart.addProduct(productId)
         const newItemInCart = await ItemOrder.findOne({
           where: {productId: productId, orderId: cart.id}
         })
         await newItemInCart.update({qty: 1, subtotal: pricePerOne})
+        res.json(cart)
       }
-      const updatedItems = await ItemOrder.findAll({where: {orderId: cart.id}})
+      // const updatedItems = await ItemOrder.findAll({where: {orderId: cart.id}})
 
-      res.send(updatedItems)
-      //for delete item from cart
+      // // res.send(updatedItems)
+      // //for delete item from cart
     } else if (action === 'remove') {
       cart.removeProducts(productId)
       const removedItem = await Product.findByPk(productId)

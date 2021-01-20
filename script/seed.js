@@ -10,7 +10,6 @@ const {
   Profile
 } = require('../server/db/models')
 const {Pending} = require('../server/db/models/constant.js')
-const {Op} = require('sequelize')
 
 const products = [
   {
@@ -213,20 +212,12 @@ const users = [
   }
 ]
 
-const user1Orders = [
-  {
-    total_price: 10000,
-    total_qty: 5,
-    date: '2020-12-01',
-    status: 'Shipped'
-  },
-  {
-    total_price: 12000,
-    total_qty: 1,
-    date: '2021-01-01',
-    status: 'Pending'
-  }
-]
+const shippedOrder = {
+  total_price: 10000,
+  total_qty: 5,
+  date: '2020-12-01',
+  status: 'Shipped'
+}
 
 const generalPendingOrder = {
   total_price: 0,
@@ -284,39 +275,36 @@ async function seed() {
   // }
 
   //create some orders for user1
-  await Promise.all(
-    user1Orders.map(order => {
-      return Order.create(order)
-    })
-  )
-  const allOrders = await Order.findAll()
+  // await Promise.all(
+  //   user1Orders.map(order => {
+  //     return Order.create(order)
+  //   })
+  // )
+  //const allOrders = await Order.findAll()
   const user1 = await User.findByPk(1)
-  await Promise.all(
-    allOrders.map(order => {
-      return order.setUser(user1)
-    })
-  )
+  const shippedOrder1 = await Order.create(shippedOrder)
+  await shippedOrder1.setUser(user1)
 
   //add pending order to all other users
-  await Order.create(generalPendingOrder)
-  await Order.create(generalPendingOrder)
-  await Order.create(generalPendingOrder)
-  await Order.create(generalPendingOrder)
+  // await Order.create(generalPendingOrder)
+  // await Order.create(generalPendingOrder)
+  // await Order.create(generalPendingOrder)
+  // await Order.create(generalPendingOrder)
 
-  const user2 = await User.findByPk(2)
-  const user3 = await User.findByPk(3)
-  const user4 = await User.findByPk(4)
-  const user5 = await User.findByPk(5)
+  // const user2 = await User.findByPk(2)
+  // const user3 = await User.findByPk(3)
+  // const user4 = await User.findByPk(4)
+  // const user5 = await User.findByPk(5)
 
-  const anOrder3 = await Order.findByPk(3)
-  const anOrder4 = await Order.findByPk(4)
-  const anOrder5 = await Order.findByPk(5)
-  const anOrder6 = await Order.findByPk(6)
+  // const anOrder3 = await Order.findByPk(3)
+  // const anOrder4 = await Order.findByPk(4)
+  // const anOrder5 = await Order.findByPk(5)
+  // const anOrder6 = await Order.findByPk(6)
 
-  await anOrder6.setUser(user2)
-  await anOrder3.setUser(user3)
-  await anOrder4.setUser(user4)
-  await anOrder5.setUser(user5)
+  // await anOrder6.setUser(user2)
+  // await anOrder3.setUser(user3)
+  // await anOrder4.setUser(user4)
+  //await anOrder5.setUser(user5)
 
   //set some items to an order
   const anOrder = await Order.findOne({where: {status: Pending}})
