@@ -11,8 +11,7 @@ import {
   editLocalStorage
 } from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
-import {fetchSingleUser} from '../store/singleUser'
-import {me} from '../store/user'
+import {fetchUserWithProfile} from '../store/user'
 
 class Cart extends React.Component {
   constructor() {
@@ -24,11 +23,10 @@ class Cart extends React.Component {
   async componentDidMount() {
     try {
       await this.props.getProducts()
-      //await this.props.getUser()
-      await this.props.getMe()
+      await this.props.getUser(this.props.user.id)
       //if logged-in user:
-      //console.log(this.props.singleUser)
       if (this.props.user.id) {
+        console.log('this is called')
         await this.props.getOrder(this.props.user.id)
         this.setState({
           items: this.props.order.products
@@ -194,8 +192,7 @@ const mapDispatch = dispatch => {
   return {
     getOrder: userId => dispatch(fetchOrder(userId)),
     getProducts: () => dispatch(fetchProducts()),
-    getUser: () => dispatch(fetchSingleUser()),
-    getMe: () => dispatch(me()),
+    getUser: userId => dispatch(fetchUserWithProfile(userId)),
     getLocalStorage: () => dispatch(fetchLocalStorageData()),
     removeAnItemThunk: (userId, productId) =>
       dispatch(removeItemThunk(userId, productId)),

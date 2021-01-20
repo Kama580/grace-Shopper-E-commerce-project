@@ -54,4 +54,18 @@ router.get('/me', (req, res) => {
   res.json(req.user)
 })
 
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const fullUserData = await User.findOne({
+      include: {
+        model: Profile
+      },
+      where: {id: req.params.userId}
+    })
+    res.json(fullUserData)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.use('/google', require('./google'))
