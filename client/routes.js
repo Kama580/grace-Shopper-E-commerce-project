@@ -59,13 +59,13 @@ class Routes extends Component {
             {isAdmin && <Route path="/admin" component={AdminHome} />}
           </Switch>
         )}
+        <Route path="*" component={LandingPage} />
         {/* {isAdmin && (
           <Switch>
           </Switch>
         )} */}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
-        <Route path="*" component={LandingPage} />
       </Switch>
     )
   }
