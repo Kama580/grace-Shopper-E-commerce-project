@@ -59,11 +59,12 @@ router.put('/:userId/:productId', async (req, res, next) => {
         })
         await newItemInCart.update({qty: 1, subtotal: pricePerOne.price})
       }
-      const updatedItems = await ItemOrder.findAll({
-        where: {orderId: cart.id}
+      const updatedOrder = await Order.findOne({
+        where: {userId: userId, status: Pending},
+        include: {model: Product}
       })
 
-      res.send(updatedItems)
+      res.send(updatedOrder)
       //for delete item from cart
     } else if (action === 'remove') {
       cart.removeProducts(productId)

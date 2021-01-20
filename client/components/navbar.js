@@ -100,8 +100,10 @@ const Navbar = ({isLoggedIn, handleClick}) => {
     namItem = 0
   } else if (navState.order.products) {
     numItem = navState.order.products.filter(item => item.id).length
-  } else {
+  } else if (!navState.user.id) {
     numItem = Object.keys(navState.order).length
+  } else {
+    numItem = 0
   }
 
   console.log('This is Num item', numItem)
