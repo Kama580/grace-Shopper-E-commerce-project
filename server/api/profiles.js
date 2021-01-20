@@ -4,9 +4,7 @@ const {profileValidationRules, validate} = require('./validator.js')
 module.exports = router
 
 const loggedInUserOnly = (req, res, next) => {
-  if (req.user.profileId !== req.params.id) {
-    console.log('req.user.id:', req.user.id)
-    console.log('req.params.id', req.params.id)
+  if (req.user.profileId !== Number(req.params.profileId)) {
     const err = new Error('No <3')
     err.status = 401
     return next(err)
