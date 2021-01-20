@@ -18,10 +18,6 @@ export const removeItems = removedItem => {
   return {type: REMOVE_ITEM, removedItem}
 }
 
-export const addItem = addedItem => {
-  return {type: ADD_ITEM, addedItem}
-}
-
 export const addGuestItem = data => {
   return {type: ADD_GUEST_ITEM, data}
 }
@@ -60,7 +56,7 @@ export const addToCart = (userId, productId) => {
       const {data} = await axios.put(
         `/api/cart/${userId}/${productId}?action=add`
       )
-      dispatch(addItem(data))
+      dispatch(setItems(data))
     } catch (error) {
       console.log('Error in addToCart thunk', error)
     }
