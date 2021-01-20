@@ -1,39 +1,61 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {logout} from '../store'
 import {Link} from 'react-router-dom'
+import UpdateUserProfile from './UpdateUserProfile'
+import {fetchSingleUser, fetchDeleteUser} from '../store/singleUser'
 
-/**
- * COMPONENT
- */
-export const MyAccount = props => {
-  console.log('PROPS:', props)
-  const {email, fullName, isAdmin} = props.user
+class MyAccount extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: {},
+      profile: {},
+      editUser: false,
+      addProfile: false,
+      editProfile: false
+    }
+  }
 
-  return (
-    <div>
-      <h3>Welcome, {email}</h3>
-      <h2>My Account</h2>
-      <p>Name: {fullName}</p>
-      <p>Email: {email} </p>
+  handleEdit() {
+    this.setState({...this.state, editProfile: true})
+  }
 
-      {isAdmin ? (
-        <div>
-          <Link to="/admin">Admin Dashboard</Link>
+  render() {
+    return (
+      <div>
+        <div className="summaryContainer">
+          <div>
+            <h3>MY ACCOUNT</h3>
+            <hr />
+            <p>Name: {this.props.user.fullName}</p>
+            <p>Email: {this.props.user.email} </p>
+          </div>
         </div>
-      ) : null}
 
-      <a href="#" onClick={props.handleLogOut}>
-        Logout
-      </a>
-    </div>
-  )
+        {this.props.isAdmin ? (
+          <div>
+            <Link to="/admin">Admin Dashboard</Link>
+          </div>
+        ) : null}
+
+        <a href="#" onClick={this.props.handleLogOut}>
+          Logout
+        </a>
+
+        {this.state.addProfile ? (
+          <div className="cartContainer">
+            <div className="itemContainer">
+              <h3>SHIPPING INFOMATION</h3>
+              <hr />
+            </div>
+          </div>
+        ) : null}
+      </div>
+    )
+  }
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
     user: state.user,
@@ -44,26 +66,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleLogOut() {
-      dispatch(logout())
-    }
+    handleLogOut: () => dispatch(logout())
   }
 }
 
 export default connect(mapState, mapDispatch)(MyAccount)
-
-/**
- * PROP TYPES
- */
-MyAccount.propTypes = {
-  handleLogOut: PropTypes.func.isRequired,
-  email: PropTypes.string,
-  isLoggedIn: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired
-}
-
-// const handleDashboard = () => {
-//   setAnchorEl(null)
-//   handleMobileMenuClose()
-//   browserHistory.push('/admin')
-// }

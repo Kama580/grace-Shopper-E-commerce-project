@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fade, makeStyles} from '@material-ui/core/styles'
-import {Tabs, Tab, AppBar} from '@material-ui/core'
+import {Tabs, Tab, AppBar, Button} from '@material-ui/core'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import InputBase from '@material-ui/core/InputBase'
@@ -179,7 +179,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        {isLoggedIn ? <p>Profile</p> : <p>Log In</p>}
       </MenuItem>
     </Menu>
   )
@@ -228,17 +228,22 @@ const Navbar = ({isLoggedIn, handleClick}) => {
                 <ShoppingBasket />
               </Badge>
             </IconButton>
-
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {isLoggedIn ? (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <Button style={{color: 'white'}} onClick={handleProfileMenuOpen}>
+                Log In
+              </Button>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
