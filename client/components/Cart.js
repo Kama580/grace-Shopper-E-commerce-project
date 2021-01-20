@@ -41,9 +41,6 @@ class Cart extends React.Component {
           item.qty = this.props.order[item.id]
           item.subtotal = item.qty * item.price
         })
-        //   const totalPrice = items.reduce((acc, curr) => {
-        //     acc + curr.subtotal
-        //   })}
 
         this.setState({items: items})
       }

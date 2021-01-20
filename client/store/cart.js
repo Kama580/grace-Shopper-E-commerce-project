@@ -6,6 +6,11 @@ const REMOVE_ITEM = 'REMOVE_ITEM'
 const ADD_ITEM = 'ADD_ITEM'
 const ADD_GUEST_ITEM = 'ADD_GUEST_ITEM'
 const UPDATE_QTY = 'UPDATE_QTY'
+const SET_ALLORDERS = 'SET_ALLORDERS'
+
+export const setAllOrders = orders => {
+  return {type: SET_ALLORDERS, orders}
+}
 
 export const setItems = items => {
   return {
@@ -33,6 +38,17 @@ export const fetchOrder = id => {
       dispatch(setItems(data))
     } catch (error) {
       console.log('Error in fetchItems thunk', error)
+    }
+  }
+}
+
+export const fetchAllUsersOrders = userId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get(`/api/cart/allOrders/${userId}`)
+      dispatch(setAllOrders(data))
+    } catch (error) {
+      console.log('Error in fetchAllUsersOrders thunk', error)
     }
   }
 }
@@ -173,6 +189,8 @@ export default function itemsReducer(state = {}, action) {
       const newStateProducts = [...state.products]
       newStateProducts[index].itemOrder = action.updatedItem
       return {...state, products: newStateProducts}
+    case SET_ALLORDERS:
+      return {...state, orderHistory: action.orders}
     default:
       return state
   }
