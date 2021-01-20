@@ -9,7 +9,7 @@ const {
   ItemOrder,
   Profile
 } = require('../server/db/models')
-const {Pending} = require('../server/db/models/constant.js')
+const {Shipped} = require('../server/db/models/constant.js')
 
 const products = [
   {
@@ -213,8 +213,8 @@ const users = [
 ]
 
 const shippedOrder = {
-  total_price: 10000,
-  total_qty: 5,
+  total_price: 350000,
+  total_qty: 3,
   status: 'Shipped'
 }
 
@@ -268,8 +268,8 @@ async function seed() {
   const shippedOrder2 = await Order.create(shippedOrder)
   await shippedOrder2.setUser(user2)
 
-  //set some items to an order
-  const anOrder = await Order.findOne({where: {status: Pending}})
+  //set some items to a shipped order
+  const anOrder = await Order.findOne({where: {status: Shipped}})
   const dressesForItemOrder1 = await Product.findOne({where: {id: 1}})
   const dressesForItemOrder2 = await Product.findOne({where: {id: 2}})
   const dressesForItemOrder3 = await Product.findOne({where: {id: 3}})
