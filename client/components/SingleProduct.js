@@ -56,7 +56,7 @@ class SingleProduct extends React.Component {
             <div className="product-content">
               <div className="product-title">
                 <h2>{product.name}</h2>
-                <p>${product.price}</p>
+                <p>${product.price / 100}</p>
               </div>
               <hr />
               <div className="colors">

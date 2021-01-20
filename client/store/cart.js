@@ -144,7 +144,6 @@ export const updateQtyThunk = (userId, productId, updateObj) => {
         `/api/cart/${userId}/${productId}?action=updateQty`,
         updateObj
       )
-      //console.log(data)
       dispatch(updateQty(data))
     } catch (error) {
       console.log('Error in updateQtyThunk', error)
@@ -157,7 +156,7 @@ export default function itemsReducer(state = {}, action) {
     case SET_ITEMS:
       return action.items
     case ADD_ITEM:
-      return {...state, products: [...state.products, action.addedItem]}
+      return {...state, products: [action.addedItem]}
     case ADD_GUEST_ITEM:
       return action.data
     case REMOVE_ITEM:
