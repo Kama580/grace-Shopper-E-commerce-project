@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import {connect, useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fade, makeStyles} from '@material-ui/core/styles'
 import {Tabs, Tab, AppBar} from '@material-ui/core'
@@ -15,6 +15,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import {createBrowserHistory} from 'history'
+import itemsReducer, {fetchOrder, fetchLocalStorageData} from '../store/cart'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -89,8 +90,33 @@ const Navbar = ({isLoggedIn, handleClick}) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const [value, setValue] = React.useState(0)
-
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const navState = useSelector(state => state)
+  const dispatch = useDispatch()
+
+  let numItem
+
+  if (navState.order === {}) {
+    namItem = 0
+  } else if (navState.order.products) {
+    numItem = navState.order.products.filter(item => item.id).length
+  } else {
+    numItem = Object.keys(navState.order).length
+  }
+
+  console.log('This is Num item', numItem)
+  // React.useEffect(async () => {
+  //   console.log('useEffecthook called')
+  //   // try {
+  //   //   if (navState.user.id) {
+  //   //     await dispatch(fetchOrder(navState.user.id))
+  //   //   } else {
+  //   //     dispatch(fetchLocalStorageData())
+  //   //   }
+  //   // } catch (error) {
+  //   //   console.log(error)
+  //   // }
+  // })
 
   const handleProfileMenuOpen = () => {
     {
@@ -135,7 +161,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
           component={Link}
           to="/cart"
         >
-          <Badge badgeContent={6} color="secondary">
+          <Badge badgeContent={numItem} color="secondary">
             <ShoppingBasket />
           </Badge>
         </IconButton>
@@ -196,7 +222,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
               component={Link}
               to="/cart"
             >
-              <Badge badgeContent={6} color="secondary">
+              <Badge badgeContent={numItem} color="secondary">
                 <ShoppingBasket />
               </Badge>
             </IconButton>

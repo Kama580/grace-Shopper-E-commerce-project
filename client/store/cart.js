@@ -18,10 +18,6 @@ export const removeItems = removedItem => {
   return {type: REMOVE_ITEM, removedItem}
 }
 
-export const addItem = addedItem => {
-  return {type: ADD_ITEM, addedItem}
-}
-
 export const addGuestItem = data => {
   return {type: ADD_GUEST_ITEM, data}
 }
@@ -42,7 +38,7 @@ export const fetchOrder = id => {
 }
 
 export const fetchLocalStorageData = () => {
-  return async dispatch => {
+  return dispatch => {
     try {
       const data = JSON.parse(window.localStorage.getItem('cart'))
       if (data) {
@@ -60,8 +56,7 @@ export const addToCart = (userId, productId) => {
       const {data} = await axios.put(
         `/api/cart/${userId}/${productId}?action=add`
       )
-      console.log('this is data', data)
-      dispatch(addItem(data))
+      dispatch(setItems(data))
     } catch (error) {
       console.log('Error in addToCart thunk', error)
     }
@@ -114,7 +109,6 @@ export const editLocalStorage = (productId, qty) => {
   return dispatch => {
     let data = JSON.parse(window.localStorage.getItem('cart'))
     data[productId] = qty
-    window.localStorage.clear()
     window.localStorage.setItem('cart', JSON.stringify(data))
     dispatch(setItems(data))
   }

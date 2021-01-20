@@ -70,6 +70,19 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const fetchUserWithProfile = userId => {
+  return async dispatch => {
+    try {
+      console.log('this is hit')
+      const {data} = await axios.get(`/auth/${userId}`)
+      console.log('This is the user data', data)
+      dispatch(getUser(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 /**
  * REDUCER
  */

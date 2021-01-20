@@ -7,11 +7,11 @@ import {
   fetchLocalStorageData,
   removeItemThunk,
   removeFromLocalStrage,
-  updateQtyThunk
+  updateQtyThunk,
+  editLocalStorage
 } from '../store/cart'
 import {fetchProducts} from '../store/allProducts'
-import {fetchSingleUser} from '../store/singleUser'
-import {me} from '../store/user'
+import {fetchUserWithProfile} from '../store/user'
 
 class Cart extends React.Component {
   constructor() {
@@ -23,11 +23,10 @@ class Cart extends React.Component {
   async componentDidMount() {
     try {
       await this.props.getProducts()
-      //await this.props.getUser()
-      await this.props.getMe()
+      await this.props.getUser(this.props.user.id)
       //if logged-in user:
-      //console.log(this.props.singleUser)
       if (this.props.user.id) {
+        console.log('this is called')
         await this.props.getOrder(this.props.user.id)
         this.setState({
           items: this.props.order.products
@@ -65,9 +64,8 @@ class Cart extends React.Component {
       if (this.props.user.id) {
         await this.props.removeAnItemThunk(this.props.user.id, productId)
         this.setState({items: this.props.order.products})
-        console.log(this.state)
       } else {
-        await this.props.removeFromLocalStrage(productId)
+        this.props.removeFromLocalStrage(productId)
         const itemsIds = Object.keys(this.props.order)
         const items = this.props.products.filter(item => {
           return itemsIds.includes(String(item.id))
@@ -85,12 +83,28 @@ class Cart extends React.Component {
   }
 
   async handleChangeQty(itemId, qty) {
-    await this.props.updateQty(this.props.user.id, itemId, {updateQty: qty})
-    this.setState({items: this.props.order.products})
+    try {
+      if (this.props.user.id) {
+        await this.props.updateQty(this.props.user.id, itemId, {updateQty: qty})
+        this.setState({items: this.props.order.products})
+      } else {
+        await this.props.editLocalStorage(itemId, Number(qty))
+        const itemsIds = Object.keys(this.props.order)
+        const items = this.props.products.filter(item => {
+          return itemsIds.includes(String(item.id))
+        })
+        items.forEach(item => {
+          item.qty = this.props.order[item.id]
+          item.subtotal = item.qty * item.price
+        })
+        this.setState({items: items})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
-    console.log('STATE ITEM', this.state.items)
     return (
       <div className="cartContainer">
         <div className="itemContainer">
@@ -178,15 +192,16 @@ const mapDispatch = dispatch => {
   return {
     getOrder: userId => dispatch(fetchOrder(userId)),
     getProducts: () => dispatch(fetchProducts()),
-    getUser: () => dispatch(fetchSingleUser()),
-    getMe: () => dispatch(me()),
+    getUser: userId => dispatch(fetchUserWithProfile(userId)),
     getLocalStorage: () => dispatch(fetchLocalStorageData()),
     removeAnItemThunk: (userId, productId) =>
       dispatch(removeItemThunk(userId, productId)),
     removeFromLocalStrage: productId =>
       dispatch(removeFromLocalStrage(productId)),
     updateQty: (userId, productId, updateObj) =>
-      dispatch(updateQtyThunk(userId, productId, updateObj))
+      dispatch(updateQtyThunk(userId, productId, updateObj)),
+    editLocalStorage: (productId, qty) =>
+      dispatch(editLocalStorage(productId, qty))
   }
 }
 
