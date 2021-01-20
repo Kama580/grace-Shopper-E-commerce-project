@@ -22,5 +22,5 @@ export {default as ManageUsers} from './ManageUsers'
 export {default as LandingPage} from './LandingPage'
 export {default as AllProducts} from './AllProducts'
 export {default as SingleProduct} from './SingleProduct'
+export {default as OrderHistory} from './OrderHistory'
 
-//
