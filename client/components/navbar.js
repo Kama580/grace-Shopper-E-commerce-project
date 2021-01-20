@@ -15,6 +15,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import {createBrowserHistory} from 'history'
+import itemsReducer from '../store/cart'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -89,7 +90,6 @@ const Navbar = ({isLoggedIn, handleClick}) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const [value, setValue] = React.useState(0)
-
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
   const handleProfileMenuOpen = () => {
@@ -135,7 +135,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
           component={Link}
           to="/cart"
         >
-          <Badge badgeContent={6} color="secondary">
+          <Badge badgeContent={0} color="secondary">
             <ShoppingBasket />
           </Badge>
         </IconButton>
@@ -196,7 +196,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
               component={Link}
               to="/cart"
             >
-              <Badge badgeContent={6} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <ShoppingBasket />
               </Badge>
             </IconButton>

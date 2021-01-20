@@ -103,6 +103,7 @@ const products = [
       'A chic square neckline lends a modern edge to this fitted mermaid gown, while floral lace details add romantic softness to the plunging back and sweeping train.'
   }
 ]
+
 const profiles = [
   {
     firstName: 'Halle',
@@ -185,11 +186,13 @@ const profiles = [
     weddingDate: '02/04/2028'
   }
 ]
+
 const users = [
   {
     email: 'hberry@email.com',
     password: 'hbpassword'
   },
+
   {
     email: 'rwilson@email.com',
     password: 'rwpassword'
@@ -210,7 +213,7 @@ const users = [
   }
 ]
 
-const userOrders = [
+const user1Orders = [
   {
     total_price: 10000,
     total_qty: 5,
@@ -255,20 +258,37 @@ async function seed() {
   )
 
   //setting profiles to user
-  const usersToSet = await User.findAll()
-  const profilesToSet = await Profile.findAll()
+  const halle = await Profile.findOne({where: {firstName: 'Halle'}})
+  const rebel = await Profile.findOne({where: {firstName: 'Rebel'}})
+  const lucy = await Profile.findOne({where: {firstName: 'Lucy'}})
+  const rachel = await Profile.findOne({where: {firstName: 'Rachel'}})
+  const cody = await Profile.findOne({where: {firstName: 'Cody'}})
 
-  for (let i = 0; i < usersToSet.length; i++) {
-    await profilesToSet[i].setUser(usersToSet[i])
-  }
+  const helleUser = await User.findOne({where: {email: 'hberry@email.com'}})
+  const rebelUser = await User.findOne({where: {email: 'rwilson@email.com'}})
+  const lucyUser = await User.findOne({where: {email: 'lliu@email.com'}})
+  const rachelUser = await User.findOne({where: {email: 'rstack@email.com'}})
+  const codyUser = await User.findOne({where: {email: 'cpug@email.com'}})
 
-  //create some orders for users 1 and 2
+  await halle.setUser(helleUser)
+  await rebel.setUser(rebelUser)
+  await lucy.setUser(lucyUser)
+  await rachel.setUser(rachelUser)
+  await cody.setUser(codyUser)
+
+  // const usersToSet = await User.findAll()
+  // const profilesToSet = await Profile.findAll()
+
+  // for (let i = 0; i < usersToSet.length; i++) {
+  //   await profilesToSet[i].setUser(usersToSet[i])
+  // }
+
+  //create some orders for user1
   await Promise.all(
-    userOrders.map(order => {
+    user1Orders.map(order => {
       return Order.create(order)
     })
   )
-  //create general pending order
   const allOrders = await Order.findAll()
   const user1 = await User.findByPk(1)
   await Promise.all(
@@ -276,18 +296,14 @@ async function seed() {
       return order.setUser(user1)
     })
   )
-  const user2 = await User.findByPk(2)
-  await Promise.all(
-    allOrders.map(order => {
-      return order.setUser(user2)
-    })
-  )
 
   //add pending order to all other users
   await Order.create(generalPendingOrder)
   await Order.create(generalPendingOrder)
   await Order.create(generalPendingOrder)
+  await Order.create(generalPendingOrder)
 
+  const user2 = await User.findByPk(2)
   const user3 = await User.findByPk(3)
   const user4 = await User.findByPk(4)
   const user5 = await User.findByPk(5)
@@ -295,7 +311,9 @@ async function seed() {
   const anOrder3 = await Order.findByPk(3)
   const anOrder4 = await Order.findByPk(4)
   const anOrder5 = await Order.findByPk(5)
+  const anOrder6 = await Order.findByPk(6)
 
+  await anOrder6.setUser(user2)
   await anOrder3.setUser(user3)
   await anOrder4.setUser(user4)
   await anOrder5.setUser(user5)

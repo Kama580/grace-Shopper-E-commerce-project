@@ -34,6 +34,7 @@ export const fetchOrder = id => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/cart/${id}`)
+      console.log('this is order data in getchOrder', data)
       dispatch(setItems(data))
     } catch (error) {
       console.log('Error in fetchItems thunk', error)
@@ -42,7 +43,7 @@ export const fetchOrder = id => {
 }
 
 export const fetchLocalStorageData = () => {
-  return async dispatch => {
+  return dispatch => {
     try {
       const data = JSON.parse(window.localStorage.getItem('cart'))
       if (data) {
@@ -113,7 +114,6 @@ export const editLocalStorage = (productId, qty) => {
   return dispatch => {
     let data = JSON.parse(window.localStorage.getItem('cart'))
     data[productId] = qty
-    window.localStorage.clear()
     window.localStorage.setItem('cart', JSON.stringify(data))
     dispatch(setItems(data))
   }
