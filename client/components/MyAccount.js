@@ -51,7 +51,9 @@ class MyAccount extends React.Component {
             <hr />
             <p>Name: {this.props.singleUser.fullName}</p>
             <p>Email: {this.props.user.email} </p>
-            <button type="button" onClick={setShowUpdate} />
+            {/* <button type="button" onClick={this.setShowUpdate}>
+              Edit
+            </button> */}
             {this.state.showUpdate ? <UpdateUserProfile /> : null}
           </div>
         </div>
