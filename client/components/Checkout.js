@@ -78,7 +78,14 @@ class Checkout extends React.Component {
         console.log(this.state)
       } else {
         await this.props.getLocalStorage()
-        this.setState({item: this.props.order})
+        this.setState({
+          item: this.props.order,
+          order: {
+            ...this.state.order,
+            total_price: this.props.location.totalPrice,
+            total_qty: this.props.location.totalqty
+          }
+        })
       }
     } catch (error) {
       console.log(error)
