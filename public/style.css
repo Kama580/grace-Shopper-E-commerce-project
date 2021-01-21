@@ -364,3 +364,35 @@ img {
 .loginPaper a {
   font-size: 1rem;
 }
+
+.userIcon {
+  color: rgb(146, 146, 146);
+  max-width: 70%;
+}
+
+.accountContainer {
+  color: rgb(63, 60, 60);
+}
+
+.accountContainer h3 {
+  margin: 10px 3px 3px;
+}
+
+.accountInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.avatarHolder {
+  margin-left: 15px;
+  flex-basis: 20%;
+}
+
+.userInfo {
+  flex-basis: 55%;
+}
+
+.linkContainer {
+  margin: 5px 15px;
+}
