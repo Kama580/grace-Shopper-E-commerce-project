@@ -37,7 +37,7 @@
 ::before,
 ::after {
   box-sizing: border-box;
-=======
+}
 
 body {
   /* margin: var(--header-height) 0 0 0; */
@@ -467,6 +467,7 @@ form div {
   .home__img img {
     width: 604px;
   }
+}
 
 .thankYou {
   color: rgb(100, 79, 34);
