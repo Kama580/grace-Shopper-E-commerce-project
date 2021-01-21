@@ -1,8 +1,8 @@
 body {
   font-family: 'Roboto Mono', monospace;
   color: rgb(89, 67, 67);
-  font-size: 0.7rem;
-  font-weight: 200;
+  font-size: 0.8rem;
+  font-weight: 300;
 }
 
 a {
@@ -268,4 +268,99 @@ img {
   margin-top: 5%;
   margin-left: 30%;
   margin-right: 30%;
+}
+
+.thankYou {
+  color: rgb(100, 79, 34);
+  width: 42%;
+  font-size: 0.7rem;
+  justify-content: center;
+  margin: 60px auto;
+  display: flex;
+  align-items: center;
+}
+
+.thanks {
+  margin-left: 10px;
+}
+
+.loginContainer {
+  width: 40%;
+  margin: 60px auto;
+  justify-content: center;
+  display: flex;
+  font-size: 1rem;
+}
+
+.loginPaper {
+  background-color: rgb(253, 253, 253);
+  width: 80%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.loginPaper form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loginPaper input {
+  width: 60%;
+  margin: 6px auto;
+}
+
+.loginPaper label {
+  margin: 0;
+  margin-left: 85px;
+  font-weight: bolder;
+  font-size: 0.9rem;
+  color: rgb(126, 126, 126);
+}
+
+.loginButton {
+  margin: 15px auto;
+  width: 30%;
+  line-height: 25px;
+  background-color: rgb(71, 71, 71);
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+.authContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.authContainer button {
+  width: 62%;
+  line-height: 25px;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 3px;
+  border-width: 0.5px;
+}
+
+.google {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.google img {
+  max-width: 100%;
+  display: inline-block;
+}
+
+.loginPaper a {
+  font-size: 1rem;
 }

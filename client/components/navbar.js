@@ -192,7 +192,7 @@ const Navbar = ({isLoggedIn, handleClick}) => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" style={{background: '#F0D8D8'}}>
+      <AppBar position="static" style={{background: '#ecc6c3'}}>
         <Toolbar className="nav">
           {/* The navbar will show these links and tools to anyone */}
           <h1>
@@ -215,7 +215,12 @@ const Navbar = ({isLoggedIn, handleClick}) => {
             />
           </div>
 
-          <Tabs value={false} onChange={handleTabClick} centered>
+          <Tabs
+            value={false}
+            onChange={handleTabClick}
+            centered
+            style={{color: '#FFF'}}
+          >
             <Tab label="Dresses" component={Link} to="/products" />
             <Tab label="Shoes" component={Link} to="/shoes" />
             <Tab label="Accessories" component={Link} to="/accessories" />
