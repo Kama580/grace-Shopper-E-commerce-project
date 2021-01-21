@@ -6,6 +6,8 @@ import UpdateUserProfile from './UpdateUserProfile'
 import {fetchSingleUser, fetchDeleteUser} from '../store/singleUser'
 import {fetchAllUsersOrders} from '../store/cart'
 import {OrderHidtory} from './OrderHistory'
+import {Paper} from '@material-ui/core'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
 class MyAccount extends React.Component {
   constructor(props) {
@@ -44,47 +46,57 @@ class MyAccount extends React.Component {
   }
   render() {
     return (
-      <div>
-        <div className="summaryContainer">
-          <div>
-            <h3>MY ACCOUNT</h3>
-            <hr />
-            <p>Name: {this.props.singleUser.fullName}</p>
-            <p>Email: {this.props.user.email} </p>
-            {/* <button type="button" onClick={this.setShowUpdate}>
+      <div className="loginContainer">
+        <Paper className="loginPaper" elevation={3}>
+          <div className="accountContainer">
+            <div>
+              <h3>MY ACCOUNT</h3>
+              <hr />
+              <div className="accountInfo">
+                <div className="avatarHolder">
+                  <img src="/profile-user-gray.png" className="userIcon" />
+                </div>
+                <div className="userInfo">
+                  <p>Name: {this.props.singleUser.fullName}</p>
+                  <p>Email: {this.props.user.email} </p>
+                </div>
+                <button href="#" onClick={this.props.handleLogOut}>
+                  Logout
+                </button>
+                {/* <button type="button" onClick={this.setShowUpdate}>
               Edit
             </button> */}
-            {this.state.showUpdate ? <UpdateUserProfile /> : null}
-          </div>
-        </div>
-
-        {this.props.isAdmin ? (
-          <div>
-            <Link to={{pathname: '/admin'}}>Admin Dashboard</Link>
-          </div>
-        ) : null}
-        <div>
-          <Link
-            to={{
-              pathname: '/order_history',
-              orderHistory: this.props.order.orderHistory
-            }}
-          >
-            Order History
-          </Link>
-        </div>
-        <a href="#" onClick={this.props.handleLogOut}>
-          Logout
-        </a>
-
-        {this.state.addProfile ? (
-          <div className="cartContainer">
-            <div className="itemContainer">
-              <h3>SHIPPING INFOMATION</h3>
-              <hr />
+                {this.state.showUpdate ? <UpdateUserProfile /> : null}
+              </div>
             </div>
           </div>
-        ) : null}
+          <div className="linkContainer">
+            {this.props.isAdmin ? (
+              <div>
+                <Link to={{pathname: '/admin'}}>Admin Dashboard</Link>
+              </div>
+            ) : null}
+            <div>
+              <Link
+                to={{
+                  pathname: '/order_history',
+                  orderHistory: this.props.order.orderHistory
+                }}
+              >
+                Order History
+              </Link>
+            </div>
+          </div>
+
+          {this.state.addProfile ? (
+            <div className="cartContainer">
+              <div className="itemContainer">
+                <h3>SHIPPING INFOMATION</h3>
+                <hr />
+              </div>
+            </div>
+          ) : null}
+        </Paper>
       </div>
     )
   }

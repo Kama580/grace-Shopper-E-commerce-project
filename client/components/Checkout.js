@@ -7,6 +7,8 @@ import {
   checkoutGuest
 } from '../store/cart'
 import {Confirmed} from '../../server/db/models/constant'
+import {motion} from 'framer-motion'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -88,9 +90,16 @@ class Checkout extends React.Component {
     return (
       <div>
         {this.state.submit ? (
-          <div>
-            <h3>Thank you for shopping with us!</h3>
-          </div>
+          <motion.div
+            className="thankYou"
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{duration: 0.4}}
+          >
+            <CheckCircleIcon />
+            <h1 className="thanks">Thank you for shopping with us!</h1>
+          </motion.div>
         ) : (
           <div className="cartContainer">
             <div className="itemContainer">
