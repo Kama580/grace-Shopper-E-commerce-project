@@ -6,7 +6,7 @@
   --header-height: 3rem;
 
   /*===== Colors =====*/
-  --signature-pink: #f0d8d8;
+  --signature-pink: #ecc6c3;
   --first-color: #fca4a6;
   --first-color-dark: #c1576a;
   --first-color-darken: #a83e51;
@@ -17,7 +17,7 @@
   --title-font: 'Sacramento', cursive;
   --body-font: 'Roboto Mono', monospace;
   --big-font-size: 1.5rem;
-  --normal-font-size: 0.7rem;
+  --normal-font-size: 0.8rem;
   --landing-title-font-size: 4.5rem;
   --landing-text-font-size: 0.9rem;
 
@@ -37,7 +37,7 @@
 ::before,
 ::after {
   box-sizing: border-box;
-}
+=======
 
 body {
   /* margin: var(--header-height) 0 0 0; */
@@ -467,4 +467,130 @@ form div {
   .home__img img {
     width: 604px;
   }
+
+.thankYou {
+  color: rgb(100, 79, 34);
+  width: 42%;
+  font-size: 0.7rem;
+  justify-content: center;
+  margin: 60px auto;
+  display: flex;
+  align-items: center;
+}
+
+.thanks {
+  margin-left: 10px;
+}
+
+.loginContainer {
+  width: 40%;
+  margin: 60px auto;
+  justify-content: center;
+  display: flex;
+  font-size: 1rem;
+}
+
+.loginPaper {
+  background-color: rgb(253, 253, 253);
+  width: 80%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.loginPaper form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loginPaper input {
+  width: 60%;
+  margin: 6px auto;
+}
+
+.loginPaper label {
+  margin: 0;
+  margin-left: 85px;
+  font-weight: bolder;
+  font-size: 0.9rem;
+  color: rgb(126, 126, 126);
+}
+
+.loginButton {
+  margin: 15px auto;
+  width: 30%;
+  line-height: 25px;
+  background-color: rgb(71, 71, 71);
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+.authContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.authContainer button {
+  width: 62%;
+  line-height: 25px;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 3px;
+  border-width: 0.5px;
+}
+
+.google {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.google img {
+  max-width: 100%;
+  display: inline-block;
+}
+
+.loginPaper a {
+  font-size: 1rem;
+}
+
+.userIcon {
+  color: rgb(146, 146, 146);
+  max-width: 70%;
+}
+
+.accountContainer {
+  color: rgb(63, 60, 60);
+}
+
+.accountContainer h3 {
+  margin: 10px 3px 3px;
+}
+
+.accountInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.avatarHolder {
+  margin-left: 15px;
+  flex-basis: 20%;
+}
+
+.userInfo {
+  flex-basis: 55%;
+}
+
+.linkContainer {
+  margin: 5px 15px;
 }

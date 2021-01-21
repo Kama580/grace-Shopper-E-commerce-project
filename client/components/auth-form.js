@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {Paper} from '@material-ui/core'
 
 /**
  * COMPONENT
@@ -10,28 +11,38 @@ import {auth} from '../store'
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, reroute, reroutePath} = props
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
+    <div className="loginContainer">
+      <Paper className="loginPaper" elevation={3}>
+        <form onSubmit={handleSubmit} name={name}>
           <label htmlFor="email">
-            <small>Email</small>
+            <small>EMAIL</small>
           </label>
           <input name="email" type="text" required />
-        </div>
-        <div>
           <label htmlFor="password">
-            <small>Password</small>
+            <small>PASSWORD</small>
           </label>
           <input name="password" type="password" required />
+          <button className="loginButton" type="submit">
+            {displayName}
+          </button>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        <div className="authContainer">
+          <button>
+            <div className="google">
+              <img src="/google-icon.svg" />
+            </div>
+            <a className="loginLink" href="/auth/google">
+              {displayName} with Google
+            </a>
+          </button>
         </div>
-        <div>
-          <button type="submit">{displayName}</button>
+        <div className="authContainer">
+          <a className="loginLink" href={reroutePath}>
+            {reroute}
+          </a>
         </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-      <hr />
-      <a href={reroutePath}>{reroute}</a>
+      </Paper>
     </div>
   )
 }

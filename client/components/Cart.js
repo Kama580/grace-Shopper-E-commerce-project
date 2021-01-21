@@ -187,7 +187,7 @@ class Cart extends React.Component {
                   totalPrice: this.state.totalPrice
                 }}
               >
-                <button disabled={this.state.items === []}>Checkout</button>
+                <button disabled={!this.state.items[0]}>Checkout</button>
               </Link>
             </div>
           </div>
