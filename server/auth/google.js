@@ -13,10 +13,16 @@ module.exports = router
  * by git! In this case, you may use a file called `secrets.js`, which will
  * set these environment variables like so:
  *
- * process.env.GOOGLE_CLIENT_ID = 'your google client id'
- * process.env.GOOGLE_CLIENT_SECRET = 'your google client secret'
- * process.env.GOOGLE_CALLBACK = '/your/google/callback'
+//  * process.env.GOOGLE_CLIENT_ID = 'your google client id'
+//  * process.env.GOOGLE_CLIENT_SECRET = 'your google client secret'
+//  * process.env.GOOGLE_CALLBACK = '/your/google/callback'
  */
+
+process.env.GOOGLE_CLIENT_ID =
+  '330684841685-uq0k8i9k65o3cpv67qigtqpfugor6fh7.apps.googleusercontent.com'
+process.env.GOOGLE_CLIENT_SECRET = 'cYYqDYiWqeJuWoxWruAt_s4S'
+process.env.GOOGLE_CALLBACK =
+  'https://always-and-forever.herokuapp.com/auth/google/callback'
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
@@ -56,8 +62,8 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   router.get(
     '/callback',
     passport.authenticate('google', {
-      successRedirect: '/home',
-      failureRedirect: '/login'
+      successRedirect: 'https://always-and-forever.herokuapp.com/',
+      failureRedirect: 'https://always-and-forever.herokuapp.com/login'
     })
   )
 }
