@@ -2,32 +2,33 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchProducts} from '../store/allProducts'
+import {motion} from 'framer-motion'
 import {makeStyles} from '@material-ui/core/styles'
 
-const containerVariants = {
-  hidden: {
-    opacity: 0,
-    x: '100vw'
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      type: 'spring',
-      delay: 0.5
-    }
-  }
-}
+// const containerVariants = {
+//   hidden: {
+//     opacity: 0,
+//     x: '100vw'
+//   },
+//   visible: {
+//     opacity: 1,
+//     x: 0,
+//     transition: {
+//       type: 'spring',
+//       delay: 0.5
+//     }
+//   }
+// }
 
-const nextVariants = {
-  hidden: {
-    x: '-100vw'
-  },
-  visible: {
-    x: 0,
-    transiton: {type: 'spring', stiffness: 120}
-  }
-}
+// const nextVariants = {
+//   hidden: {
+//     x: '-100vw'
+//   },
+//   visible: {
+//     x: 0,
+//     transiton: {type: 'spring', stiffness: 120}
+//   }
+// }
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -44,29 +45,37 @@ class AllProducts extends React.Component {
 
   render() {
     return (
-      <div className="allProductsContainer">
-        <div className="sidebar">
-          <img src="/sidebar_img.png" />
-          <img src="/sort_img.png" />
-        </div>
-        <div className="cardContainer">
-          {this.props.products.map(product => {
-            return (
-              <div className="card" key={product.id}>
-                <Link to={`/products/${product.id}`}>
-                  <div className="imageContainer">
-                    <img src={product.imageUrl} />
+      <motion.div
+        className="landing-page"
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
+        transition={{duration: 1}}
+      >
+        <div className="allProductsContainer">
+          <div className="sidebar">
+            <img src="/sidebar_img.png" />
+            <img src="/sort_img.png" />
+          </div>
+          <div className="cardContainer">
+            {this.props.products.map(product => {
+              return (
+                <div className="card" key={product.id}>
+                  <Link to={`/products/${product.id}`}>
+                    <div className="imageContainer">
+                      <img src={product.imageUrl} />
+                    </div>
+                  </Link>
+                  <div className="inforContainer">
+                    <p>{product.name}</p>
+                    <p>${product.price / 100}</p>
                   </div>
-                </Link>
-                <div className="inforContainer">
-                  <p>{product.name}</p>
-                  <p>${product.price / 100}</p>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
-      </div>
+      </motion.div>
       // <Card className={classes.root}>
       //   <CardActionArea>
       //     <CardMedia

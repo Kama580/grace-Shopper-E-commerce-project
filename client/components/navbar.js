@@ -108,22 +108,6 @@ const Navbar = ({isLoggedIn, handleClick}) => {
     numItem = 0
   }
 
-  // React.useEffect(() => {
-  //   console.log('useEffect called')
-  //   const fetch = async () => {
-  //     try {
-  //       if (navState.user.id) {
-  //         await dispatch(fetchOrder(navState.user.id))
-  //       } else {
-  //         dispatch(fetchLocalStorageData())
-  //       }
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   fetch()
-  // }, loaded)
-
   if (!loaded) setLoaded(true)
 
   const handleProfileMenuOpen = () => {
