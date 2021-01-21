@@ -28,32 +28,11 @@ export class UpdateUserProfile extends React.Component {
   componentWillUnmount() {
     // remove rule when it is not needed
     ValidatorForm.removeValidationRule('isAlpha')
-    ValidatorForm.removeValidationRule('isZipcode')
-    ValidatorForm.removeValidationRule('isNumerical')
-    ValidatorForm.removeValidationRule('isSize')
   }
   componentDidMount() {
+    console.log('THIS IS props from render update', this.props)
     ValidatorForm.addValidationRule('isAlpha', value => {
-      console.log('THIS IS  VALUE', value)
       if (isNaN(value)) {
-        return true
-      }
-      return false
-    })
-    ValidatorForm.addValidationRule('isZipcode', value => {
-      if (!isNaN(value) && value.length === 5) {
-        return true
-      }
-      return false
-    })
-    ValidatorForm.addValidationRule('isNumerical', value => {
-      if (value.length >= 10) {
-        return true
-      }
-      return false
-    })
-    ValidatorForm.addValidationRule('isSize', value => {
-      if (!isNaN(value) && value % 2 === 0 && value <= 18 && value >= 0) {
         return true
       }
       return false
@@ -83,19 +62,19 @@ export class UpdateUserProfile extends React.Component {
     console.log([event.target.name])
     console.log('this is input : ', event.target.value)
   }
-  handleUpdate() {
+  handleUpdate(evt) {
     console.log('this is from update state', this.state)
-    const id = this.props.Updateuser.id
+    evt.preventDefault()
+    const id = this.props.myProfileId
     this.props.loadupdateUser(id, this.state)
     // this.props.history.push(`/users/${id}`)
   }
 
   render() {
-    console.log('THIS ISprops from render update', this.props)
     return (
       <ValidatorForm
         // ref="form"
-        onSubmit={this.handleSubmit}
+        onSubmit={this.handleUpdate}
         onError={errors => console.log(errors)}
       >
         {/* <form onSubmit={this.handleSubmit}> */}
@@ -120,7 +99,6 @@ export class UpdateUserProfile extends React.Component {
           onChange={this.handleChange}
           name="bAddress"
           value={this.state.bAddress}
-          errorMessages={['this field is required']}
         />
         <TextValidator
           label="Billing Address  City"
@@ -134,43 +112,36 @@ export class UpdateUserProfile extends React.Component {
           onChange={this.handleChange}
           name="bState"
           value={this.state.bState}
-          errorMessages={['this field is required']}
         />
         <TextValidator
           label="Billing Address ZipCode"
           onChange={this.handleChange}
           name="bZipCode"
           value={this.state.bZipCode}
-          validators={['isZipcode']}
-          errorMessages={['this field is required and must be a zipcode']}
         />
         <TextValidator
           label="Shipping Address"
           onChange={this.handleChange}
           name="sAddress"
           value={this.state.sAddress}
-          errorMessages={['this field is required']}
         />
         <TextValidator
           label="Shipping Address City"
           onChange={this.handleChange}
           name="sCity"
           value={this.state.sCity}
-          errorMessages={['this field is required']}
         />
         <TextValidator
           label="Shipping Address State"
           onChange={this.handleChange}
           name="sState"
           value={this.state.sState}
-          errorMessages={['this field is required']}
         />
         <TextValidator
           label="Shipping   Address ZipCode"
           onChange={this.handleChange}
           name="sZipCode"
           value={this.state.sZipCode}
-          errorMessages={['this field is required']}
         />
         <TextValidator
           label="Country"
@@ -185,26 +156,18 @@ export class UpdateUserProfile extends React.Component {
           onChange={this.handleChange}
           name="phone"
           value={this.state.phone}
-          validators={['isNumerical', 'required']}
-          errorMessages={['this field is required and formatted 000-00-0000']}
         />
         <TextValidator
           label="Dress Size"
           onChange={this.handleChange}
           name="size"
           value={this.state.size}
-          errorMessages={[
-            'this field is required and an even number between 0 and 18'
-          ]}
         />
         <TextValidator
           label="Wedding Date"
           onChange={this.handleChange}
           name="weddingDate"
           value={this.state.weddingDate}
-          errorMessages={[
-            'this field is required and an even number between 0 and 18'
-          ]}
         />
 
         <Button type="submit">Submit</Button>

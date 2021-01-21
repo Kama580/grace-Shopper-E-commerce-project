@@ -16,6 +16,7 @@ class MyAccount extends React.Component {
       editProfile: false,
       showUpdate: false
     }
+    this.profile = this.profile.bind(this)
     this.setShowUpdate = this.setShowUpdate.bind(this)
   }
 
@@ -27,7 +28,7 @@ class MyAccount extends React.Component {
       showUpdate: true
     })
   }
-  render() {
+  profile() {
     return (
       <div>
         <div className="summaryContainer">
@@ -36,10 +37,13 @@ class MyAccount extends React.Component {
             <hr />
             <p>Name: {this.props.user.fullName}</p>
             <p>Email: {this.props.user.email} </p>
+            {/* <button type="button" onClick={this.setShowUpdate}>
+          Edit
+        </button> */}
             <button type="button" onClick={this.setShowUpdate}>
               Edit
             </button>
-            {this.state.showUpdate ? <UpdateUserProfile /> : null}
+            {/* {this.state.showUpdate ? <UpdateUserProfile /> : null} */}
           </div>
         </div>
 
@@ -62,6 +66,18 @@ class MyAccount extends React.Component {
           </div>
         ) : null}
       </div>
+    )
+  }
+  render() {
+    console.log('this is props from myaccount', this.props)
+    const profileId = this.props.user.profileId
+    console.log('this is profileId', profileId)
+    return this.state.showUpdate ? (
+      <div>
+        <UpdateUserProfile myProfileId={this.props.user.profileId} />
+      </div>
+    ) : (
+      <div>{this.profile()}</div>
     )
   }
 }
